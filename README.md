@@ -2,30 +2,30 @@
 
 ## Начало работы  
 
-### Склонировать репозиторий на свой компьютер:
+Склонировать репозиторий на свой компьютер:
 ```
 git clone https://github.com/SVI-2022-Brigade-16/Plan-For-You.git Plan-For-You
 cd Plan-For-You
 ```
 
-### Установить NestJS CLI:
+Установить NestJS CLI:
 ```
 npm i -g @nestjs/cli
 ```
 
 ## Запуск
 
-### Через npm:
+Через npm:
 ```
 npm run start
 ```
 
-### Через nest:
+Через nest:
 ```
 nest start
 ```
 
-### Просмотр в браузере:
+Просмотр в браузере:
 ```
 http://localhost:3000
 ```
@@ -60,31 +60,31 @@ http://localhost:3000
 
 ## Работа с Git
 
-### На компьютере должен быть склонированный репозиторий:
+На компьютере должен быть склонированный репозиторий:
 ```
 git clone https://github.com/SVI-2022-Brigade-16/Plan-For-You.git Plan-For-You
 ```
 
-### Зайти в папку с проектом и перейти на ветку со своим именем:
+Зайти в папку с проектом и перейти на ветку со своим именем:
 ```
 cd Plan-For-You
 git checkout [ilya|ivan|nikita|yanyu]
 ```
 
-### Сделать **merge** ветки **dev** в свою ветку для получения последних изменений:
+Сделать **merge** ветки **dev** в свою ветку для получения последних изменений:
 ```
 git merge dev
 ```
 
-### Поработать, добавить все свои изменения и создать коммит:
+Поработать, добавить все свои изменения и создать коммит:
 ```
 git add .
 git commit -m "Commit message"
 ```
 
-### Зайти в репозиторий Plan-For-You на GitHub и создать **pull request** :
+Зайти в репозиторий Plan-For-You на GitHub и создать **pull request**.
 
-Репозиторий -> Вкладка "Pull requests" -> Кнопка "New pull request"
+*Репозиторий -> Вкладка "Pull requests" -> Кнопка "New pull request"*
 
 В качестве `base:` выбрать `dev`.
 
