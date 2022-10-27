@@ -56,7 +56,7 @@ http://localhost:3000
 
 `meeting_plan_fk_user` — ограничение внешнего ключа таблицы `meeting_plan`, ссылающегося на первичный ключ таблицы `user`.
 
-`user_uq_login` — уникальное ограничение атрибута `login` в таблице `user`.
+`user_uq_login` — уникальное ограничение атрибута `login` таблицы `user`.
 
 ## Работа с Git
 
@@ -97,6 +97,3 @@ https://docs.nestjs.com
 
 ### Swagger/OpenAPI:
 https://docs.nestjs.com/openapi/introduction
-
-
-
