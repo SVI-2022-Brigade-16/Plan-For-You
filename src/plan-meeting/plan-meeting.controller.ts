@@ -1,6 +1,6 @@
 import { Controller, Post } from '@nestjs/common'
 import { CreatePlanMeetingRequest } from './request/create-plan-meeting.request'
-import { CreatePlanMeetingResponse } from './response/create-meeting-plan.response'
+import { CreatePlanMeetingResponse } from './response/create-plan-meeting.response'
 import { PlanMeetingService } from './plan-meeting.service'
 
 

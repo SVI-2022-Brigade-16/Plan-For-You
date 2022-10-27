@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { CreatePlanMeetingRequest } from './request/create-plan-meeting.request'
-import { CreatePlanMeetingResponse } from './response/create-meeting-plan.response'
+import { CreatePlanMeetingResponse } from './response/create-plan-meeting.response'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreatePlanMeetingDto } from './dto/create-meeting-plan.dto'
+import { CreatePlanMeetingDto } from './dto/create-plan-meeting.dto'
 
 @Injectable()
 export class PlanMeetingService {

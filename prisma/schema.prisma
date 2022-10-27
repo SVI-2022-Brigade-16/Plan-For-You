@@ -8,16 +8,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model PlanMeeting {
-  planID                   String @id @default(uuid())
-  userID                   Int
-  weekCount                Int
-  timeslotLengthMinutes    Int
-  timeslotStartTimeMinutes Int
-
-  @@map("plan_meeting")
-}
-
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -29,4 +19,14 @@ model User {
   lastName  String?
 
   @@map("user")
+}
+
+model PlanMeeting {
+  planID                   String @id @default(uuid())
+  userID                   Int
+  weekCount                Int
+  timeslotLengthMinutes    Int
+  timeslotStartTimeMinutes Int
+
+  @@map("plan_meeting")
 }
