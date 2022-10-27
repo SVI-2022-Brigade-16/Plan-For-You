@@ -1,4 +1,31 @@
-# Welcome to your organization's demo respository
-This code repository (or "repo") is designed to demonstrate the best GitHub has to offer with the least amount of noise.
+# Plan For You: сервис планирования времени
 
-The repo includes an `index.html` file (so it can render a web page), two GitHub Actions workflows, and a CSS stylesheet dependency.
+## Начало работы  
+
+Склонировать себе репозиторий:
+```
+git clone https://github.com/SVI-2022-Brigade-16/Plan-For-You.git Plan-For-You
+cd Plan-For-You
+```
+
+Установить NestJS CLI:
+```
+npm i -g @nestjs/cli
+```
+
+## Запуск
+
+Через npm:
+```
+npm run start
+```
+
+Через nest:
+```
+nest start
+```
+
+## Документация
+
+NestJS:  
+https://docs.nestjs.com  
