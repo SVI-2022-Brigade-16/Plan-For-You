@@ -30,14 +30,6 @@ nest start
 http://localhost:3000
 ```
 
-## Документация
-
-### NestJS:  
-https://docs.nestjs.com  
-
-### Swagger/OpenAPI:
-https://docs.nestjs.com/openapi/introduction
-
 ## Стиль кода  
 
 ### Наименования в приложении:
@@ -65,6 +57,46 @@ https://docs.nestjs.com/openapi/introduction
 `meeting_plan_fk_user` — ограничение внешнего ключа таблицы `meeting_plan`, ссылающегося на первичный ключ таблицы `user`.
 
 `user_uq_login` — уникальное ограничение атрибута `login` в таблице `user`.
+
+## Работа с Git
+
+### На компьютере должен быть склонированный репозиторий:
+```
+git clone https://github.com/SVI-2022-Brigade-16/Plan-For-You.git Plan-For-You
+```
+
+### Зайти в папку с проектом и перейти на ветку со своим именем:
+```
+cd Plan-For-You
+git checkout [ilya|ivan|nikita|yanyu]
+```
+
+### Сделать **merge** ветки **dev** в свою ветку для получения последних изменений:
+```
+git merge dev
+```
+
+### Поработать, добавить все свои изменения и создать коммит:
+```
+git add .
+git commit -m "Commit message"
+```
+
+### Зайти в репозиторий Plan-For-You на GitHub и создать **pull request** :
+
+Репозиторий -> Вкладка "Pull requests" -> Кнопка "New pull request"
+
+В качестве `base:` выбрать `dev`.
+
+В качестве `compare:` выбрать свою ветку.
+
+## Документация
+
+### NestJS:  
+https://docs.nestjs.com  
+
+### Swagger/OpenAPI:
+https://docs.nestjs.com/openapi/introduction
 
 
 
