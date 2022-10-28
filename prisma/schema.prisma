@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String
+  hash         String
+  hashedRt     String?       @map("hashed_refresh_token")
+  nickname     String
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  meetingPlans MeetingPlan[]
+
+  @@unique([email], name: "user_uq_email")
+  @@map("user")
+}
+
+model MeetingPlan {
+  uuid                     String   @id @default(uuid())
+  userId                   Int      @map("user_id")
+  planName                 String   @map("plan_name")
+  weekCount                Int      @map("week_count")
+  timeslotLengthMinutes    Int      @map("timeslot_length_minutes")
+  timeslotStartTimeMinutes Int      @map("timeslot_start_time_minutes")
+  ratingRange              Int      @map("rating_range")
+  receivingAnswers         Boolean  @map("receiving_answers")
+  randomAccessString       String?  @map("random_access_string")
+  createdAt                DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt                DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  user                     User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "meeting_plan_fk_user")
+  @@map("meeting_plan")
+}
