@@ -1,17 +1,17 @@
-import { Controller, Post } from '@nestjs/common'
-import { CreatePlanMeetingRequest } from './request/create-plan-meeting.request'
-import { CreatePlanMeetingResponse } from './response/create-plan-meeting.response'
+import { Controller, Get, Post } from '@nestjs/common'
+import { CreateMeetingPlanRequest } from './request/create-meeting-plan.request'
+import { CreateMeetingPlanResponse } from './response/create-meeting-plan.response'
 import { PlanMeetingService } from './plan-meeting.service'
+import { groupEnd } from 'console'
 
-
-@Controller('plan-meeting')
+@Controller('/plan/meeting')
 export class PlanMeetingController {
 
   constructor(private planMeetingService: PlanMeetingService) { }
 
   @Post()
-  async createPlanMeeting(createPlanMeetingRequest: CreatePlanMeetingRequest): Promise<CreatePlanMeetingResponse> {
-    return this.planMeetingService.createPlanMeeting(createPlanMeetingRequest)
+  async createPlanMeeting(userId: number, request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
+    return await this.planMeetingService.createPlanMeeting(userId, request)
   }
 
 }

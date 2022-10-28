@@ -9,24 +9,32 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  hash      String
-  hashedRt  String?
-  firstName String?
-  lastName  String?
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  hash         String
+  hashedRt     String?       @map("hashed_refresh_token")
+  nickname     String
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  meetingPlans MeetingPlan[]
 
   @@map("user")
 }
 
-model PlanMeeting {
-  planID                   String @id @default(uuid())
-  userID                   Int
-  weekCount                Int
-  timeslotLengthMinutes    Int
-  timeslotStartTimeMinutes Int
+model MeetingPlan {
+  uuid                     String   @id @default(uuid())
+  userId                   Int      @map("user_id")
+  planName                 String   @map("plan_name")
+  weekCount                Int      @map("week_count")
+  timeslotLengthMinutes    Int      @map("timeslot_length_minutes")
+  timeslotStartTimeMinutes Int      @map("timeslot_start_time_minutes")
+  ratingRange              Int      @map("rating_range")
+  receivingAnswers         Boolean  @map("receiving_answers")
+  randomAccessString       String?  @map("random_access_string")
+  createdAt                DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt                DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  user                     User     @relation(fields: [userId], references: [id])
 
-  @@map("plan_meeting")
+  @@index([userId], map: "meeting_plan_fk_user")
+  @@map("meeting_plan")
 }

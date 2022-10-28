@@ -1,21 +1,28 @@
 import { Injectable } from '@nestjs/common'
-import { CreatePlanMeetingRequest } from './request/create-plan-meeting.request'
-import { CreatePlanMeetingResponse } from './response/create-plan-meeting.response'
+import { CreateMeetingPlanRequest } from './request/create-meeting-plan.request'
+import { CreateMeetingPlanResponse } from './response/create-meeting-plan.response'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreatePlanMeetingDto } from './dto/create-plan-meeting.dto'
 
 @Injectable()
 export class PlanMeetingService {
 
   constructor(private prismaService: PrismaService) { }
 
-  async createPlanMeeting(createPlanMeetingRequest: CreatePlanMeetingRequest): Promise<CreatePlanMeetingResponse> {
+  async createPlanMeeting(userId: number, request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
 
-    let createPlanMeetingDto: CreatePlanMeetingDto = new CreatePlanMeetingDto()
-    createPlanMeetingDto.userId = 1
-    console.log(createPlanMeetingDto)
-    //console.log(this.prismaService.planMeeting.create({ data: pMDto }))
-    return { planUuid: "1" }
+    let result = await this.prismaService.meetingPlan.create({
+      data: {
+        userId: userId,
+        planName: request.planName,
+        weekCount: request.weekCount,
+        timeslotLengthMinutes: request.timeslotLengthMinutes,
+        timeslotStartTimeMinutes: request.timeslotStartTimeMinutes,
+        ratingRange: request.ratingRange,
+        receivingAnswers: false,
+        randomAccessString: null,
+      }
+    })
+    return { planUuid: result.uuid }
 
   };
 
