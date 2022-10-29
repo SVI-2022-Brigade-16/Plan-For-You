@@ -33,3 +33,11 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Environment variables
+.env
+
+# Visual Paradigm backup files
+*.vpp.bak_*
+*.vpp.lck
+*.vpp.vbak
