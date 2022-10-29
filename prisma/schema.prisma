@@ -23,19 +23,51 @@ model User {
 }
 
 model MeetingPlan {
-  uuid                     String   @id @default(uuid())
-  userId                   Int      @map("user_id")
-  planName                 String   @map("plan_name")
-  weekCount                Int      @map("week_count")
-  timeslotLengthMinutes    Int      @map("timeslot_length_minutes")
-  timeslotStartTimeMinutes Int      @map("timeslot_start_time_minutes")
-  ratingRange              Int      @map("rating_range")
-  receivingAnswers         Boolean  @map("receiving_answers")
-  randomAccessString       String?  @map("random_access_string")
-  createdAt                DateTime @default(now()) @map("created_at") @db.Timestamp(0)
-  updatedAt                DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
-  user                     User     @relation(fields: [userId], references: [id])
+  uuid                     String              @id @default(uuid())
+  userId                   Int                 @map("user_id")
+  planName                 String              @map("plan_name")
+  weekCount                Int                 @map("week_count")
+  timeslotLengthMinutes    Int                 @map("timeslot_length_minutes")
+  timeslotStartTimeMinutes Int                 @map("timeslot_start_time_minutes")
+  ratingRange              Int                 @map("rating_range")
+  receivingAnswers         Boolean             @map("receiving_answers")
+  createdAt                DateTime            @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt                DateTime            @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  user                     User                @relation(fields: [userId], references: [id])
+  answers                  MeetingPlanAnswer[]
+  blockedTimeslots         BlockedTimeslot[]
 
   @@index([userId], map: "meeting_plan_fk_user")
   @@map("meeting_plan")
+}
+
+model BlockedTimeslot {
+  meetingPlanUuid String      @map("meeting_plan_uuid")
+  dayNum          Int         @map("day_num")
+  timeslotNum     Int         @map("timeslot_num")
+  meetingPlan     MeetingPlan @relation(fields: [meetingPlanUuid], references: [uuid])
+
+  @@id([meetingPlanUuid, dayNum, timeslotNum])
+  @@map("blocked_timeslot")
+}
+
+model MeetingPlanAnswer {
+  id              Int                         @id @default(autoincrement())
+  meetingPlanUuid String                      @map("meeting_plan_uuid")
+  participantName String                      @map("participant_name")
+  meetingPlan     MeetingPlan                 @relation(fields: [meetingPlanUuid], references: [uuid])
+  timeslot        MeetingPlanAnswerTimeslot[]
+
+  @@map("meeting_plan_answer")
+}
+
+model MeetingPlanAnswerTimeslot {
+  meetingPlanAnswerId Int               @map("meeting_plan_answer_id")
+  dayNum              Int               @map("day_num")
+  timeslotNum         Int               @map("timeslot_num")
+  rating              Int               @map("rating")
+  meetingPlan         MeetingPlanAnswer @relation(fields: [meetingPlanAnswerId], references: [id])
+
+  @@id([meetingPlanAnswerId, dayNum, timeslotNum])
+  @@map("meeting_plan_answer_timeslot")
 }
