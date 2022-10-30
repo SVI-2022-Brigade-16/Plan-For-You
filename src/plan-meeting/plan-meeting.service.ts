@@ -140,16 +140,17 @@ export class PlanMeetingService {
 
 
   async calculateMeetingPlan(planUuid: string) {
-
-
-
     let meetingPlan = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid,
       },
       include: {
         blockedTimeslots: true,
-        answers: true,
+        answers: {
+          include: {
+            ratedTimeslots: true
+          }
+        },
       }
     })
     if (meetingPlan) {
@@ -175,10 +176,22 @@ export class PlanMeetingService {
         }
       }
 
-      meetingPlan.answers.forEach(function () {
-
+      let allAnswers: RatedTimeslotDto[] = []
+      meetingPlan.answers.forEach((answer) => {
+        answer.ratedTimeslots.forEach((timeslot) => {
+          allAnswers.push(timeslot)
+        })
       })
 
+      allAnswers.sort(TimeslotDto.compare)
+
+      let allAnswersOffset = 0
+      for (let i = 0; i < totalRatedTimeslots.length; ++i) {
+        while (TimeslotDto.compare(totalRatedTimeslots[i], allAnswers[i + allAnswersOffset]) == 0) {
+          totalRatedTimeslots[i].rating += allAnswers[i + allAnswersOffset].rating - meetingPlan.ratingRange
+          allAnswersOffset += 1
+        }
+      }
     }
   }
 
