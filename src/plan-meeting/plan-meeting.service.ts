@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { CreateMeetingPlanRequest } from './request/create-meeting-plan.request'
-import { CreateMeetingPlanResponse } from './response/create-meeting-plan.response'
+import { CreateMeetingPlanRequest } from './dto/request/create-meeting-plan.request'
+import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.response'
 import { PrismaService } from '../prisma/prisma.service'
-import { ReadMeetingPlanResponse } from './response/read-meeting-plan.response'
+import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.response'
 import { EmptyError } from 'rxjs'
-import { PublishMeetingPlanRequest } from './request/publish-meeting-plan.request'
-import { ReadMeetingAnswerResponse } from './response/read-meeting-answer.response'
+import { PublishMeetingPlanRequest } from './dto/request/publish-meeting-plan.request'
+import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
+import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
 
 @Injectable()
 export class PlanMeetingService {
@@ -35,7 +36,12 @@ export class PlanMeetingService {
         uuid: planUuid
       },
       include: {
-        blockedTimeslots: true,
+        blockedTimeslots: {
+          select: {
+            dayNum: true,
+            timeslotNum: true,
+          },
+        },
         answers: true
       }
     })
@@ -83,20 +89,37 @@ export class PlanMeetingService {
   }
 
   async readMeetingAnswer(planUuid: string): Promise<ReadMeetingAnswerResponse> {
-    let response = await this.prismaService.meetingPlan.findFirst({
+    let result = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid
       },
       include: {
-        blockedTimeslots: true
+
+        blockedTimeslots: {
+          select: {
+            dayNum: true,
+            timeslotNum: true,
+          },
+        }
       }
     })
-    if (response) {
-      return response
+    if (result) {
+      return {
+        planName: result.planName,
+        weekCount: result.weekCount,
+        timeslotLengthMinutes: result.timeslotLengthMinutes,
+        timeslotStartTimeMinutes: result.timeslotStartTimeMinutes,
+        ratingRange: result.ratingRange,
+        blockedTimeslots: result.blockedTimeslots,
+      }
     }
     else {
       throw EmptyError
     }
+  }
+
+  async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswerRequest): Promise<void> {
+
   }
 
 }

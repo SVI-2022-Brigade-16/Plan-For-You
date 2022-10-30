@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { RatedTimeslotDto } from "../basics/rating.dto"
+import { RatedTimeslotDto } from "../rating.dto"
 
 export class CreateMeetingAnswerRequest {
 
@@ -7,5 +7,5 @@ export class CreateMeetingAnswerRequest {
   participantName: string
 
   @ApiProperty({ type: () => [RatedTimeslotDto] })
-  ratings: RatedTimeslotDto[]
+  ratedTimeslots: RatedTimeslotDto[]
 }
