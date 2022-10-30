@@ -56,7 +56,7 @@ model MeetingPlanAnswer {
   meetingPlanUuid String                      @map("meeting_plan_uuid")
   participantName String                      @map("participant_name")
   meetingPlan     MeetingPlan                 @relation(fields: [meetingPlanUuid], references: [uuid])
-  timeslot        MeetingPlanAnswerTimeslot[]
+  ratedTimeslots  MeetingPlanAnswerTimeslot[]
 
   @@map("meeting_plan_answer")
 }

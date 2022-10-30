@@ -1,9 +1,8 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, Injectable } from '@nestjs/common'
 import { CreateMeetingPlanRequest } from './dto/request/create-meeting-plan.request'
 import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.response'
 import { PrismaService } from '../prisma/prisma.service'
 import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.response'
-import { EmptyError } from 'rxjs'
 import { PublishMeetingPlanRequest } from './dto/request/publish-meeting-plan.request'
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
@@ -13,8 +12,7 @@ export class PlanMeetingService {
 
   constructor(private prismaService: PrismaService) { }
 
-  async createPlanMeeting(userId: number, request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
-
+  async createMeetingPlan(userId: number, request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
     let result = await this.prismaService.meetingPlan.create({
       data: {
         userId: userId,
@@ -29,8 +27,7 @@ export class PlanMeetingService {
     return { planUuid: result.uuid }
   }
 
-  async readPlanMeeting(planUuid: string): Promise<ReadMeetingPlanResponse> {
-
+  async readMeetingPlan(planUuid: string): Promise<ReadMeetingPlanResponse> {
     let result = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid
@@ -42,10 +39,14 @@ export class PlanMeetingService {
             timeslotNum: true,
           },
         },
-        answers: true
+        answers: {
+          select: {
+            id: true,
+            participantName: true,
+          }
+        }
       }
     })
-
     if (result) {
       return {
         planName: result.planName,
@@ -56,13 +57,12 @@ export class PlanMeetingService {
         blockedTimeslots: result.blockedTimeslots,
         answers: result.answers
       }
-    }
-    else {
-      throw EmptyError
+    } else {
+      throw new HttpException("Couldn't find meeting plan record.", 404)
     }
   }
 
-  async publishMeetingPlan(planUuid, request: PublishMeetingPlanRequest): Promise<void> {
+  async publishMeetingPlan(planUuid: string, request: PublishMeetingPlanRequest): Promise<void> {
     let updateMeetingPlan = await this.prismaService.meetingPlan.update({
       where: {
         uuid: planUuid
@@ -84,7 +84,7 @@ export class PlanMeetingService {
       },
     })
     if (!updateMeetingPlan) {
-      throw EmptyError
+      throw new HttpException("Couldn't find meeting plan to publish.", 404)
     }
   }
 
@@ -94,7 +94,6 @@ export class PlanMeetingService {
         uuid: planUuid
       },
       include: {
-
         blockedTimeslots: {
           select: {
             dayNum: true,
@@ -114,12 +113,26 @@ export class PlanMeetingService {
       }
     }
     else {
-      throw EmptyError
+      throw new HttpException("Couldn't find meeting plan to answer.", 404)
     }
   }
 
   async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswerRequest): Promise<void> {
-
+    let result = await this.prismaService.meetingPlanAnswer.create({
+      include: {
+        ratedTimeslots: true
+      },
+      data: {
+        meetingPlanUuid: planUuid,
+        participantName: request.participantName,
+        ratedTimeslots: {
+          create: request.ratedTimeslots,
+        }
+      }
+    })
+    if (!result) {
+      throw new HttpException("Couldn't create answer to meeting plan.", 400)
+    }
   }
 
 }

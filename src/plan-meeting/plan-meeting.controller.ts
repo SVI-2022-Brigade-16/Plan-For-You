@@ -25,9 +25,9 @@ export class PlanMeetingController {
     description: 'The meeting plan has been successfully uploaded.'
   })
   @Post()
-  async createPlanMeeting(userId: number, @Body() request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
+  async createMeetingPlan(userId: number, @Body() request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
     userId = 1
-    return await this.planMeetingService.createPlanMeeting(userId, request)
+    return await this.planMeetingService.createMeetingPlan(userId, request)
   }
 
   @ApiOperation({
@@ -38,8 +38,8 @@ export class PlanMeetingController {
     description: 'The meeting plan has been successfully downloaded.'
   })
   @Get(":planUuid")
-  async readPlanMeeting(@Param('planUuid') planUuid: string): Promise<ReadMeetingPlanResponse> {
-    return await this.planMeetingService.readPlanMeeting(planUuid)
+  async readMeetingPlan(@Param('planUuid') planUuid: string): Promise<ReadMeetingPlanResponse> {
+    return await this.planMeetingService.readMeetingPlan(planUuid)
   }
 
   @ApiOperation({

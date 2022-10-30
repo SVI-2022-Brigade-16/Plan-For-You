@@ -1,4 +1,4 @@
-import { MeetingPlanDto } from "../meeting-plan.dto"
+import { MeetingPlanDto } from "../basic/meeting-plan.dto"
 
 export class CreateMeetingPlanRequest extends MeetingPlanDto {
 
