@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { RatedTimeslotDto } from "../rating.dto"
+import { RatedTimeslotDto } from "../rated-timeslot.dto"
 
 export class CreateMeetingAnswerRequest {
 
