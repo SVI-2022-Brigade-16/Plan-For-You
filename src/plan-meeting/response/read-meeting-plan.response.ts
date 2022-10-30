@@ -1,18 +1,10 @@
-import { BlockedTimeslot, MeetingPlanAnswer } from "@prisma/client"
+import { MeetingPlanAnswer } from "@prisma/client"
+import { MeetingPlanDto } from "../basics/meeting-plan.dto"
+import { TimeslotDto } from "../basics/timeslot.dto"
 
-export class ReadMeetingPlanResponse {
+export class ReadMeetingPlanResponse extends MeetingPlanDto {
 
-  planName: string
-
-  weekCount: number
-
-  timeslotLengthMinutes: number
-
-  timeslotStartTimeMinutes: number
-
-  ratingRange: number
-
-  blockedTimeslots: BlockedTimeslot[]
+  blockedTimeslots: TimeslotDto[]
 
   answers: MeetingPlanAnswer[]
 }

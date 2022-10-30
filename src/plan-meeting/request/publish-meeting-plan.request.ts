@@ -1,24 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { BlockedTimeslot } from "@prisma/client"
+import { stringify } from "querystring"
+import { MeetingPlanDto } from "../basics/meeting-plan.dto"
+import { TimeslotDto } from "../basics/timeslot.dto"
 
-export class PublishMeetingPlanRequest {
+export class PublishMeetingPlanRequest extends MeetingPlanDto {
 
-  @ApiProperty()
-  planName: string
-
-  @ApiProperty()
-  weekCount: number
-
-  @ApiProperty()
-  timeslotLengthMinutes: number
-
-  @ApiProperty()
-  timeslotStartTimeMinutes: number
-
-  @ApiProperty()
-  ratingRange: number
-
-  @ApiProperty()
-  blockedTimeslots: BlockedTimeslot[]
-
+  @ApiProperty({ type: () => [TimeslotDto] })
+  blockedTimeslots: TimeslotDto[]
 }

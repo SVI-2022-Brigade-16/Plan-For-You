@@ -5,6 +5,7 @@ import { PrismaService } from '../prisma/prisma.service'
 import { ReadMeetingPlanResponse } from './response/read-meeting-plan.response'
 import { EmptyError } from 'rxjs'
 import { PublishMeetingPlanRequest } from './request/publish-meeting-plan.request'
+import { ReadMeetingAnswerResponse } from './response/read-meeting-answer.response'
 
 @Injectable()
 export class PlanMeetingService {
@@ -76,7 +77,26 @@ export class PlanMeetingService {
         }
       },
     })
+    if (!updateMeetingPlan) {
+      throw EmptyError
+    }
   }
 
+  async readMeetingAnswer(planUuid: string): Promise<ReadMeetingAnswerResponse> {
+    let response = await this.prismaService.meetingPlan.findFirst({
+      where: {
+        uuid: planUuid
+      },
+      include: {
+        blockedTimeslots: true
+      }
+    })
+    if (response) {
+      return response
+    }
+    else {
+      throw EmptyError
+    }
+  }
 
 }

@@ -5,6 +5,8 @@ import { PlanMeetingService } from './plan-meeting.service'
 import { ReadMeetingPlanResponse } from './response/read-meeting-plan.response'
 import { PublishMeetingPlanRequest } from './request/publish-meeting-plan.request'
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
+import { ReadMeetingAnswerResponse } from './response/read-meeting-answer.response'
+import { CreateMeetingAnswerRequest } from './request/create-meeting-answer.request'
 
 @Controller('/plan/meeting')
 export class PlanMeetingController {
@@ -36,7 +38,6 @@ export class PlanMeetingController {
   @ApiOperation({
     summary: 'Get meeting plan to database'
   })
-  @ApiParam({ name: 'planUuid', type: 'string' })
   @ApiResponse({
     status: 200,
     description: 'The meeting plan has been successfully downloaded.'
@@ -46,14 +47,50 @@ export class PlanMeetingController {
     return await this.planMeetingService.readPlanMeeting(planUuid)
   }
 
+  @ApiOperation({
+    summary: 'Update meeting plan to database'
+  })
   @ApiBody({
     type: PublishMeetingPlanRequest,
     description: 'Basic meeting plan info',
   })
-  @Post(":planUuid")
+  @ApiResponse({
+    status: 200,
+    description: 'The meeting plan has been successfully updated.'
+  })
+  @Post(":planUuid/publish")
   async publishMeetingPlan(@Param("planUuid") planUuid: string, @Body() request: PublishMeetingPlanRequest): Promise<void> {
     await this.planMeetingService.publishMeetingPlan(planUuid, request)
   }
+
+  @ApiOperation({
+    summary: 'Download meeting plan participant answer page info'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The meeting plan has been successfully downloaded.'
+  })
+  @Get(":planUuid/answer")
+  async getMeetingAnswer(@Param("planUuid") planUuid: string): Promise<ReadMeetingAnswerResponse> {
+    return await this.planMeetingService.readMeetingAnswer(planUuid)
+  }
+
+  @ApiOperation({
+    summary: 'Post meeting plan answer'
+  })
+  @ApiBody({
+    type: CreateMeetingAnswerRequest,
+    description: 'Basic meeting plan info',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The meeting plan has been successfully updated.'
+  })
+  @Post(":planUuid/answer")
+  async createMeetingAnswer(@Param("planUuid") planUuid: string, @Body() request: CreateMeetingAnswerRequest): Promise<void> {
+    await this.planMeetingService.readMeetingAnswer(planUuid)
+  }
+
 
 
 }
