@@ -1,0 +1,145 @@
+{
+  "participantName": "Ivan",
+  "ratedTimeslots": [
+    {
+      "dayNum": 1,
+      "timeslotNum": 1,
+      "rating": 1
+    },
+    {
+      "dayNum": 1,
+      "timeslotNum": 2,
+      "rating": 2
+    },
+    {
+      "dayNum": 1,
+      "timeslotNum": 5,
+      "rating": 4
+    },
+    {
+      "dayNum": 1,
+      "timeslotNum": 6,
+      "rating": 5
+    },
+    {
+      "dayNum": 2,
+      "timeslotNum": 1,
+      "rating": 2
+    },
+    {
+      "dayNum": 2,
+      "timeslotNum": 2,
+      "rating": 2
+    },
+    {
+      "dayNum": 2,
+      "timeslotNum": 5,
+      "rating": 2
+    },
+    {
+      "dayNum": 2,
+      "timeslotNum": 6,
+      "rating": 3
+    },
+    {
+      "dayNum": 3,
+      "timeslotNum": 1,
+      "rating": 4
+    },
+    {
+      "dayNum": 3,
+      "timeslotNum": 2,
+      "rating": 5
+    },
+    {
+      "dayNum": 3,
+      "timeslotNum": 5,
+      "rating": 5
+    },
+    {
+      "dayNum": 3,
+      "timeslotNum": 6,
+      "rating": 5
+    },
+    {
+      "dayNum": 4,
+      "timeslotNum": 1,
+      "rating": 1
+    },
+    {
+      "dayNum": 4,
+      "timeslotNum": 2,
+      "rating": 1
+    },
+    {
+      "dayNum": 4,
+      "timeslotNum": 5,
+      "rating": 1
+    },
+    {
+      "dayNum": 4,
+      "timeslotNum": 6,
+      "rating": 1
+    },
+    {
+      "dayNum": 5,
+      "timeslotNum": 1,
+      "rating": 4
+    },
+    {
+      "dayNum": 5,
+      "timeslotNum": 2,
+      "rating": 4
+    },
+    {
+      "dayNum": 5,
+      "timeslotNum": 5,
+      "rating": 3
+    },
+    {
+      "dayNum": 5,
+      "timeslotNum": 6,
+      "rating": 3
+    },
+    {
+      "dayNum": 6,
+      "timeslotNum": 1,
+      "rating": 1
+    },
+    {
+      "dayNum": 6,
+      "timeslotNum": 2,
+      "rating": 1
+    },
+    {
+      "dayNum": 6,
+      "timeslotNum": 5,
+      "rating": 1
+    },
+    {
+      "dayNum": 6,
+      "timeslotNum": 6,
+      "rating": 1
+    },
+    {
+      "dayNum": 7,
+      "timeslotNum": 1,
+      "rating": 4
+    },
+    {
+      "dayNum": 7,
+      "timeslotNum": 2,
+      "rating": 4
+    },
+    {
+      "dayNum": 7,
+      "timeslotNum": 5,
+      "rating": 4
+    },
+    {
+      "dayNum": 7,
+      "timeslotNum": 6,
+      "rating": 4
+    }
+  ]
+}

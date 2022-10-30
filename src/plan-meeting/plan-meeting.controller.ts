@@ -4,15 +4,19 @@ import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.re
 import { PlanMeetingService } from './plan-meeting.service'
 import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.response'
 import { PublishMeetingPlanRequest } from './dto/request/publish-meeting-plan.request'
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
+import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
 import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 @Controller('/plan/meeting')
+@ApiTags('plan-meeting')
 export class PlanMeetingController {
 
-  constructor(private planMeetingService: PlanMeetingService) { }
+  constructor(
+    private planMeetingService: PlanMeetingService
+  ) { }
 
   @ApiOperation({
     summary: 'Post meeting plan to database'
@@ -83,13 +87,23 @@ export class PlanMeetingController {
     description: 'The meeting plan has been successfully updated.'
   })
   @Post(":planUuid/answer")
-  async createMeetingAnswer(@Param('planUuid') planUuid: string, @Body() request: CreateMeetingAnswerRequest): Promise<void> {
+  async createMeetingAnswer(
+    @Param('planUuid') planUuid: string,
+    @Body() request: CreateMeetingAnswerRequest
+  ): Promise<void> {
     await this.planMeetingService.createMeetingAnswer(planUuid, request)
   }
 
-  @Post(":planUuid/calculate")
+  @ApiOperation({
+    summary: 'Calculate best timeslots in meeting plan using answers'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The meeting plan has been calculated successfully.'
+  })
+  @Get(":planUuid/calculate")
   async calculateMeetingPlan(@Param('planUuid') planUuid: string): Promise<CalculateMeetingPlanResponse> {
-    await this.planMeetingService.calculateMeetingPlan(planUuid)
+    return await this.planMeetingService.calculateMeetingPlan(planUuid)
   }
 
 }

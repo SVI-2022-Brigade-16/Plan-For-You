@@ -1,5 +1,9 @@
-import { RatedTimeslotDto } from "../basic/rated-timeslot.dto"
+import { ApiProperty } from "@nestjs/swagger"
+import { TotalRatedTimeslotDto } from "../basic/total-rated-timeslot.dto"
 
 export class CalculateMeetingPlanResponse {
-  sortedTotalRatedTimeslots: RatedTimeslotDto[]
+
+  @ApiProperty()
+  sortedTotalRatedTimeslots: TotalRatedTimeslotDto[]
+
 }

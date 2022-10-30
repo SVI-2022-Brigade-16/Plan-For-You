@@ -8,6 +8,9 @@ import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.re
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
 import { TimeslotDto } from './dto/basic/timeslot.dto'
 import { RatedTimeslotDto } from './dto/basic/rated-timeslot.dto'
+import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
+import { TotalRatedTimeslotDto } from './dto/basic/total-rated-timeslot.dto'
+import { NamedRatedTimeslotDto } from './dto/basic/named-rated-timeslot.dto'
 
 @Injectable()
 export class PlanMeetingService {
@@ -44,6 +47,13 @@ export class PlanMeetingService {
         answers: {
           select: {
             id: true,
+            ratedTimeslots: {
+              select: {
+                dayNum: true,
+                timeslotNum: true,
+                rating: true,
+              }
+            },
             participantName: true,
           }
         }
@@ -120,6 +130,9 @@ export class PlanMeetingService {
   }
 
   async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswerRequest): Promise<void> {
+    console.log(request)
+    let requestObject = new CreateMeetingAnswerRequest(request.participantName, request.ratedTimeslots)
+    await requestObject.validate(planUuid, this.prismaService)
     let result = await this.prismaService.meetingPlanAnswer.create({
       include: {
         ratedTimeslots: true
@@ -139,7 +152,7 @@ export class PlanMeetingService {
 
 
 
-  async calculateMeetingPlan(planUuid: string) {
+  async calculateMeetingPlan(planUuid: string): Promise<CalculateMeetingPlanResponse> {
     let meetingPlan = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid,
@@ -156,43 +169,74 @@ export class PlanMeetingService {
     if (meetingPlan) {
       let timeslotsInDayCount = (1440 - meetingPlan.timeslotStartTimeMinutes) / meetingPlan.timeslotLengthMinutes
       let dayCount = meetingPlan.weekCount * 7
-      let totalRatedTimeslots: RatedTimeslotDto[] = []
+      let totalRated: TotalRatedTimeslotDto[] = []
 
-      let sortedBlockedTimeslots: TimeslotDto[] = meetingPlan.blockedTimeslots.sort(TimeslotDto.compare)
+      let sortedBlocked: TimeslotDto[] = meetingPlan.blockedTimeslots.sort(TimeslotDto.compare)
 
       let bTIndex = 0
 
       for (let dayNum = 1; dayNum < dayCount + 1; dayNum++) {
         for (let timeslotNum = 1; timeslotNum < timeslotsInDayCount + 1; timeslotNum++) {
-          if (TimeslotDto.compare(sortedBlockedTimeslots[bTIndex], { dayNum: dayNum, timeslotNum: timeslotNum }) == 0) {
-            bTIndex++
-            continue
-          }
-          totalRatedTimeslots.push({
+
+          let newTotalRated = {
             dayNum: dayNum,
             timeslotNum: timeslotNum,
             rating: meetingPlan.answers.length * meetingPlan.ratingRange,
-          })
+            lowerRatingParticipantNames: []
+          }
+
+          if (
+            bTIndex < sortedBlocked.length &&
+            TimeslotDto.compare(sortedBlocked[bTIndex], newTotalRated) == 0
+          ) {
+            bTIndex++
+            continue
+          }
+
+          totalRated.push(newTotalRated)
+
         }
       }
 
-      let allAnswers: RatedTimeslotDto[] = []
+
+      /* TODO: OPTIMIZE - START */
+
+      let allNamedRated: NamedRatedTimeslotDto[] = []
       meetingPlan.answers.forEach((answer) => {
         answer.ratedTimeslots.forEach((timeslot) => {
-          allAnswers.push(timeslot)
+          allNamedRated.push({
+            participantName: answer.participantName,
+            dayNum: timeslot.dayNum,
+            timeslotNum: timeslot.timeslotNum,
+            rating: timeslot.rating
+          })
         })
       })
 
-      allAnswers.sort(TimeslotDto.compare)
 
-      let allAnswersOffset = 0
-      for (let i = 0; i < totalRatedTimeslots.length; ++i) {
-        while (TimeslotDto.compare(totalRatedTimeslots[i], allAnswers[i + allAnswersOffset]) == 0) {
-          totalRatedTimeslots[i].rating += allAnswers[i + allAnswersOffset].rating - meetingPlan.ratingRange
-          allAnswersOffset += 1
+      allNamedRated.sort(TimeslotDto.compare)
+
+      let j = 0
+      for (let i = 0; i < totalRated.length && j < allNamedRated.length; ++i) {
+        while (TimeslotDto.compare(totalRated[i], allNamedRated[j]) == 0) {
+          totalRated[i].rating += allNamedRated[j].rating - meetingPlan.ratingRange
+          if (allNamedRated[j].rating < meetingPlan.ratingRange) {
+            totalRated[i].lowerRatingParticipantNames.push(allNamedRated[j].participantName)
+          }
+          j += 1
+          if (j >= allNamedRated.length) {
+            break
+          }
         }
       }
+
+      /* TODO: OPTIMIZE - END */
+
+      let sortedTotalRated = totalRated.sort(RatedTimeslotDto.compareRating).reverse()
+
+      return { sortedTotalRatedTimeslots: sortedTotalRated }
     }
+    throw new HttpException("Couldn't find meeting plan to calculate", 404)
   }
 
 }
