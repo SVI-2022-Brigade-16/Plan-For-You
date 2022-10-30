@@ -6,6 +6,8 @@ import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.respon
 import { PublishMeetingPlanRequest } from './dto/request/publish-meeting-plan.request'
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
+import { TimeslotDto } from './dto/basic/timeslot.dto'
+import { RatedTimeslotDto } from './dto/basic/rated-timeslot.dto'
 
 @Injectable()
 export class PlanMeetingService {
@@ -132,6 +134,51 @@ export class PlanMeetingService {
     })
     if (!result) {
       throw new HttpException("Couldn't create answer to meeting plan.", 400)
+    }
+  }
+
+
+
+  async calculateMeetingPlan(planUuid: string) {
+
+
+
+    let meetingPlan = await this.prismaService.meetingPlan.findFirst({
+      where: {
+        uuid: planUuid,
+      },
+      include: {
+        blockedTimeslots: true,
+        answers: true,
+      }
+    })
+    if (meetingPlan) {
+      let timeslotsInDayCount = (1440 - meetingPlan.timeslotStartTimeMinutes) / meetingPlan.timeslotLengthMinutes
+      let dayCount = meetingPlan.weekCount * 7
+      let totalRatedTimeslots: RatedTimeslotDto[] = []
+
+      let sortedBlockedTimeslots: TimeslotDto[] = meetingPlan.blockedTimeslots.sort(TimeslotDto.compare)
+
+      let bTIndex = 0
+
+      for (let dayNum = 1; dayNum < dayCount + 1; dayNum++) {
+        for (let timeslotNum = 1; timeslotNum < timeslotsInDayCount + 1; timeslotNum++) {
+          if (TimeslotDto.compare(sortedBlockedTimeslots[bTIndex], { dayNum: dayNum, timeslotNum: timeslotNum }) == 0) {
+            bTIndex++
+            continue
+          }
+          totalRatedTimeslots.push({
+            dayNum: dayNum,
+            timeslotNum: timeslotNum,
+            rating: meetingPlan.answers.length * meetingPlan.ratingRange,
+          })
+        }
+      }
+
+      meetingPlan.answers.forEach(function () {
+
+      })
+
     }
   }
 

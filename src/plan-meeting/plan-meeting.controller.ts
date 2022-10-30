@@ -7,6 +7,7 @@ import { PublishMeetingPlanRequest } from './dto/request/publish-meeting-plan.re
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger'
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
+import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
 
 @Controller('/plan/meeting')
 export class PlanMeetingController {
@@ -84,6 +85,11 @@ export class PlanMeetingController {
   @Post(":planUuid/answer")
   async createMeetingAnswer(@Param('planUuid') planUuid: string, @Body() request: CreateMeetingAnswerRequest): Promise<void> {
     await this.planMeetingService.createMeetingAnswer(planUuid, request)
+  }
+
+  @Post(":planUuid/calculate")
+  async calculateMeetingPlan(@Param('planUuid') planUuid: string): Promise<CalculateMeetingPlanResponse> {
+    await this.planMeetingService.calculateMeetingPlan(planUuid)
   }
 
 }
