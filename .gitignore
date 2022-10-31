@@ -41,3 +41,4 @@ lerna-debug.log*
 *.vpp.bak_*
 *.vpp.lck
 *.vpp.vbak
+docs/diagrams/Workspace/
