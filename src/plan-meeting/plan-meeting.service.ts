@@ -252,8 +252,8 @@ export class PlanMeetingService {
     throw new NotFoundException('Couldn not find meeting plan to calculate')
   }
 
-  async deleteMeetingPlan(planUuid: string) {
-    return await this.prismaService.meetingPlan.delete({ where: { uuid: planUuid } })
+  async deleteMeetingPlan(planUuid: string): Promise<void> {
+    await this.prismaService.meetingPlan.delete({ where: { uuid: planUuid } })
   }
 
 }

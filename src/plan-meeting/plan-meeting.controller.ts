@@ -83,8 +83,8 @@ export class PlanMeetingController {
   @ApiBearerAuth()
   @UseGuards(AtGuard)
   @Delete(":planUuid")
-  async deleteMeetingPlan(@Param('planUuid') planUuid: string) {
-    return await this.planMeetingService.deleteMeetingPlan(planUuid)
+  async deleteMeetingPlan(@Param('planUuid') planUuid: string): Promise<void> {
+    await this.planMeetingService.deleteMeetingPlan(planUuid)
   }
 
   @ApiOperation({

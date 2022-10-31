@@ -4,7 +4,6 @@ import { IsString, validate, ValidateNested } from "class-validator"
 import { PrismaService } from "src/app-prisma/prisma.service"
 import { RatedTimeslotDto } from "../basic/rated-timeslot.dto"
 import { TimeslotDto } from "../basic/timeslot.dto"
-import { ReadMeetingAnswerResponse } from "../response/read-meeting-answer.response"
 
 export class CreateMeetingAnswerRequest {
 
