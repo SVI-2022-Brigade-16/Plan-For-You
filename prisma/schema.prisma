@@ -9,11 +9,11 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  email        String
-  hash         String
+  id           Int           @id @default(autoincrement()) @map("id")
+  email        String        @map("email")
+  hash         String        @map("hashed_password")
   hashedRt     String?       @map("hashed_refresh_token")
-  nickname     String
+  nickname     String        @map("nickname")
   createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
   meetingPlans MeetingPlan[]
@@ -23,7 +23,7 @@ model User {
 }
 
 model MeetingPlan {
-  uuid                     String              @id @default(uuid())
+  uuid                     String              @id @default(uuid()) @map("uuid")
   userId                   Int                 @map("user_id")
   planName                 String              @map("plan_name")
   weekCount                Int                 @map("week_count")
@@ -52,11 +52,11 @@ model BlockedTimeslot {
 }
 
 model MeetingPlanAnswer {
-  id              Int                         @id @default(autoincrement())
+  id              Int                         @id @default(autoincrement()) @map("id")
   meetingPlanUuid String                      @map("meeting_plan_uuid")
   participantName String                      @map("participant_name")
   meetingPlan     MeetingPlan                 @relation(fields: [meetingPlanUuid], references: [uuid])
-  timeslot        MeetingPlanAnswerTimeslot[]
+  ratedTimeslots  MeetingPlanAnswerTimeslot[]
 
   @@map("meeting_plan_answer")
 }

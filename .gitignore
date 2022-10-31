@@ -37,8 +37,8 @@ lerna-debug.log*
 # Environment variables
 .env
 
-# Visual Paradigm backup files
+# Visual Paradigm
 *.vpp.bak_*
 *.vpp.lck
 *.vpp.vbak
-docs/diagrams/Workspace/
+/docs/diagrams/workspace
