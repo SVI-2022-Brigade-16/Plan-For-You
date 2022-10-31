@@ -9,9 +9,7 @@ import { TimeslotDto } from './dto/basic/timeslot.dto'
 import { RatedTimeslotDto } from './dto/basic/rated-timeslot.dto'
 import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
 import { TotalRatedTimeslotDto } from './dto/basic/total-rated-timeslot.dto'
-import { NamedRatedTimeslotDto } from './dto/basic/named-rated-timeslot.dto'
 import { UpdateMeetingPlanRequest } from './dto/request/update-meeting-plan.request'
-import { MeetingAnswerDto } from './dto/basic/meeting-answer.dto'
 import { MeetingAnswerRatingDto } from './dto/basic/meeting-answer-rating.dto'
 
 @Injectable()
