@@ -60,6 +60,7 @@ export class PlanMeetingService {
         answers: {
           select: {
             id: true,
+            participantName: true,
             ratedTimeslots: {
               select: {
                 dayNum: true,
@@ -67,7 +68,6 @@ export class PlanMeetingService {
                 rating: true,
               }
             },
-            participantName: true,
           }
         }
       }
@@ -143,6 +143,17 @@ export class PlanMeetingService {
   }
 
   async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswerRequest): Promise<void> {
+    let findMeetingPlan = await this.prismaService.meetingPlan.findUnique({
+      where: {
+        uuid: planUuid
+      }
+    })
+    if (!findMeetingPlan) {
+      throw new UnauthorizedException('Plan with given UUID does not exist')
+    }
+    if (!findMeetingPlan.receivingAnswers) {
+      throw new UnauthorizedException('Plan with given UUID not receiving answers at the moment')
+    }
     let requestInstance = new CreateMeetingAnswerRequest(request.participantName, request.ratedTimeslots)
     await requestInstance.validate(planUuid, this.prismaService)
     let createMeetingPlan = await this.prismaService.meetingPlanAnswer.create({
