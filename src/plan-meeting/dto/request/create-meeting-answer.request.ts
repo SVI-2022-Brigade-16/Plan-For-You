@@ -50,18 +50,18 @@ export class CreateMeetingAnswerRequest {
       throw new BadRequestException('Validation failed: Meeting plan for this answer is not found')
     }
 
-    let sortedBlocked: TimeslotDto[] = meetingPlan!.blockedTimeslots.sort(TimeslotDto.compare)
-    let sortedRated: RatedTimeslotDto[] = this.ratedTimeslots.sort(TimeslotDto.compare)
-    let blockedIndex = 0
+    let sBlocked: TimeslotDto[] = meetingPlan!.blockedTimeslots.sort(TimeslotDto.compare)
+    let sRated: RatedTimeslotDto[] = this.ratedTimeslots.sort(TimeslotDto.compare)
+    let sBI = 0
 
-    for (let ratedIndex = 0; ratedIndex < sortedRated.length; ratedIndex++) {
-      if (sortedRated[ratedIndex].rating > meetingPlan!.ratingRange) {
+    for (let sRI = 0; sRI < sRated.length; sRI++) {
+      if (sRated[sRI].rating > meetingPlan!.ratingRange) {
         throw new BadRequestException('Validation failed: Answer rating is out of ratingRange for this meeting plan')
       }
-      while (TimeslotDto.compare(sortedRated[ratedIndex], sortedBlocked[blockedIndex]) > 0) {
-        blockedIndex++
+      while (sBI < sBlocked.length && TimeslotDto.compare(sRated[sRI], sBlocked[sBI]) > 0) {
+        sBI++
       }
-      if (TimeslotDto.compare(sortedRated[ratedIndex], sortedBlocked[blockedIndex]) == 0) {
+      if (sBI < sBlocked.length && TimeslotDto.compare(sRated[sRI], sBlocked[sBI]) == 0) {
         throw new BadRequestException('Validation failed: Answer has blocked timeslots in it')
       }
     }
