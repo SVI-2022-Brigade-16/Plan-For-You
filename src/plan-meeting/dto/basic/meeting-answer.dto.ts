@@ -8,4 +8,9 @@ export class MeetingAnswerDto {
   @ApiProperty()
   participantName: string
 
+  constructor(id: number, participantName: string) {
+    this.id = id
+    this.participantName = participantName
+  }
+
 }

@@ -11,6 +11,8 @@ import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-p
 import { TotalRatedTimeslotDto } from './dto/basic/total-rated-timeslot.dto'
 import { NamedRatedTimeslotDto } from './dto/basic/named-rated-timeslot.dto'
 import { UpdateMeetingPlanRequest } from './dto/request/update-meeting-plan.request'
+import { MeetingAnswerDto } from './dto/basic/meeting-answer.dto'
+import { MeetingAnswerRatingDto } from './dto/basic/meeting-answer-rating.dto'
 
 @Injectable()
 export class PlanMeetingService {
@@ -176,6 +178,7 @@ export class PlanMeetingService {
 
 
   async calculateMeetingPlan(userId: number, planUuid: string): Promise<CalculateMeetingPlanResponse> {
+
     let meetingPlan = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid,
@@ -190,30 +193,30 @@ export class PlanMeetingService {
         },
       }
     })
+
     if (meetingPlan) {
+
       let timeslotsInDayCount = (1440 - meetingPlan.timeslotStartTimeMinutes) / meetingPlan.timeslotLengthMinutes
       let dayCount = meetingPlan.weekCount * 7
       let totalRated: TotalRatedTimeslotDto[] = []
 
       let sortedBlocked: TimeslotDto[] = meetingPlan.blockedTimeslots.sort(TimeslotDto.compare)
 
-      let bTIndex = 0
-
-      for (let dayNum = 1; dayNum < dayCount + 1; dayNum++) {
+      for (let dayNum = 1, sBI = 0; dayNum < dayCount + 1; dayNum++) {
         for (let timeslotNum = 1; timeslotNum < timeslotsInDayCount + 1; timeslotNum++) {
 
           let newTotalRated = {
             dayNum: dayNum,
             timeslotNum: timeslotNum,
             rating: meetingPlan.answers.length * meetingPlan.ratingRange,
-            lowerRatingParticipantNames: []
+            lowerThanMaxRatings: []
           }
 
           if (
-            bTIndex < sortedBlocked.length &&
-            TimeslotDto.compare(sortedBlocked[bTIndex], newTotalRated) == 0
+            sBI < sortedBlocked.length &&
+            TimeslotDto.compare(sortedBlocked[sBI], newTotalRated) == 0
           ) {
-            bTIndex++
+            sBI++
             continue
           }
 
@@ -222,45 +225,37 @@ export class PlanMeetingService {
         }
       }
 
+      // TODO: OPTIMIZE
 
-      /* TODO: OPTIMIZE - START */
-
-      let allNamedRated: NamedRatedTimeslotDto[] = []
       meetingPlan.answers.forEach((answer) => {
-        answer.ratedTimeslots.forEach((timeslot) => {
-          allNamedRated.push({
-            participantName: answer.participantName,
-            dayNum: timeslot.dayNum,
-            timeslotNum: timeslot.timeslotNum,
-            rating: timeslot.rating
-          })
-        })
-      })
+        let sAnswerRated = answer.ratedTimeslots.sort(TimeslotDto.compare)
 
+        for (let tI = 0, sAI = 0; tI < totalRated.length && sAI < sAnswerRated.length; tI++) {
+          while (TimeslotDto.compare(totalRated[tI], sAnswerRated[sAI]) == 0) {
+            totalRated[tI].rating += sAnswerRated[sAI].rating - meetingPlan.ratingRange
 
-      allNamedRated.sort(TimeslotDto.compare)
+            if (sAnswerRated[sAI].rating < meetingPlan.ratingRange) {
+              totalRated[tI].lowerThanMaxRatings.push(
+                new MeetingAnswerRatingDto(answer, sAnswerRated[sAI].rating)
+              )
+            }
 
-      let j = 0
-      for (let i = 0; i < totalRated.length && j < allNamedRated.length; ++i) {
-        while (TimeslotDto.compare(totalRated[i], allNamedRated[j]) == 0) {
-          totalRated[i].rating += allNamedRated[j].rating - meetingPlan.ratingRange
-          if (allNamedRated[j].rating < meetingPlan.ratingRange) {
-            totalRated[i].lowerRatingParticipantNames.push(allNamedRated[j].participantName)
-          }
-          j += 1
-          if (j >= allNamedRated.length) {
-            break
+            sAI++
+
+            if (sAI >= sAnswerRated.length) {
+              break
+            }
           }
         }
-      }
+      })
 
-      /* TODO: OPTIMIZE - END */
+      let sTotalRated = totalRated.sort(RatedTimeslotDto.compareRating).reverse()
 
-      let sortedTotalRated = totalRated.sort(RatedTimeslotDto.compareRating).reverse()
-
-      return { sortedTotalRatedTimeslots: sortedTotalRated }
+      return { sortedTotalRatedTimeslots: sTotalRated }
     }
+
     throw new NotFoundException('Couldn not find meeting plan to calculate')
+
   }
 
   async deleteMeetingPlan(planUuid: string): Promise<void> {
