@@ -7,9 +7,6 @@ import { PlanMeetingService } from './plan-meeting.service'
 
 @Module({
   controllers: [PlanMeetingController],
-  providers: [
-    PlanMeetingService,
-    PrismaService,
-  ]
+  providers: [PlanMeetingService]
 })
 export class PlanMeetingModule { }
