@@ -1,5 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common'
-import { AuthService } from './auth.service'
+import { UserAuthService } from './user-auth.service'
 import { AuthDto } from './dto'
 import { Tokens } from './types'
 import { AtGuard, RtGuard } from './guards'
@@ -10,8 +10,8 @@ import { SignInRequest } from './dto/request/sign-in.request'
 
 @ApiTags('user-auth')
 @Controller('auth')
-export class AuthController {
-  constructor(private authService: AuthService) { }
+export class UserAuthController {
+  constructor(private authService: UserAuthService) { }
 
   @ApiOperation({
     summary: 'Sign up user'

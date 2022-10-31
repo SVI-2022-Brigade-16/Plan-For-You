@@ -8,7 +8,7 @@ import { SignInRequest } from './dto/request/sign-in.request'
 import { SignUpRequest } from './dto/request/sign-up.request'
 
 @Injectable()
-export class AuthService {
+export class UserAuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService
