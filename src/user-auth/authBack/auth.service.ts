@@ -1,10 +1,12 @@
 import { ForbiddenException, Injectable } from "@nestjs/common"
-import { PrismaService } from "../../prisma/prisma.service"
+import { PrismaService } from "../../app-prisma/prisma.service"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
 import { AuthDto } from "./dto"
 import * as bcrypt from 'bcrypt'
 import { Tokens } from "./types"
 import { JwtService } from "@nestjs/jwt"
+import { SignInRequest } from "./dto/request/sign-in.request"
+import { SignUpRequest } from "./dto/request/sign-up.request"
 
 @Injectable()
 export class AuthService {
@@ -13,20 +15,20 @@ export class AuthService {
     private jwtService: JwtService
   ) { }
 
-  async signup(dto: AuthDto): Promise<Tokens> {
+  async signup(request: SignUpRequest): Promise<Tokens> {
     // generate the password hash
-    const hash = await this.hashData(dto.password)
+    const hash = await this.hashData(request.password)
     // save the new user in db
     try {
       const newUser = await this.prisma.user.create({
         data: {
-          email: dto.email,
+          login: request.login,
           hash,
-          nickname: dto.nickname
+          nickname: request.nickname
         }
       })
 
-      const tokens = await this.getTokens(newUser.id, newUser.email)
+      const tokens = await this.getTokens(newUser.id, newUser.login)
       await this.updateRtHash(newUser.id, tokens.refresh_token)
       return tokens
 
@@ -40,11 +42,11 @@ export class AuthService {
     }
   }
 
-  async signin(dto: AuthDto): Promise<Tokens> {
+  async signin(request: SignInRequest): Promise<Tokens> {
     // find the user by email
     const user = await this.prisma.user.findUnique({
       where: {
-        email: dto.email,
+        login: request.login,
       },
     })
     // if user doesn't exist throw exception
@@ -52,7 +54,7 @@ export class AuthService {
       throw new ForbiddenException('User credentials incorrect')
     // compare passwords
     const pwMatches = await bcrypt.compare(
-      dto.password,
+      request.password,
       user.hash,
     )
     // if password incorrect throw exception
@@ -61,7 +63,7 @@ export class AuthService {
         'Password credentials incorrect',
       )
 
-    const tokens = await this.getTokens(user.id, user.email)
+    const tokens = await this.getTokens(user.id, user.login)
     await this.updateRtHash(user.id, tokens.refresh_token)
     return tokens
   }
@@ -80,7 +82,7 @@ export class AuthService {
     })
   }
 
-  async deleteUser(userId: number) {
+  async removeUser(userId: number) {
     await this.prisma.user.delete({
       where: {
         id: userId,
@@ -99,7 +101,7 @@ export class AuthService {
     const rtMatches = await bcrypt.compare(rt, user.hashedRt)
     if (!rtMatches) throw new ForbiddenException("Refresh token expired")
 
-    const tokens = await this.getTokens(user.id, user.email)
+    const tokens = await this.getTokens(user.id, user.login)
     await this.updateRtHash(user.id, tokens.refresh_token)
     return tokens
   }

@@ -1,9 +1,8 @@
-import { HttpException, Injectable } from '@nestjs/common'
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { CreateMeetingPlanRequest } from './dto/request/create-meeting-plan.request'
 import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.response'
-import { PrismaService } from '../prisma/prisma.service'
+import { PrismaService } from '../app-prisma/prisma.service'
 import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.response'
-import { PublishMeetingPlanRequest } from './dto/request/publish-meeting-plan.request'
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
 import { TimeslotDto } from './dto/basic/timeslot.dto'
@@ -11,11 +10,24 @@ import { RatedTimeslotDto } from './dto/basic/rated-timeslot.dto'
 import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
 import { TotalRatedTimeslotDto } from './dto/basic/total-rated-timeslot.dto'
 import { NamedRatedTimeslotDto } from './dto/basic/named-rated-timeslot.dto'
+import { UpdateMeetingPlanRequest } from './dto/request/update-meeting-plan.request'
 
 @Injectable()
 export class PlanMeetingService {
 
   constructor(private prismaService: PrismaService) { }
+
+  async checkMeetingPlanUser(userId: number, planUuid: string): Promise<void> {
+    let check = await this.prismaService.meetingPlan.findFirst({
+      where: {
+        uuid: planUuid,
+        userId: userId,
+      }
+    })
+    if (!check) {
+      throw new NotFoundException('Could not find meeting plan with given UUID for given user ID.')
+    }
+  }
 
   async createMeetingPlan(userId: number, request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
     let result = await this.prismaService.meetingPlan.create({
@@ -32,8 +44,9 @@ export class PlanMeetingService {
     return { planUuid: result.uuid }
   }
 
-  async readMeetingPlan(planUuid: string): Promise<ReadMeetingPlanResponse> {
-    let result = await this.prismaService.meetingPlan.findFirst({
+  async readMeetingPlan(userId: number, planUuid: string): Promise<ReadMeetingPlanResponse> {
+    this.checkMeetingPlanUser(userId, planUuid)
+    let findMeetingPlan = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid
       },
@@ -59,28 +72,20 @@ export class PlanMeetingService {
         }
       }
     })
-    if (result) {
-      return {
-        planName: result.planName,
-        weekCount: result.weekCount,
-        timeslotLengthMinutes: result.timeslotLengthMinutes,
-        timeslotStartTimeMinutes: result.timeslotStartTimeMinutes,
-        ratingRange: result.ratingRange,
-        blockedTimeslots: result.blockedTimeslots,
-        answers: result.answers
-      }
-    } else {
-      throw new HttpException("Couldn't find meeting plan record.", 404)
+    if (!findMeetingPlan) {
+      throw new NotFoundException('Could not find meeting plan with given UUID.')
     }
+    return findMeetingPlan
   }
 
-  async publishMeetingPlan(planUuid: string, request: PublishMeetingPlanRequest): Promise<void> {
+  async updateMeetingPlan(userId: number, planUuid: string, request: UpdateMeetingPlanRequest): Promise<void> {
+    await this.checkMeetingPlanUser(userId, planUuid)
     let updateMeetingPlan = await this.prismaService.meetingPlan.update({
       where: {
         uuid: planUuid
       },
       include: {
-        blockedTimeslots: true
+        blockedTimeslots: true,
       },
       data: {
         planName: request.planName,
@@ -88,7 +93,6 @@ export class PlanMeetingService {
         timeslotLengthMinutes: request.timeslotLengthMinutes,
         timeslotStartTimeMinutes: request.timeslotStartTimeMinutes,
         ratingRange: request.ratingRange,
-        receivingAnswers: true,
         blockedTimeslots: {
           deleteMany: {},
           create: request.blockedTimeslots,
@@ -96,12 +100,27 @@ export class PlanMeetingService {
       },
     })
     if (!updateMeetingPlan) {
-      throw new HttpException("Couldn't find meeting plan to publish.", 404)
+      throw new InternalServerErrorException('Could not publish meeting plan with this UUID.')
+    }
+  }
+
+  async publishMeetingPlan(userId: number, planUuid: string): Promise<void> {
+    await this.checkMeetingPlanUser(userId, planUuid)
+    let publishMeetingPlan = await this.prismaService.meetingPlan.update({
+      where: {
+        uuid: planUuid
+      },
+      data: {
+        receivingAnswers: true,
+      },
+    })
+    if (!publishMeetingPlan) {
+      throw new InternalServerErrorException('Could not publish meeting plan with given UUID.')
     }
   }
 
   async readMeetingAnswer(planUuid: string): Promise<ReadMeetingAnswerResponse> {
-    let result = await this.prismaService.meetingPlan.findFirst({
+    let findMeetingPlan = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid
       },
@@ -114,26 +133,19 @@ export class PlanMeetingService {
         }
       }
     })
-    if (result) {
-      return {
-        planName: result.planName,
-        weekCount: result.weekCount,
-        timeslotLengthMinutes: result.timeslotLengthMinutes,
-        timeslotStartTimeMinutes: result.timeslotStartTimeMinutes,
-        ratingRange: result.ratingRange,
-        blockedTimeslots: result.blockedTimeslots,
-      }
+    if (!findMeetingPlan) {
+      throw new NotFoundException('Could not find meeting plan to answer')
     }
-    else {
-      throw new HttpException("Couldn't find meeting plan to answer.", 404)
+    if (!findMeetingPlan.receivingAnswers) {
+      throw new UnauthorizedException('Plan with given UUID not receiving answers at the moment.')
     }
+    return findMeetingPlan
   }
 
   async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswerRequest): Promise<void> {
-    console.log(request)
-    let requestObject = new CreateMeetingAnswerRequest(request.participantName, request.ratedTimeslots)
-    await requestObject.validate(planUuid, this.prismaService)
-    let result = await this.prismaService.meetingPlanAnswer.create({
+    let requestInstance = new CreateMeetingAnswerRequest(request.participantName, request.ratedTimeslots)
+    await requestInstance.validate(planUuid, this.prismaService)
+    let createMeetingPlan = await this.prismaService.meetingPlanAnswer.create({
       include: {
         ratedTimeslots: true
       },
@@ -145,17 +157,18 @@ export class PlanMeetingService {
         }
       }
     })
-    if (!result) {
-      throw new HttpException("Couldn't create answer to meeting plan.", 400)
+    if (!createMeetingPlan) {
+      throw new InternalServerErrorException('Could not create answer to meeting plan.')
     }
   }
 
 
 
-  async calculateMeetingPlan(planUuid: string): Promise<CalculateMeetingPlanResponse> {
+  async calculateMeetingPlan(userId: number, planUuid: string): Promise<CalculateMeetingPlanResponse> {
     let meetingPlan = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid,
+        userId: userId
       },
       include: {
         blockedTimeslots: true,
@@ -236,10 +249,10 @@ export class PlanMeetingService {
 
       return { sortedTotalRatedTimeslots: sortedTotalRated }
     }
-    throw new HttpException("Couldn't find meeting plan to calculate", 404)
+    throw new NotFoundException('Couldn not find meeting plan to calculate')
   }
 
-  async removeMeetingPlan(planUuid: string) {
+  async deleteMeetingPlan(planUuid: string) {
     return await this.prismaService.meetingPlan.delete({ where: { uuid: planUuid } })
   }
 

@@ -1,9 +1,10 @@
 import { BadRequestException, HttpException } from "@nestjs/common"
 import { ApiProperty } from "@nestjs/swagger"
 import { IsString, validate, ValidateNested } from "class-validator"
-import { PrismaService } from "src/prisma/prisma.service"
+import { PrismaService } from "src/app-prisma/prisma.service"
 import { RatedTimeslotDto } from "../basic/rated-timeslot.dto"
 import { TimeslotDto } from "../basic/timeslot.dto"
+import { ReadMeetingAnswerResponse } from "../response/read-meeting-answer.response"
 
 export class CreateMeetingAnswerRequest {
 
@@ -18,13 +19,10 @@ export class CreateMeetingAnswerRequest {
   constructor(participantName: string, timeslots: RatedTimeslotDto[]) {
     this.participantName = participantName
     this.ratedTimeslots = []
-    console.log(timeslots)
     if (timeslots) {
       for (let i = 0; i < timeslots.length; i++) {
         this.ratedTimeslots.push(new RatedTimeslotDto(timeslots[i]))
       }
-    } else {
-      console.log("timeslosts undefined!")
     }
   }
 
@@ -39,8 +37,16 @@ export class CreateMeetingAnswerRequest {
       },
       include: {
         blockedTimeslots: true,
+        answers: true
       }
     })
+
+    for (let i = 0; i < meetingPlan.answers.length; i++) {
+      if (meetingPlan.answers[i].participantName == this.participantName) {
+        throw new BadRequestException('Validation failed: Participant with given name for given meeting plan already exists')
+      }
+    }
+
     if (!meetingPlan) {
       throw new BadRequestException('Validation failed: Meeting plan for this answer is not found')
     }

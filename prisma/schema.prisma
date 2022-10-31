@@ -10,7 +10,7 @@ datasource db {
 
 model User {
   id           Int           @id @default(autoincrement()) @map("id")
-  email        String        @map("email")
+  login        String        @map("login")
   hash         String        @map("hashed_password")
   hashedRt     String?       @map("hashed_refresh_token")
   nickname     String        @map("nickname")
@@ -18,7 +18,7 @@ model User {
   updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
   meetingPlans MeetingPlan[]
 
-  @@unique([email], name: "user_uq_email")
+  @@unique([login], name: "user_uq_email")
   @@map("user")
 }
 
