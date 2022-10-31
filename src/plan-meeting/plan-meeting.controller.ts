@@ -7,9 +7,9 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } 
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
 import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
-import { AtGuard } from 'src/user-auth/guards'
-import { GetCurrentUserId } from 'src/user-auth/decorators'
 import { UpdateMeetingPlanRequest } from './dto/request/update-meeting-plan.request'
+import { AtGuard } from '../user-auth/guards'
+import { GetCurrentUserId } from '../user-auth/decorators'
 
 @Controller('/plan/meeting')
 @ApiTags('plan-meeting')

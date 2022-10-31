@@ -12,5 +12,3 @@ export class ReadMeetingPlanResponse extends MeetingPlanDto {
   answers: MeetingAnswerDto[]
 
 }
-
-
