@@ -239,4 +239,8 @@ export class PlanMeetingService {
     throw new HttpException("Couldn't find meeting plan to calculate", 404)
   }
 
+  async removeMeetingPlan(planUuid: string) {
+    return await this.prismaService.meetingPlan.delete({ where: { uuid: planUuid } })
+  }
+
 }

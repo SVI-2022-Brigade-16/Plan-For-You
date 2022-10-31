@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Render } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post, Render } from '@nestjs/common'
 import { CreateMeetingPlanRequest } from './dto/request/create-meeting-plan.request'
 import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.response'
 import { PlanMeetingService } from './plan-meeting.service'
@@ -105,5 +105,19 @@ export class PlanMeetingController {
   async calculateMeetingPlan(@Param('planUuid') planUuid: string): Promise<CalculateMeetingPlanResponse> {
     return await this.planMeetingService.calculateMeetingPlan(planUuid)
   }
+
+
+  @ApiOperation({
+    summary: 'Delete meeting plan from database'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The meeting plan has been successfully deleted.'
+  })
+  @Delete(":planUuid")
+  async removeMeetingPlan(@Param('planUuid') planUuid: string) {
+    return await this.planMeetingService.removeMeetingPlan(planUuid)
+  }
+
 
 }
