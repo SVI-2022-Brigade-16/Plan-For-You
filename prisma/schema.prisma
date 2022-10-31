@@ -9,14 +9,15 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  login        String        @map("login")
-  hash         String        @map("hashed_password")
-  hashedRt     String?       @map("hashed_refresh_token")
-  nickname     String        @map("nickname")
-  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamp(0)
-  updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
-  meetingPlans MeetingPlan[]
+  id                 Int           @id @default(autoincrement())
+  login              String        @map("login")
+  hashedPassword     String        @map("hashed_password")
+  hashedRefreshToken String?       @map("hashed_refresh_token")
+  activeAccessToken  Boolean       @map("active_access_token")
+  nickname           String        @map("nickname")
+  createdAt          DateTime      @default(now()) @map("created_at") @db.Timestamp(0)
+  updatedAt          DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)
+  meetingPlans       MeetingPlan[]
 
   @@unique([login], name: "user_uq_login")
   @@map("user")
