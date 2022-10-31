@@ -17,5 +17,6 @@
     "noFallthroughCasesInSwitch": false,
     "strict": true,
     "strictPropertyInitialization": false,
+    "strictNullChecks": false
   }
 }
