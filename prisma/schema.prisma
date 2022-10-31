@@ -13,7 +13,7 @@ model User {
   login              String        @map("login")
   hashedPassword     String        @map("hashed_password")
   hashedRefreshToken String?       @map("hashed_refresh_token")
-  activeAccessToken  Boolean       @map("active_access_token")
+  signedOut          Boolean       @map("signed_out")
   nickname           String        @map("nickname")
   createdAt          DateTime      @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt          DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)

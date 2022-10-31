@@ -14,13 +14,13 @@ export class UserAuthService {
     private jwtService: JwtService
   ) { }
 
-  async hasActiveAccessToken(userId: number): Promise<boolean> {
+  async signedIn(userId: number): Promise<boolean> {
     let user = await this.prisma.user.findUnique({
       where: {
         id: userId
       }
     })
-    if (!user || !user.activeAccessToken) {
+    if (!user || user.signedOut) {
       return false
     }
     return true
@@ -36,7 +36,7 @@ export class UserAuthService {
           login: request.login,
           hashedPassword: hashedPassword,
           nickname: request.nickname,
-          activeAccessToken: true
+          signedOut: false
         }
       })
 
@@ -81,7 +81,7 @@ export class UserAuthService {
         login: request.login,
       },
       data: {
-        activeAccessToken: true
+        signedOut: false
       }
     })
     await this.updateRtHash(user.id, tokens.refresh_token)
@@ -94,7 +94,7 @@ export class UserAuthService {
         id: userId,
       },
       data: {
-        activeAccessToken: false,
+        signedOut: true,
         hashedRefreshToken: null
       }
     })
@@ -129,7 +129,7 @@ export class UserAuthService {
         id: userId,
       },
       data: {
-        activeAccessToken: true
+        signedOut: false
       }
     })
     await this.updateRtHash(user.id, tokens.refresh_token)

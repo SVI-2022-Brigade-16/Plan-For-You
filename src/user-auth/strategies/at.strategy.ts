@@ -19,8 +19,8 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
   async validate(payload: JwtPayload) {
     let userId = parseInt(payload.sub)
-    let accessTokenActive = await this.userAuthService.hasActiveAccessToken(userId)
-    if (!accessTokenActive) {
+    let signedIn = await this.userAuthService.signedIn(userId)
+    if (!signedIn) {
       throw new UnauthorizedException('User is not signed in')
     }
     return payload
