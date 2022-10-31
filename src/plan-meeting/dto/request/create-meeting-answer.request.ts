@@ -1,9 +1,9 @@
-import { BadRequestException, HttpException } from "@nestjs/common"
-import { ApiProperty } from "@nestjs/swagger"
-import { IsString, validate, ValidateNested } from "class-validator"
-import { PrismaService } from "src/app-prisma/prisma.service"
-import { RatedTimeslotDto } from "../basic/rated-timeslot.dto"
-import { TimeslotDto } from "../basic/timeslot.dto"
+import { BadRequestException, HttpException } from '@nestjs/common'
+import { ApiProperty } from '@nestjs/swagger'
+import { IsString, validate, ValidateNested } from 'class-validator'
+import { PrismaService } from 'src/app-prisma/prisma.service'
+import { RatedTimeslotDto } from '../basic/rated-timeslot.dto'
+import { TimeslotDto } from '../basic/timeslot.dto'
 
 export class CreateMeetingAnswerRequest {
 

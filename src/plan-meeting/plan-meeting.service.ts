@@ -25,7 +25,7 @@ export class PlanMeetingService {
       }
     })
     if (!check) {
-      throw new NotFoundException('Could not find meeting plan with given UUID for given user ID.')
+      throw new NotFoundException('Could not find meeting plan with given UUID for given user ID')
     }
   }
 
@@ -73,7 +73,7 @@ export class PlanMeetingService {
       }
     })
     if (!findMeetingPlan) {
-      throw new NotFoundException('Could not find meeting plan with given UUID.')
+      throw new NotFoundException('Could not find meeting plan with given UUID')
     }
     return findMeetingPlan
   }
@@ -100,7 +100,7 @@ export class PlanMeetingService {
       },
     })
     if (!updateMeetingPlan) {
-      throw new InternalServerErrorException('Could not publish meeting plan with this UUID.')
+      throw new InternalServerErrorException('Could not publish meeting plan with this UUID')
     }
   }
 
@@ -115,7 +115,7 @@ export class PlanMeetingService {
       },
     })
     if (!publishMeetingPlan) {
-      throw new InternalServerErrorException('Could not publish meeting plan with given UUID.')
+      throw new InternalServerErrorException('Could not publish meeting plan with given UUID')
     }
   }
 
@@ -137,7 +137,7 @@ export class PlanMeetingService {
       throw new NotFoundException('Could not find meeting plan to answer')
     }
     if (!findMeetingPlan.receivingAnswers) {
-      throw new UnauthorizedException('Plan with given UUID not receiving answers at the moment.')
+      throw new UnauthorizedException('Plan with given UUID not receiving answers at the moment')
     }
     return findMeetingPlan
   }
@@ -158,7 +158,7 @@ export class PlanMeetingService {
       }
     })
     if (!createMeetingPlan) {
-      throw new InternalServerErrorException('Could not create answer to meeting plan.')
+      throw new InternalServerErrorException('Could not create answer to meeting plan')
     }
   }
 

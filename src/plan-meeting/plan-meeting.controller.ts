@@ -7,8 +7,8 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } 
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
 import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
-import { AtGuard } from 'src/user-auth/authDefence/guards'
-import { GetCurrentUserId } from 'src/user-auth/authDefence/decorators'
+import { AtGuard } from 'src/user-auth/guards'
+import { GetCurrentUserId } from 'src/user-auth/decorators'
 import { UpdateMeetingPlanRequest } from './dto/request/update-meeting-plan.request'
 
 @Controller('/plan/meeting')
@@ -46,7 +46,7 @@ export class PlanMeetingController {
   })
   @ApiBearerAuth()
   @UseGuards(AtGuard)
-  @Get(":planUuid")
+  @Get(':planUuid')
   async readMeetingPlan(@GetCurrentUserId() userId: number, @Param('planUuid') planUuid: string): Promise<ReadMeetingPlanResponse> {
     return await this.planMeetingService.readMeetingPlan(userId, planUuid)
   }
@@ -64,7 +64,7 @@ export class PlanMeetingController {
   })
   @ApiBearerAuth()
   @UseGuards(AtGuard)
-  @Put(":planUuid/update")
+  @Put(':planUuid/update')
   async updateMeetingPlan(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string,
@@ -82,7 +82,7 @@ export class PlanMeetingController {
   })
   @ApiBearerAuth()
   @UseGuards(AtGuard)
-  @Delete(":planUuid")
+  @Delete(':planUuid')
   async deleteMeetingPlan(@Param('planUuid') planUuid: string): Promise<void> {
     await this.planMeetingService.deleteMeetingPlan(planUuid)
   }
@@ -96,7 +96,7 @@ export class PlanMeetingController {
   })
   @ApiBearerAuth()
   @UseGuards(AtGuard)
-  @Post(":planUuid/publish")
+  @Post(':planUuid/publish')
   async publishMeetingPlan(@GetCurrentUserId() userId: number, @Param('planUuid') planUuid: string): Promise<void> {
     await this.planMeetingService.publishMeetingPlan(userId, planUuid)
   }
@@ -108,7 +108,7 @@ export class PlanMeetingController {
     status: 200,
     description: 'Meeting plan conditions successfully received.'
   })
-  @Get(":planUuid/answer/conditions")
+  @Get(':planUuid/answer/conditions')
   async readMeetingAnswer(@Param('planUuid') planUuid: string): Promise<ReadMeetingAnswerResponse> {
     return await this.planMeetingService.readMeetingAnswer(planUuid)
   }
@@ -124,7 +124,7 @@ export class PlanMeetingController {
     status: 200,
     description: 'Meeting plan successfully updated.'
   })
-  @Post(":planUuid/answer")
+  @Post(':planUuid/answer')
   async createMeetingAnswer(
     @Param('planUuid') planUuid: string,
     @Body() request: CreateMeetingAnswerRequest
@@ -141,7 +141,7 @@ export class PlanMeetingController {
   })
   @ApiBearerAuth()
   @UseGuards(AtGuard)
-  @Get(":planUuid/calculate")
+  @Get(':planUuid/calculate')
   async calculateMeetingPlan(@GetCurrentUserId() userId: number, @Param('planUuid') planUuid: string): Promise<CalculateMeetingPlanResponse> {
     return await this.planMeetingService.calculateMeetingPlan(userId, planUuid)
   }

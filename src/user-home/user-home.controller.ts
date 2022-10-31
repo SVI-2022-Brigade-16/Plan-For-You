@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { GetCurrentUser, GetCurrentUserId } from 'src/user-auth/authDefence/decorators'
-import { AtGuard } from 'src/user-auth/authDefence/guards'
+import { GetCurrentUser, GetCurrentUserId } from 'src/user-auth/decorators'
+import { AtGuard } from 'src/user-auth/guards'
 import { ReadUserResponse } from './dto/response/read-user.response'
 import { UserHomeService } from './user-home.service'
 

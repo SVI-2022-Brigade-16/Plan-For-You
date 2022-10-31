@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsIn, Max, Min } from "class-validator"
+import { ApiProperty } from '@nestjs/swagger'
+import { IsIn, Max, Min } from 'class-validator'
 
 export class MeetingPlanDto {
 

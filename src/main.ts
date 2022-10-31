@@ -12,7 +12,7 @@ async function bootstrap() {
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
-  console.log("App started!")
+  console.log('App started!')
   await app.listen(3000)
 }
 bootstrap()

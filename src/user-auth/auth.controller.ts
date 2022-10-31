@@ -1,12 +1,12 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from "@nestjs/common"
-import { AuthService } from "./auth.service"
-import { AuthDto } from "./dto"
-import { Tokens } from "./types"
-import { AtGuard, RtGuard } from "../authDefence/guards"
-import { GetCurrentUser, GetCurrentUserId } from "../authDefence/decorators"
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger"
-import { SignUpRequest } from "./dto/request/sign-up.request"
-import { SignInRequest } from "./dto/request/sign-in.request"
+import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common'
+import { AuthService } from './auth.service'
+import { AuthDto } from './dto'
+import { Tokens } from './types'
+import { AtGuard, RtGuard } from './guards'
+import { GetCurrentUser, GetCurrentUserId } from './decorators'
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { SignUpRequest } from './dto/request/sign-up.request'
+import { SignInRequest } from './dto/request/sign-in.request'
 
 @ApiTags('user-auth')
 @Controller('auth')

@@ -1,12 +1,11 @@
-import { ForbiddenException, Injectable } from "@nestjs/common"
-import { PrismaService } from "../../app-prisma/prisma.service"
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
-import { AuthDto } from "./dto"
+import { ForbiddenException, Injectable } from '@nestjs/common'
+import { PrismaService } from '../app-prisma/prisma.service'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import * as bcrypt from 'bcrypt'
-import { Tokens } from "./types"
-import { JwtService } from "@nestjs/jwt"
-import { SignInRequest } from "./dto/request/sign-in.request"
-import { SignUpRequest } from "./dto/request/sign-up.request"
+import { Tokens } from './types'
+import { JwtService } from '@nestjs/jwt'
+import { SignInRequest } from './dto/request/sign-in.request'
+import { SignUpRequest } from './dto/request/sign-up.request'
 
 @Injectable()
 export class AuthService {
@@ -15,16 +14,29 @@ export class AuthService {
     private jwtService: JwtService
   ) { }
 
+  async hasActiveAccessToken(userId: number): Promise<boolean> {
+    let user = await this.prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    if (!user || !user.activeAccessToken) {
+      return false
+    }
+    return true
+  }
+
   async signup(request: SignUpRequest): Promise<Tokens> {
     // generate the password hash
-    const hash = await this.hashData(request.password)
+    const hashedPassword = await this.hashData(request.password)
     // save the new user in db
     try {
       const newUser = await this.prisma.user.create({
         data: {
           login: request.login,
-          hash,
-          nickname: request.nickname
+          hashedPassword: hashedPassword,
+          nickname: request.nickname,
+          activeAccessToken: true
         }
       })
 
@@ -44,10 +56,10 @@ export class AuthService {
 
   async signin(request: SignInRequest): Promise<Tokens> {
     // find the user by email
-    const user = await this.prisma.user.findUnique({
+    let user = await this.prisma.user.findUnique({
       where: {
         login: request.login,
-      },
+      }
     })
     // if user doesn't exist throw exception
     if (!user)
@@ -55,29 +67,35 @@ export class AuthService {
     // compare passwords
     const pwMatches = await bcrypt.compare(
       request.password,
-      user.hash,
+      user.hashedPassword,
     )
-    // if password incorrect throw exception
-    if (!pwMatches)
+    // if password incorrect, throw exception
+    if (!pwMatches) {
       throw new ForbiddenException(
         'Password credentials incorrect',
       )
-
+    }
     const tokens = await this.getTokens(user.id, user.login)
+    await this.prisma.user.update({
+      where: {
+        login: request.login,
+      },
+      data: {
+        activeAccessToken: true
+      }
+    })
     await this.updateRtHash(user.id, tokens.refresh_token)
     return tokens
   }
 
   async signout(userId: number) {
-    await this.prisma.user.updateMany({
+    await this.prisma.user.update({
       where: {
         id: userId,
-        hashedRt: {
-          not: null,
-        },
       },
       data: {
-        hashedRt: null
+        activeAccessToken: false,
+        hashedRefreshToken: null
       }
     })
   }
@@ -96,12 +114,24 @@ export class AuthService {
         id: userId,
       },
     })
-    if (!user || !user.hashedRt) throw new ForbiddenException("Access Denied")
+    if (!user || !user.hashedRefreshToken) {
+      throw new ForbiddenException('Access Denied')
+    }
 
-    const rtMatches = await bcrypt.compare(rt, user.hashedRt)
-    if (!rtMatches) throw new ForbiddenException("Refresh token expired")
+    const rtMatches = await bcrypt.compare(rt, user.hashedRefreshToken)
+    if (!rtMatches) {
+      throw new ForbiddenException('Refresh token expired')
+    }
 
     const tokens = await this.getTokens(user.id, user.login)
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        activeAccessToken: true
+      }
+    })
     await this.updateRtHash(user.id, tokens.refresh_token)
     return tokens
   }
@@ -113,7 +143,7 @@ export class AuthService {
         id: userId,
       },
       data: {
-        hashedRt: hash,
+        hashedRefreshToken: hash,
       },
     })
   }
