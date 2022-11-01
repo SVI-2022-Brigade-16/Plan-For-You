@@ -119,7 +119,7 @@ export class PlanMeetingService {
     }
   }
 
-  async readMeetingAnswer(planUuid: string): Promise<ReadMeetingAnswerResponse> {
+  async readMeetingAnswerConditions(planUuid: string): Promise<ReadMeetingAnswerResponse> {
     let findMeetingPlan = await this.prismaService.meetingPlan.findFirst({
       where: {
         uuid: planUuid

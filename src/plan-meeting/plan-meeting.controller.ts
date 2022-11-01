@@ -110,7 +110,7 @@ export class PlanMeetingController {
   })
   @Get(':planUuid/answer/conditions')
   async readMeetingAnswer(@Param('planUuid') planUuid: string): Promise<ReadMeetingAnswerResponse> {
-    return await this.planMeetingService.readMeetingAnswer(planUuid)
+    return await this.planMeetingService.readMeetingAnswerConditions(planUuid)
   }
 
   @ApiOperation({
