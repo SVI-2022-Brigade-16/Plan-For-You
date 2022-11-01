@@ -223,7 +223,7 @@ export class PlanMeetingService {
         }
       }
 
-      // TODO: OPTIMIZE
+      // TODO: OPTIMIZE (maybe with maps instead of arrays) 
 
       meetingPlan.answers.forEach((answer) => {
         let sAnswerRated = answer.ratedTimeslots.sort(TimeslotDto.compare)
@@ -249,7 +249,14 @@ export class PlanMeetingService {
 
       let sTotalRated = totalRated.sort(RatedTimeslotDto.compareRating).reverse()
 
-      return { sortedTotalRatedTimeslots: sTotalRated }
+      return {
+        planName: meetingPlan.planName,
+        weekCount: meetingPlan.weekCount,
+        timeslotLengthMinutes: meetingPlan.timeslotLengthMinutes,
+        timeslotStartTimeMinutes: meetingPlan.timeslotStartTimeMinutes,
+        ratingRange: meetingPlan.ratingRange,
+        sortedTotalRatedTimeslots: sTotalRated
+      }
     }
 
     throw new NotFoundException('Couldn not find meeting plan to calculate')

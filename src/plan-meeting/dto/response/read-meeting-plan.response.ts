@@ -6,6 +6,9 @@ import { TimeslotDto } from '../basic/timeslot.dto'
 export class ReadMeetingPlanResponse extends MeetingPlanDto {
 
   @ApiProperty()
+  receivingAnswers: boolean
+
+  @ApiProperty()
   blockedTimeslots: TimeslotDto[]
 
   @ApiProperty()
