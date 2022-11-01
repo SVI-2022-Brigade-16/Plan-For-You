@@ -75,7 +75,16 @@ export class PlanMeetingService {
     if (!findMeetingPlan) {
       throw new NotFoundException('Could not find meeting plan with given UUID')
     }
-    return findMeetingPlan
+    return {
+      planName: findMeetingPlan.planName,
+      weekCount: findMeetingPlan.weekCount,
+      timeslotLengthMinutes: findMeetingPlan.timeslotLengthMinutes,
+      timeslotStartTimeMinutes: findMeetingPlan.timeslotStartTimeMinutes,
+      ratingRange: findMeetingPlan.ratingRange,
+      receivingAnswers: findMeetingPlan.receivingAnswers,
+      blockedTimeslots: findMeetingPlan.blockedTimeslots,
+      answers: findMeetingPlan.answers
+    }
   }
 
   async updateMeetingPlan(userId: number, planUuid: string, request: UpdateMeetingPlanRequest): Promise<void> {
@@ -139,7 +148,14 @@ export class PlanMeetingService {
     if (!findMeetingPlan.receivingAnswers) {
       throw new UnauthorizedException('Plan with given UUID not receiving answers at the moment')
     }
-    return findMeetingPlan
+    return {
+      planName: findMeetingPlan.planName,
+      weekCount: findMeetingPlan.weekCount,
+      timeslotLengthMinutes: findMeetingPlan.timeslotLengthMinutes,
+      timeslotStartTimeMinutes: findMeetingPlan.timeslotStartTimeMinutes,
+      ratingRange: findMeetingPlan.ratingRange,
+      blockedTimeslots: findMeetingPlan.blockedTimeslots
+    }
   }
 
   async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswerRequest): Promise<void> {
