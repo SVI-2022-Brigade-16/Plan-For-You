@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common'
-import { PrismaService } from '../app-prisma/prisma.service'
+import { PrismaService } from '../default-prisma/prisma.service'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import * as bcrypt from 'bcrypt'
 import { Tokens } from './types'

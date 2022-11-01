@@ -1,7 +1,7 @@
 import { HttpException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { CreateMeetingPlanRequest } from './dto/request/create-meeting-plan.request'
 import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.response'
-import { PrismaService } from '../app-prisma/prisma.service'
+import { PrismaService } from '../default-prisma/prisma.service'
 import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.response'
 import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
