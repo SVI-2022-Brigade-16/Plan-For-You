@@ -29,7 +29,7 @@ model MeetingPlan {
   weekCount                Int                 @map("week_count")
   timeslotLengthMinutes    Int                 @map("timeslot_length_minutes")
   timeslotStartTimeMinutes Int                 @map("timeslot_start_time_minutes")
-  ratingRange              Int                 @map("rating_range")
+  ratingMax                Int                 @map("rating_max")
   receivingAnswers         Boolean             @map("receiving_answers")
   createdAt                DateTime            @default(now()) @map("created_at") @db.Timestamp(0)
   updatedAt                DateTime            @default(now()) @updatedAt @map("updated_at") @db.Timestamp(0)

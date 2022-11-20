@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../default-prisma/prisma.service'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { PrismaService } from '../base-prisma/prisma.service'
 import { ReadUserResponse } from './dto/response/read-user.response'
 
 @Injectable()
@@ -23,6 +23,9 @@ export class UserHomeService {
         }
       }
     })
+    if (!findUser) {
+      throw new NotFoundException('User with given ID was not found')
+    }
     return findUser
   }
 

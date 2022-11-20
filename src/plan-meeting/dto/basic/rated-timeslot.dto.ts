@@ -1,21 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsIn } from 'class-validator'
-import { TimeslotDto } from './timeslot.dto'
+import { Timeslot } from './timeslot.dto'
 
-export class RatedTimeslotDto extends TimeslotDto {
+export class RatedTimeslot extends Timeslot {
 
   @ApiProperty()
   @IsIn([1, 2, 3, 4, 5])
   rating: number
 
-  constructor(ratedTimeslot: RatedTimeslotDto) {
-    super()
-    this.dayNum = ratedTimeslot.dayNum
-    this.timeslotNum = ratedTimeslot.timeslotNum
+  constructor(ratedTimeslot: RatedTimeslot) {
+    super(ratedTimeslot.dayNum, ratedTimeslot.timeslotNum)
     this.rating = ratedTimeslot.rating
   }
 
-  static compareRating(timeslot1: RatedTimeslotDto, timeslot2: RatedTimeslotDto) {
+  static compareRating(timeslot1: RatedTimeslot, timeslot2: RatedTimeslot) {
     if (timeslot1.rating > timeslot2.rating) {
       return 1
     }

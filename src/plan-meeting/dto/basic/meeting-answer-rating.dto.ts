@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { MeetingAnswerDto } from './meeting-answer.dto'
+import { MeetingAnswer } from './meeting-answer.dto'
 
-export class MeetingAnswerRatingDto extends MeetingAnswerDto {
+export class MeetingAnswerRating extends MeetingAnswer {
 
   @ApiProperty()
   rating: number
 
-  constructor(answer: MeetingAnswerDto, rating: number) {
+  constructor(answer: MeetingAnswer, rating: number) {
     super(answer.id, answer.participantName)
     this.rating = rating
   }

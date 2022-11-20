@@ -1,286 +1,155 @@
-import { HttpException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { CreateMeetingPlanRequest } from './dto/request/create-meeting-plan.request'
 import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.response'
-import { PrismaService } from '../default-prisma/prisma.service'
 import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.response'
-import { ReadMeetingAnswerResponse } from './dto/response/read-meeting-answer.response'
 import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
-import { TimeslotDto } from './dto/basic/timeslot.dto'
-import { RatedTimeslotDto } from './dto/basic/rated-timeslot.dto'
+import { Timeslot } from './dto/basic/timeslot.dto'
+import { RatedTimeslot } from './dto/basic/rated-timeslot.dto'
 import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
-import { TotalRatedTimeslotDto } from './dto/basic/total-rated-timeslot.dto'
+import { TotalRatedTimeslot } from './dto/basic/total-rated-timeslot.dto'
 import { UpdateMeetingPlanRequest } from './dto/request/update-meeting-plan.request'
-import { MeetingAnswerRatingDto } from './dto/basic/meeting-answer-rating.dto'
+import { MeetingAnswerRating } from './dto/basic/meeting-answer-rating.dto'
+import { MeetingAnswerConditions } from './dto/basic/meeting-answer-conditions.dto'
+import { PlanMeetingPrisma } from './plan-meeting.prisma'
+import { MeetingPlanWithAnswerRatings } from './dto/basic/meeting-plan-with-rating.dto'
 
 @Injectable()
 export class PlanMeetingService {
 
-  constructor(private prismaService: PrismaService) { }
+  constructor(private prisma: PlanMeetingPrisma) { }
 
-  async checkMeetingPlanUser(userId: number, planUuid: string): Promise<void> {
-    let check = await this.prismaService.meetingPlan.findFirst({
-      where: {
-        uuid: planUuid,
-        userId: userId,
-      }
-    })
-    if (!check) {
-      throw new NotFoundException('Could not find meeting plan with given UUID for given user ID')
-    }
-  }
+  /* Interface implementation */
 
   async createMeetingPlan(userId: number, request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
-    let result = await this.prismaService.meetingPlan.create({
-      data: {
-        userId: userId,
-        planName: request.planName,
-        weekCount: request.weekCount,
-        timeslotLengthMinutes: request.timeslotLengthMinutes,
-        timeslotStartTimeMinutes: request.timeslotStartTimeMinutes,
-        ratingRange: request.ratingRange,
-        receivingAnswers: false,
-      }
-    })
-    return { planUuid: result.uuid }
+    const receivingAnswers = false
+    const plan = await this.prisma.createMeetingPlan(userId, request, receivingAnswers)
+    return { planUuid: plan.uuid }
   }
 
   async readMeetingPlan(userId: number, planUuid: string): Promise<ReadMeetingPlanResponse> {
-    this.checkMeetingPlanUser(userId, planUuid)
-    let findMeetingPlan = await this.prismaService.meetingPlan.findFirst({
-      where: {
-        uuid: planUuid
-      },
-      include: {
-        blockedTimeslots: {
-          select: {
-            dayNum: true,
-            timeslotNum: true,
-          },
-        },
-        answers: {
-          select: {
-            id: true,
-            participantName: true,
-            ratedTimeslots: {
-              select: {
-                dayNum: true,
-                timeslotNum: true,
-                rating: true,
-              }
-            },
-          }
-        }
-      }
-    })
-    if (!findMeetingPlan) {
-      throw new NotFoundException('Could not find meeting plan with given UUID')
+    let plan = await this.prisma.readMeetingPlanNoAnswerRatings(planUuid)
+    if (plan.userId != userId) {
+      this.throwPlanNotFoundForUser(userId, planUuid)
     }
-    return {
-      planName: findMeetingPlan.planName,
-      weekCount: findMeetingPlan.weekCount,
-      timeslotLengthMinutes: findMeetingPlan.timeslotLengthMinutes,
-      timeslotStartTimeMinutes: findMeetingPlan.timeslotStartTimeMinutes,
-      ratingRange: findMeetingPlan.ratingRange,
-      receivingAnswers: findMeetingPlan.receivingAnswers,
-      blockedTimeslots: findMeetingPlan.blockedTimeslots,
-      answers: findMeetingPlan.answers
-    }
+    return plan
   }
 
   async updateMeetingPlan(userId: number, planUuid: string, request: UpdateMeetingPlanRequest): Promise<void> {
-    await this.checkMeetingPlanUser(userId, planUuid)
-    let updateMeetingPlan = await this.prismaService.meetingPlan.update({
-      where: {
-        uuid: planUuid
-      },
-      include: {
-        blockedTimeslots: true,
-      },
-      data: {
-        planName: request.planName,
-        weekCount: request.weekCount,
-        timeslotLengthMinutes: request.timeslotLengthMinutes,
-        timeslotStartTimeMinutes: request.timeslotStartTimeMinutes,
-        ratingRange: request.ratingRange,
-        blockedTimeslots: {
-          deleteMany: {},
-          create: request.blockedTimeslots,
-        }
-      },
-    })
-    if (!updateMeetingPlan) {
-      throw new InternalServerErrorException('Could not publish meeting plan with this UUID')
-    }
+    await this.checkPlanBelongsToUser(userId, planUuid)
+    await this.prisma.updateMeetingPlan(planUuid, request)
+  }
+
+  async deleteMeetingPlan(userId: number, planUuid: string): Promise<void> {
+    await this.checkPlanBelongsToUser(userId, planUuid)
+    await this.prisma.deleteMeetingPlan(planUuid)
   }
 
   async publishMeetingPlan(userId: number, planUuid: string): Promise<void> {
-    await this.checkMeetingPlanUser(userId, planUuid)
-    let publishMeetingPlan = await this.prismaService.meetingPlan.update({
-      where: {
-        uuid: planUuid
-      },
-      data: {
-        receivingAnswers: true,
-      },
-    })
-    if (!publishMeetingPlan) {
-      throw new InternalServerErrorException('Could not publish meeting plan with given UUID')
-    }
+    await this.checkPlanBelongsToUser(userId, planUuid)
+    await this.prisma.publishMeetingPlan(planUuid)
   }
 
-  async readMeetingAnswerConditions(planUuid: string): Promise<ReadMeetingAnswerResponse> {
-    let findMeetingPlan = await this.prismaService.meetingPlan.findFirst({
-      where: {
-        uuid: planUuid
-      },
-      include: {
-        blockedTimeslots: {
-          select: {
-            dayNum: true,
-            timeslotNum: true,
-          },
-        }
-      }
-    })
-    if (!findMeetingPlan) {
-      throw new NotFoundException('Could not find meeting plan to answer')
-    }
-    if (!findMeetingPlan.receivingAnswers) {
-      throw new UnauthorizedException('Plan with given UUID not receiving answers at the moment')
-    }
-    return {
-      planName: findMeetingPlan.planName,
-      weekCount: findMeetingPlan.weekCount,
-      timeslotLengthMinutes: findMeetingPlan.timeslotLengthMinutes,
-      timeslotStartTimeMinutes: findMeetingPlan.timeslotStartTimeMinutes,
-      ratingRange: findMeetingPlan.ratingRange,
-      blockedTimeslots: findMeetingPlan.blockedTimeslots
-    }
+  async readMeetingAnswerConditions(planUuid: string): Promise<MeetingAnswerConditions> {
+    let conditions = await this.checkPlanReceivingAnswers(planUuid)
+    return conditions
   }
 
   async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswerRequest): Promise<void> {
-    let findMeetingPlan = await this.prismaService.meetingPlan.findUnique({
-      where: {
-        uuid: planUuid
-      }
-    })
-    if (!findMeetingPlan) {
-      throw new UnauthorizedException('Plan with given UUID does not exist')
-    }
-    if (!findMeetingPlan.receivingAnswers) {
-      throw new UnauthorizedException('Plan with given UUID not receiving answers at the moment')
-    }
-    let requestInstance = new CreateMeetingAnswerRequest(request.participantName, request.ratedTimeslots)
-    await requestInstance.validate(planUuid, this.prismaService)
-    let createMeetingPlan = await this.prismaService.meetingPlanAnswer.create({
-      include: {
-        ratedTimeslots: true
-      },
-      data: {
-        meetingPlanUuid: planUuid,
-        participantName: request.participantName,
-        ratedTimeslots: {
-          create: request.ratedTimeslots,
-        }
-      }
-    })
-    if (!createMeetingPlan) {
-      throw new InternalServerErrorException('Could not create answer to meeting plan')
-    }
+    await this.checkPlanReceivingAnswers(planUuid)
+    await this.prisma.createMeetingAnswer(planUuid, request)
   }
-
-
 
   async calculateMeetingPlan(userId: number, planUuid: string): Promise<CalculateMeetingPlanResponse> {
+    await this.checkPlanBelongsToUser(userId, planUuid)
+    let plan = await this.prisma.readMeetingPlanWithAnswerRatings(planUuid)
 
-    let meetingPlan = await this.prismaService.meetingPlan.findFirst({
-      where: {
-        uuid: planUuid,
-        userId: userId
-      },
-      include: {
-        blockedTimeslots: true,
-        answers: {
-          include: {
-            ratedTimeslots: true
-          }
-        },
-      }
-    })
+    let totalTimeslotMap = this.prepareTotalTimeslotMap(plan)
+    this.deleteTimeslots(totalTimeslotMap, plan.blockedTimeslots)
+    this.reduceTotalRatingsByAnswerRatings(plan, totalTimeslotMap)
 
-    if (meetingPlan) {
-
-      let timeslotsInDayCount = (1440 - meetingPlan.timeslotStartTimeMinutes) / meetingPlan.timeslotLengthMinutes
-      let dayCount = meetingPlan.weekCount * 7
-      let totalRated: TotalRatedTimeslotDto[] = []
-
-      let sortedBlocked: TimeslotDto[] = meetingPlan.blockedTimeslots.sort(TimeslotDto.compare)
-
-      for (let dayNum = 1, sBI = 0; dayNum < dayCount + 1; dayNum++) {
-        for (let timeslotNum = 1; timeslotNum < timeslotsInDayCount + 1; timeslotNum++) {
-
-          let newTotalRated = {
-            dayNum: dayNum,
-            timeslotNum: timeslotNum,
-            rating: meetingPlan.answers.length * meetingPlan.ratingRange,
-            lowerThanMaxRatings: []
-          }
-
-          if (
-            sBI < sortedBlocked.length &&
-            TimeslotDto.compare(sortedBlocked[sBI], newTotalRated) == 0
-          ) {
-            sBI++
-            continue
-          }
-
-          totalRated.push(newTotalRated)
-
-        }
-      }
-
-      // TODO: OPTIMIZE (maybe with maps instead of arrays) 
-
-      meetingPlan.answers.forEach((answer) => {
-        let sAnswerRated = answer.ratedTimeslots.sort(TimeslotDto.compare)
-
-        for (let tI = 0, sAI = 0; tI < totalRated.length && sAI < sAnswerRated.length; tI++) {
-          while (TimeslotDto.compare(totalRated[tI], sAnswerRated[sAI]) == 0) {
-            totalRated[tI].rating += sAnswerRated[sAI].rating - meetingPlan.ratingRange
-
-            if (sAnswerRated[sAI].rating < meetingPlan.ratingRange) {
-              totalRated[tI].lowerThanMaxRatings.push(
-                new MeetingAnswerRatingDto(answer, sAnswerRated[sAI].rating)
-              )
-            }
-
-            sAI++
-
-            if (sAI >= sAnswerRated.length) {
-              break
-            }
-          }
-        }
-      })
-
-      let sTotalRated = totalRated.sort(RatedTimeslotDto.compareRating).reverse()
-
-      return {
-        planName: meetingPlan.planName,
-        weekCount: meetingPlan.weekCount,
-        timeslotLengthMinutes: meetingPlan.timeslotLengthMinutes,
-        timeslotStartTimeMinutes: meetingPlan.timeslotStartTimeMinutes,
-        ratingRange: meetingPlan.ratingRange,
-        sortedTotalRatedTimeslots: sTotalRated
-      }
+    let totalTimeslots: TotalRatedTimeslot[] = []
+    for (let timeslot of totalTimeslotMap.values()) {
+      totalTimeslots.push(timeslot)
     }
+    let sTotalTimeslots = totalTimeslots.sort(RatedTimeslot.compareRating).reverse()
 
-    throw new NotFoundException('Couldn not find meeting plan to calculate')
-
+    return new CalculateMeetingPlanResponse(plan, sTotalTimeslots)
   }
 
-  async deleteMeetingPlan(planUuid: string): Promise<void> {
-    await this.prismaService.meetingPlan.delete({ where: { uuid: planUuid } })
+  /* Helper functions */
+
+  prepareTotalTimeslotMap(plan: MeetingPlanWithAnswerRatings): Map<string, TotalRatedTimeslot> {
+
+    let totalTimeslotMap = new Map<string, TotalRatedTimeslot>()
+
+    const timeslotsInDayCount = (1440 - plan.timeslotStartTimeMinutes) / plan.timeslotLengthMinutes
+    const dayCount = plan.weekCount * 7
+    const totalRatingMax = plan.answers.length * plan.ratingMax
+
+    for (let dayNum = 1; dayNum < dayCount + 1; dayNum++) {
+      for (let timeslotNum = 1; timeslotNum < timeslotsInDayCount + 1; timeslotNum++) {
+        const newTimeslot = {
+          dayNum: dayNum,
+          timeslotNum: timeslotNum,
+          rating: totalRatingMax,
+          lowerThanMaxRatings: []
+        }
+        totalTimeslotMap.set(Timeslot.makeKey(dayNum, timeslotNum), newTimeslot)
+      }
+    }
+    return totalTimeslotMap
+  }
+
+  deleteTimeslots(timeslotMap: Map<string, Timeslot>, blockedTimeslots: Timeslot[]) {
+    for (let blockedTimeslot of blockedTimeslots) {
+      timeslotMap.delete(Timeslot.makeKeyFromTimeslot(blockedTimeslot))
+    }
+  }
+
+  reduceTotalRatingsByAnswerRatings(plan: MeetingPlanWithAnswerRatings, totalTimeslotMap: Map<string, TotalRatedTimeslot>) {
+    const answers = plan.answers
+    const ratingMax = plan.ratingMax
+
+    for (let answer of answers) {
+      const answerTimeslots = answer.ratedTimeslots
+
+      for (let answerTimeslot of answerTimeslots) {
+        const key = Timeslot.makeKeyFromTimeslot(answerTimeslot)
+        const totalTimeslot = totalTimeslotMap.get(key)
+
+        if (totalTimeslot) {
+          totalTimeslot.rating -= ratingMax - answerTimeslot.rating
+          if (answerTimeslot.rating < ratingMax) {
+            totalTimeslot.lowerThanMaxRatings.push(
+              new MeetingAnswerRating(answer, answerTimeslot.rating)
+            )
+          }
+        }
+      }
+    }
+  }
+
+  async checkPlanBelongsToUser(userId: number, planUuid: string) {
+    const belongsToUser = await this.prisma.planBelongsToUser(userId, planUuid)
+    if (!belongsToUser) {
+      this.throwPlanNotFoundForUser(userId, planUuid)
+    }
+  }
+
+  async checkPlanReceivingAnswers(planUuid: string): Promise<MeetingAnswerConditions> {
+    let conditions = await this.prisma.readMeetingAnswerConditions(planUuid)
+    if (!conditions.receivingAnswers) {
+      this.throwNotReceivingAnswers(planUuid)
+    }
+    return conditions
+  }
+
+  throwPlanNotFoundForUser(userId: number, planUuid: string): never {
+    throw new NotFoundException('Exception: Meeting plan ' + planUuid + ' not found for user ' + userId)
+  }
+
+  throwNotReceivingAnswers(planUuid: string) {
+    throw new BadRequestException('Plan ' + planUuid + ' not receiving answers at the moment')
   }
 
 }

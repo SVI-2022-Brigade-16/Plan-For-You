@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common'
-import { PrismaService } from '../default-prisma/prisma.service'
+import { PrismaService } from '../base-prisma/prisma.service'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import * as bcrypt from 'bcrypt'
 import { Tokens } from './types'
@@ -8,7 +8,7 @@ import { SignInRequest } from './dto/request/sign-in.request'
 import { SignUpRequest } from './dto/request/sign-up.request'
 
 @Injectable()
-export class UserAuthService {
+export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService

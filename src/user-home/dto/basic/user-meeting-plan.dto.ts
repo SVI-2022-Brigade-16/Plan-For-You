@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsBoolean, IsIn, IsString, Max, Min } from 'class-validator'
 
-export class UserMeetingPlanDto {
+export class UserMeetingPlan {
 
   @ApiProperty()
   @IsString()

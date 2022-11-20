@@ -1,17 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { MeetingAnswerDto } from '../basic/meeting-answer.dto'
-import { MeetingPlanDto } from '../basic/meeting-plan.dto'
-import { TimeslotDto } from '../basic/timeslot.dto'
+import { MeetingAnswer } from '../basic/meeting-answer.dto'
+import { MeetingPlan } from '../basic/meeting-plan.dto'
+import { Timeslot } from '../basic/timeslot.dto'
 
-export class ReadMeetingPlanResponse extends MeetingPlanDto {
+export class ReadMeetingPlanResponse extends MeetingPlan {
+
+  @ApiProperty()
+  userId: number
 
   @ApiProperty()
   receivingAnswers: boolean
 
   @ApiProperty()
-  blockedTimeslots: TimeslotDto[]
+  blockedTimeslots: Timeslot[]
 
   @ApiProperty()
-  answers: MeetingAnswerDto[]
+  answers: MeetingAnswer[]
 
 }

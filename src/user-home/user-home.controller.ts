@@ -1,12 +1,12 @@
 import { Controller, Get, UseGuards } from '@nestjs/common'
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { GetCurrentUserId } from '../user-auth/decorators'
-import { AtGuard } from '../user-auth/guards'
+import { GetCurrentUserId } from '../base-auth/decorators'
+import { AtGuard } from '../base-auth/guards'
 import { ReadUserResponse } from './dto/response/read-user.response'
 import { UserHomeService } from './user-home.service'
 
 @ApiTags('user-home')
-@Controller('user-home')
+@Controller('user/home')
 export class UserHomeController {
 
   constructor(

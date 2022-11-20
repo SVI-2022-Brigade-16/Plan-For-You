@@ -1,7 +1,8 @@
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import { Injectable, PayloadTooLargeException, UnauthorizedException } from '@nestjs/common'
-import { UserAuthService } from '../user-auth.service'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { AuthService } from '../auth.service'
+import { env } from 'process'
 
 type JwtPayload = {
   sub: string
@@ -10,16 +11,16 @@ type JwtPayload = {
 
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(private userAuthService: UserAuthService) {
+  constructor(private AuthService: AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'at-secret',
+      secretOrKey: env.ACCESS_TOKEN_SECRET,
     })
   }
 
   async validate(payload: JwtPayload) {
     let userId = parseInt(payload.sub)
-    let signedIn = await this.userAuthService.signedIn(userId)
+    let signedIn = await this.AuthService.signedIn(userId)
     if (!signedIn) {
       throw new UnauthorizedException('User is not signed in')
     }

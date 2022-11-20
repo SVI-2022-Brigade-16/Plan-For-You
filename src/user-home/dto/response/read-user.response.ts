@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { UserMeetingPlanDto } from '../basic/user-meeting-plan.dto'
+import { UserMeetingPlan } from '../basic/user-meeting-plan.dto'
 
 export class ReadUserResponse {
 
@@ -7,6 +7,6 @@ export class ReadUserResponse {
   nickname: string
 
   @ApiProperty()
-  meetingPlans: UserMeetingPlanDto[]
+  meetingPlans: UserMeetingPlan[]
 
 }

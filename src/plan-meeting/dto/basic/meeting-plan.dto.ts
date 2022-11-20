@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsIn, Max, Min } from 'class-validator'
 
-export class MeetingPlanDto {
+export class MeetingPlan {
 
   @ApiProperty()
   planName: string
@@ -30,5 +30,20 @@ export class MeetingPlanDto {
   })
   @Min(2)
   @Max(5)
-  ratingRange: number
+  ratingMax: number
+
+  constructor(
+    planName: string,
+    weekCount: number,
+    timeslotLengthMinutes: number,
+    timeslotStartTimeMinutes: number,
+    ratingMax: number,
+  ) {
+    this.planName = planName
+    this.weekCount = weekCount
+    this.timeslotLengthMinutes = timeslotLengthMinutes
+    this.timeslotStartTimeMinutes = timeslotStartTimeMinutes
+    this.ratingMax = ratingMax
+  }
+
 }
