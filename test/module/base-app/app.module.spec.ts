@@ -6,8 +6,14 @@ describe('AppModule', () => {
   let service: AppService
 
   beforeAll(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       imports: [AppModule]
     }).compile()
+
+    service = module.get<AppService>(AppService)
+  })
+
+  it('should be defined', () => {
+    expect(service).toBeDefined()
   })
 })
