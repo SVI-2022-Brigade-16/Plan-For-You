@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { PrismaModule } from '../../../src/default-prisma/prisma.module'
+import { PrismaModule } from '../../../src/base-prisma/prisma.module'
 import { PlanMeetingController } from '../../../src/plan-meeting/plan-meeting.controller'
 import { PlanMeetingService } from '../../../src/plan-meeting/plan-meeting.service'
 
