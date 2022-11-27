@@ -1,0 +1,19 @@
+.small-text-bold {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+
+  color: #000000;
+}
+
+.big-text-bold {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 38px;
+}
