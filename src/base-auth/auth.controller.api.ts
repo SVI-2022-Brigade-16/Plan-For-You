@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, HttpCode, HttpStatus, Post, Res, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { Tokens } from './types'
 import { AtGuard, RtGuard } from './guards'
@@ -6,6 +6,7 @@ import { GetCurrentUser, GetCurrentUserId } from './decorators'
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { SignUpRequest } from './dto/request/sign-up.request'
 import { SignInRequest } from './dto/request/sign-in.request'
+import { Response } from 'express'
 
 @ApiTags('base-auth')
 @Controller('auth')
@@ -42,8 +43,12 @@ export class AuthApiController {
   })
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  async signin(@Body() request: SignInRequest): Promise<Tokens> {
-    return await this.authService.signin(request)
+  async signin(@Res() res: Response, @Body() request: SignInRequest): Promise<void> {
+    const tokens: Tokens = await this.authService.signin(request)
+    res.set('Access-Control-Expose-Headers', 'Authorization')
+    res.set('Authorization', 'Bearer ' + tokens.access_token)
+    console.log(res.getHeaders())
+    res.redirect("/view/user/home")
   }
 
   @ApiOperation({
