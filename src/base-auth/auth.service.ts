@@ -6,6 +6,7 @@ import { Tokens } from './types'
 import { JwtService } from '@nestjs/jwt'
 import { SignInRequest } from './dto/request/sign-in.request'
 import { SignUpRequest } from './dto/request/sign-up.request'
+import { Console } from 'console'
 
 @Injectable()
 export class AuthService {
