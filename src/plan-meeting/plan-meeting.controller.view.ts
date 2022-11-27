@@ -26,7 +26,7 @@ export class PlanMeetingViewController {
   })
   @ApiBearerAuth()
   @UseGuards(AtGuard)
-  @Render('meeting-plan-organizer')
+  @Render('meeting_plan_organizer')
   @Get(':planUuid')
   async getOrganizerPage(
     @GetCurrentUserId() userId: number,
@@ -42,7 +42,7 @@ export class PlanMeetingViewController {
     status: 200,
     description: 'Meeting plan answerer page successfully rendered and received.'
   })
-  @Render('meeting-plan-answerer')
+  @Render('meeting_plan_answerer')
   @Get(':planUuid/answer')
   async getAnswererPage(
     @Param('planUuid') planUuid: string
