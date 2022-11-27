@@ -1,0 +1,283 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("/fonts/Roboto-Regular.ttf") format("truetype");
+    src: url("/fonts/Roboto-Bold.ttf") format("truetype");
+    font-style: normal;
+}
+
+
+/* Main Page (Register) */
+
+html {
+    position: relative;
+    width: 1440px;
+    height: 733px;
+    background: #FFFFFF;
+}
+
+main .title_card {
+    position: absolute;
+    width: 620px;
+    height: 350px;
+    left: 197px;
+    top: 135px;
+}
+
+.title_card .text {
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 84px;
+    color: #000000;
+}
+
+
+/* Input */
+
+.double_form .input {
+    box-sizing: border-box;
+    width: 262px;
+    height: 56px;
+    border: 1px solid #000000;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+
+/* Sign in / Register Form */
+
+main .double_form {
+    box-sizing: border-box;
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    position: absolute;
+    width: 330px;
+    height: 504px;
+    left: 880px;
+    top: 75px;
+    border: 1px solid #000000;
+    border-radius: 30px;
+}
+
+
+/* Choice Buttons */
+
+.double_form .choice_button {
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 330px;
+    height: 74px;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+
+/* Login Button */
+
+.choice_button .login_button_1 {
+    box-sizing: border-box;
+    width: 165px;
+    height: 74px;
+    border-width: 0px 1px 1px 0px;
+    border-style: solid;
+    border-color: #000000;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}
+
+.login_button_1 .text {
+    position: relative;
+    width: 62px;
+    height: 23px;
+    left: 59px;
+    top: 27px;
+}
+
+
+/* Register Button */
+
+.choice_button .register_button_1 {
+    box-sizing: border-box;
+    width: 165px;
+    height: 74px;
+    border-bottom: 5px solid #000000;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+}
+
+.register_button_1 .text {
+    position: relative;
+    width: 76px;
+    height: 23px;
+    left: 40.5px;
+    top: 26px;
+}
+
+
+/* Login Button */
+
+.choice_button .login_button_0 {
+    box-sizing: border-box;
+    width: 165px;
+    height: 74px;
+    border-bottom: 5px solid #000000;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}
+
+.login_button_0 .text {
+    position: relative;
+    width: 62px;
+    height: 23px;
+    left: 59px;
+    top: 27px;
+}
+
+
+/* Register Button */
+
+.choice_button .register_button_0 {
+    box-sizing: border-box;
+    width: 165px;
+    height: 74px;
+    border-width: 0px 0px 1px 1px;
+    border-style: solid;
+    border-color: #000000;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+}
+
+.register_button_0 .text {
+    position: relative;
+    width: 76px;
+    height: 23px;
+    left: 40.5px;
+    top: 26px;
+}
+
+
+/* Username Section */
+
+.double_form .username_section {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0px 35px;
+    gap: 14px;
+    width: 332px;
+    height: 141px;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+
+/* Label */
+
+.username_section .label {
+    width: 98px;
+    height: 23px;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+
+/* Password Section */
+
+.double_form .password_section {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0px 35px;
+    gap: 14px;
+    width: 332px;
+    height: 141px;
+    /* Inside auto layout */
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+
+/* Label */
+
+.password_section .label {
+    width: 95px;
+    height: 23px;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+
+/* Enter Section */
+
+.double_form .enter_section {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 332px;
+    height: 126px;
+    /* Inside auto layout */
+    flex: none;
+    order: 3;
+    flex-grow: 0;
+}
+
+
+/* Enter Button */
+
+.enter_section .enter_button {
+    box-sizing: border-box;
+    width: 258px;
+    height: 69px;
+    background: #000000;
+    border: 1px solid #000000;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.enter_button .text {
+    position: relative;
+    justify-content: center;
+    color: #FFFFFF;
+}

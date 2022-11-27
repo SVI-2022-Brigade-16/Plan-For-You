@@ -1,6 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { AuthDto } from './dto'
 import { Tokens } from './types'
 import { AtGuard, RtGuard } from './guards'
 import { GetCurrentUser, GetCurrentUserId } from './decorators'
@@ -10,7 +9,7 @@ import { SignInRequest } from './dto/request/sign-in.request'
 
 @ApiTags('base-auth')
 @Controller('auth')
-export class AuthController {
+export class AuthApiController {
   constructor(private authService: AuthService) { }
 
   @ApiOperation({
