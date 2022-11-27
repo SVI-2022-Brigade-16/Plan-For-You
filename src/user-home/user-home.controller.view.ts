@@ -22,10 +22,10 @@ export class UserHomeViewController {
     description: 'User home page successfully rendered and received.'
   })
   @ApiBearerAuth()
-  @UseGuards(AtGuard)
+  //@UseGuards(AtGuard)
   @Render('user_home')
   @Get()
-  async readUser(@GetCurrentUserId() userId: number): Promise<ReadUserResponse> {
+  async readUser(userId: number = 2): Promise<ReadUserResponse> {
     console.log(userId)
     return this.userHomeService.readUser(userId)
   }
