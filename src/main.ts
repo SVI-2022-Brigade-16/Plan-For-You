@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { AppModule } from './base-app/app.module'
-import { join } from 'path';
-import * as hbs from 'hbs';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path'
+import * as hbs from 'hbs'
+import { NestExpressApplication } from '@nestjs/platform-express'
 
 
 async function bootstrap() {
@@ -17,10 +17,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
-  hbs.registerPartials(join(__dirname, '..', '/views/partials'));
+  app.setViewEngine('hbs')
+  app.useStaticAssets(join(__dirname, '..', 'public'))
+  app.setBaseViewsDir(join(__dirname, '..', 'views'))
+  hbs.registerPartials(join(__dirname, '..', 'views/partials'))
 
   console.log('App started!')
   await app.listen(3000)

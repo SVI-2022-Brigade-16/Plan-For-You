@@ -4,6 +4,9 @@ import { IsIn, Max, Min } from 'class-validator'
 export class MeetingPlan {
 
   @ApiProperty()
+  uuid: string
+
+  @ApiProperty()
   planName: string
 
   @ApiProperty({

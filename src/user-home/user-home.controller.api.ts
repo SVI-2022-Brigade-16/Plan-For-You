@@ -6,8 +6,8 @@ import { ReadUserResponse } from './dto/response/read-user.response'
 import { UserHomeService } from './user-home.service'
 
 @ApiTags('user-home')
-@Controller('user/home')
-export class UserHomeController {
+@Controller('api/user/home')
+export class UserHomeApiController {
 
   constructor(
     private userHomeService: UserHomeService

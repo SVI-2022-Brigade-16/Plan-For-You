@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Render, UseGuards } from '@nestjs/common'
+import { Controller, Get, Render, UseGuards } from '@nestjs/common'
 
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 
 import { AtGuard } from '../base-auth/guards'
 import { GetCurrentUserId } from '../base-auth/decorators'

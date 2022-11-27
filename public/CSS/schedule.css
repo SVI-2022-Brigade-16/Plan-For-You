@@ -1,0 +1,36 @@
+.schedule {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+}
+
+.schedule__day {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.schedule__day__name {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 60px;
+  border-bottom: 3px solid #000000;
+}
+
+.schedule__day__timeslots {
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule__day__timeslots__item {
+  box-sizing: border-box;
+  border: 1px solid #000000;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.blocked-timeslot {
+  background-color: #E4E4E4;
+}

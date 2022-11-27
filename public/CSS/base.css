@@ -1,0 +1,42 @@
+h1 {
+  margin: 0px;
+}
+
+h2 {
+  margin: 0px;
+}
+
+h3 {
+  margin: 0px;
+}
+
+p {
+  margin: 0px;
+}
+
+a {
+  text-decoration: underline;
+  cursor: pointer
+}
+
+header {
+  width: 100%;
+}
+
+main {
+  width: 100%;
+}
+
+button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 17px;
+  background: #000000;
+  cursor: pointer;
+}
+
+.button-text {
+  color: #FFFFFF;
+}

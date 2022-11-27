@@ -11,8 +11,8 @@ import { AtGuard } from '../base-auth/guards'
 import { GetCurrentUserId } from '../base-auth/decorators'
 import { ReadMeetingAnswerConditionsResponse } from './dto/response/read-meeting-answer-conditions.response'
 
-@Controller('/api/plan/meeting')
 @ApiTags('plan-meeting')
+@Controller('api/plan/meeting')
 export class PlanMeetingApiController {
 
   constructor(

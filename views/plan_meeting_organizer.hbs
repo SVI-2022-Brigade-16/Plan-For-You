@@ -1,0 +1,107 @@
+<!doctype html>
+
+<head>
+  <link href="/css/base.css" rel="stylesheet">
+  <link href="/css/fonts.css" rel="stylesheet">
+  <link href="/css/schedule.css" rel="stylesheet">
+  <link href="/css/plan-meeting-organizer.css" rel="stylesheet">
+  <script src="/javascript/jquery-3.6.1.min.js"></script>
+  <script>
+    var planUuid = "{{ uuid }}"
+  </script>
+</head>
+
+<body class="plan-meeting-organizer-body">
+  <header>
+    <section class="plan-meeting__title-bar">
+      <div class="plan-meeting__title-bar__home-button">
+
+      </div>
+      <div class="plan-meeting__title-bar__plan-name">
+        <h1 class="big-text-bold">{{planName}}</h1>
+      </div>
+      <div class="plan-meeting__title-bar__user-buttons">
+        <div class="plan-meeting__title-bar__user-buttons__text">
+          <p class="small-text-bold">{{ user.nickname }}&nbsp;|&nbsp;<a onclick="signOut()">Sign Out</a></p>
+        </div>
+      </div>
+    </section>
+    <section class="plan-meeting__settings-bar">
+      <div class="plan-meeting__settings-bar__fields">
+        <div class="plan-meeting__settings-bar__fields__item">
+          <div class="plan-meeting__settings-bar__fields__item__label">
+            <p class="small-text-bold">Week Count:</p>
+          </div>
+          <select class="plan-meeting__settings-bar__fields__item__select-input small-text-bold" id="week-count">
+            <option class="small-text-bold" selected value="1">1</option>
+            <option class="small-text-bold" value="2">2</option>
+            <option class="small-text-bold" value="4">4</option>
+          </select>
+        </div>
+        <div class="plan-meeting__settings-bar__fields__item">
+          <div class="plan-meeting__settings-bar__fields__item__label">
+            <p class="small-text-bold">Timeslot Length:</p>
+          </div>
+          <select class="plan-meeting__settings-bar__fields__item__select-input small-text-bold" id="timeslot-length">
+            <option class="small-text-bold" value="30">30 minutes</option>
+            <option class="small-text-bold" selected value="60">60 minutes</option>
+            <option class="small-text-bold" value="90">90 minutes</option>
+            <option class="small-text-bold" value="120">120 minutes</option>
+          </select>
+        </div>
+        <div class="plan-meeting__settings-bar__fields__item">
+          <div class="plan-meeting__settings-bar__fields__item__label">
+            <p class="small-text-bold">Start Time:</p>
+          </div>
+          <div class="plan-meeting__settings-bar__fields__item__input">
+            <p class="small-text-bold" id="start-time">{{timeslotStartTimeMinutes}}</p>
+          </div>
+        </div>
+        <div class="plan-meeting__settings-bar__fields__item">
+          <div class="plan-meeting__settings-bar__fields__item__label">
+            <p class="small-text-bold">Rating Range:</p>
+          </div>
+          <select class="plan-meeting__settings-bar__fields__item__select-input small-text-bold" id="rating-max">
+            <option class="small-text-bold" value="2">2</option>
+            <option class="small-text-bold" value="3">3</option>
+            <option class="small-text-bold" value="4">4</option>
+            <option class="small-text-bold" selected value="5">5</option>
+          </select>
+        </div>
+      </div>
+      <div class="plan-meeting__settings-bar__buttons">
+        <button class="plan-meeting__settings-bar__buttons__item">
+          <p class="small-text-bold button-text">Update settings</p>
+        </button>
+        <button class="plan-meeting__settings-bar__buttons__item">
+          <p class="small-text-bold button-text">Publish link</p>
+        </button>
+        <button class="plan-meeting__settings-bar__buttons__item">
+          <p class="small-text-bold button-text">Calculate best timeslots</p>
+        </button>
+      </div>
+    </section>
+  </header>
+  <main>
+    <section class="plan-meeting__schedule-viewer">
+      <div class="plan-meeting__schedule-viewer__tabs">
+        <div class="plan-meeting__schedule-viewer__tabs__item plan-meeting__schedule-viewer__tabs__item_selected">
+          <p class="small-text-bold">Blocked Timeslots</p>
+        </div>
+        <div class="plan-meeting__schedule-viewer__tabs__item">
+          <p class="small-text-bold">Result</p>
+        </div>
+      </div>
+      <div class="plan-meeting__schedule-viewer__container">
+        <div class="schedule" id="schedule">
+
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="/javascript/plan-meeting-organizer.js"></script>
+  <script>
+    makeScheduleTable()
+    loadConditions()
+  </script>
+</body>

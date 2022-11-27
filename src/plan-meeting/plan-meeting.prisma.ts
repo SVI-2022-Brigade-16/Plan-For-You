@@ -48,6 +48,12 @@ export class PlanMeetingPrisma {
           uuid: planUuid,
         },
         include: {
+          user: {
+            select: {
+              id: true,
+              nickname: true,
+            }
+          },
           blockedTimeslots: {
             select: {
               dayNum: true,

@@ -1,18 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Render, UseGuards } from '@nestjs/common'
-import { CreateMeetingPlanRequest } from './dto/request/create-meeting-plan.request'
-import { CreateMeetingPlanResponse } from './dto/response/create-meeting-plan.response'
+import { Controller, Get, Param, Render, UseGuards } from '@nestjs/common'
 import { PlanMeetingService } from './plan-meeting.service'
 import { ReadMeetingPlanResponse } from './dto/response/read-meeting-plan.response'
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { CreateMeetingAnswerRequest } from './dto/request/create-meeting-answer.request'
-import { CalculateMeetingPlanResponse } from './dto/response/calculate-meeting-plan.response'
-import { UpdateMeetingPlanRequest } from './dto/request/update-meeting-plan.request'
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { AtGuard } from '../base-auth/guards'
 import { GetCurrentUserId } from '../base-auth/decorators'
 import { ReadMeetingAnswerConditionsResponse } from './dto/response/read-meeting-answer-conditions.response'
 
-@Controller('/view/plan/meeting')
+
 @ApiTags('plan-meeting')
+@Controller('view/plan/meeting')
 export class PlanMeetingViewController {
 
   constructor(private planMeetingService: PlanMeetingService) { }
@@ -25,11 +21,12 @@ export class PlanMeetingViewController {
     description: 'Meeting plan organizer page successfully rendered and received.'
   })
   @ApiBearerAuth()
-  @UseGuards(AtGuard)
-  @Render('meeting_plan_organizer')
+  //@UseGuards(AtGuard)
+  @Render('plan_meeting_organizer')
   @Get(':planUuid')
   async getOrganizerPage(
-    @GetCurrentUserId() userId: number,
+    //@GetCurrentUserId() 
+    userId: number = 2,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingPlanResponse> {
     return await this.planMeetingService.readMeetingPlan(userId, planUuid)
@@ -42,7 +39,7 @@ export class PlanMeetingViewController {
     status: 200,
     description: 'Meeting plan answerer page successfully rendered and received.'
   })
-  @Render('meeting_plan_answerer')
+  @Render('plan_meeting_answerer')
   @Get(':planUuid/answer')
   async getAnswererPage(
     @Param('planUuid') planUuid: string

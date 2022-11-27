@@ -28,7 +28,7 @@ export class PlanMeetingService {
 
   async readMeetingPlan(userId: number, planUuid: string): Promise<ReadMeetingPlanResponse> {
     let plan = await this.prisma.readMeetingPlanNoAnswerRatings(planUuid)
-    if (plan.userId != userId) {
+    if (plan.user.id != userId) {
       this.throwPlanNotFoundForUser(userId, planUuid)
     }
     return plan
@@ -86,8 +86,8 @@ export class PlanMeetingService {
     const dayCount = plan.weekCount * 7
     const totalRatingMax = plan.answers.length * plan.ratingMax
 
-    for (let dayNum = 1; dayNum < dayCount + 1; dayNum++) {
-      for (let timeslotNum = 1; timeslotNum < timeslotsInDayCount + 1; timeslotNum++) {
+    for (let dayNum = 0; dayNum < dayCount; dayNum++) {
+      for (let timeslotNum = 0; timeslotNum < timeslotsInDayCount; timeslotNum++) {
         const newTimeslot = {
           dayNum: dayNum,
           timeslotNum: timeslotNum,
