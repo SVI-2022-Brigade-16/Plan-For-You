@@ -43,12 +43,8 @@ export class AuthApiController {
   })
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  async signin(@Res() res: Response, @Body() request: SignInRequest): Promise<void> {
-    const tokens: Tokens = await this.authService.signin(request)
-    res.set('Access-Control-Expose-Headers', 'Authorization')
-    res.set('Authorization', 'Bearer ' + tokens.access_token)
-    console.log(res.getHeaders())
-    res.redirect("/view/user/home")
+  async signin(@Body() request: SignInRequest): Promise<Tokens> {
+    return await this.authService.signin(request)
   }
 
   @ApiOperation({
