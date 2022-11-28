@@ -13,6 +13,7 @@ async function auth() {
       "password": $("#password").val()
     }),
     success: function (response) {
+      window.location.href = "/view/user/home"
     }
   })
 }

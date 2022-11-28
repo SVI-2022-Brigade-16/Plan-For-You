@@ -26,7 +26,6 @@ export class UserHomeViewController {
   @Render('user_home')
   @Get()
   async readUser(userId: number = 2): Promise<ReadUserResponse> {
-    console.log(userId)
     return this.userHomeService.readUser(userId)
   }
 

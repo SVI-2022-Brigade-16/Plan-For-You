@@ -4,7 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <title>{{title}}</title>
+<<<<<<< Updated upstream
   <link rel="stylesheet" type="text/css" href="/css/user-home.css">
+=======
+  <link rel="stylesheet" type="text/css" href="/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+>>>>>>> Stashed changes
   <script src="/javascript/jquery-3.6.1.min.js"></script>
   <script src="/javascript/user-home.js"></script>
 
@@ -12,13 +18,11 @@
 
 <body>
   <div class="header">
-    <h1>Plan For You</h1>
+    <h1 style="margin-top: 50px; margin-bottom: 20px;">Plan For You</h1>
   </div>
 
   <div class="buttons-bar">
-    <p>{{nickname}} |
-      <button class="button_black button_signOut" onclick="signout()">Sign Out</button>
-    </p>
+    <p style="margin-top: 20px; margin-bottom: 25px;">{{nickname}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a onclick="signout()">Sign Out</a></p>
   </div>
 
   <div class="create-plan-section">
@@ -34,6 +38,7 @@
     <div id="planListItems">
 
       {{#each meetingPlans}}
+<<<<<<< Updated upstream
       <li style="list-style-type:none;">
         <div class="plan">
           <img class="plan-icon" src="/img/plan_icon.jpg" />
@@ -43,6 +48,9 @@
 
 
       </li>
+=======
+      <div style="width: 100%; padding-left: 100px; margin: 25px 0px;"><a href="/view/plan/meeting/{{uuid}}">{{planName}}</a></div>
+>>>>>>> Stashed changes
       {{/each}}
 
     </div>

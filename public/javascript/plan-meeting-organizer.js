@@ -31,8 +31,6 @@ function makeScheduleTable() {
   const startingTimeMinutes = parseInt($('#start-time').text())
   const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
 
-  console.log(startingTimeMinutes)
-
   const schedule = $('#schedule')
   schedule.empty()
 
@@ -66,13 +64,11 @@ async function loadConditions() {
   data = await $.ajax({
     url: "/api/plan/meeting/" + planUuid + "/answer/conditions"
   })
-  console.log(data)
   data.blockedTimeslots.forEach((timeslot) => {
     blockedTimeslot = $('#' + timeslotId(timeslot.dayNum, timeslot.timeslotNum))
     blockedTimeslot.addClass("blocked-timeslot")
   })
   $('.schedule__day__timeslots__item').on('click', (e) => {
-    console.log(e.target)
     e.target.classList.toggle('blocked-timeslot')
   })
 }
@@ -81,14 +77,12 @@ async function loadAnswer(answerId) {
   data = await $.ajax({
     url: "answer/" + answerId
   })
-  console.log(data)
 }
 
 async function loadResult() {
   data = await $.ajax({
     url: "calculate"
   })
-  console.log(data)
 }
 
 async function updateConditions() {

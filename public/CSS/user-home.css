@@ -7,7 +7,11 @@
 
 
 body {
+<<<<<<< Updated upstream:public/CSS/user-home.css
   font-family: "Roboto";
+=======
+  font-family: 'Roboto', serif;
+>>>>>>> Stashed changes:public/CSS/style.css
   background-color: white;
   color: black;
 }
@@ -31,10 +35,6 @@ h1 {
   cursor: pointer;
 }
 
-.button_black:hover {
-  background-color: #555555;
-}
-
 .create-button {
   border-radius: 12px;
   display: block;
@@ -50,7 +50,6 @@ h1 {
   color: black;
   border: none;
   padding: 7px 10px;
-  font-size: 13px;
   border-radius: 12px;
 }
 
