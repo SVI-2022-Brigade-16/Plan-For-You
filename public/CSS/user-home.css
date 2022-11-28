@@ -1,5 +1,13 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Regular.ttf") format("truetype");
+  src: url("/fonts/Roboto-Bold.ttf") format("truetype");
+  font-style: normal;
+}
+
+
 body {
-  font-family: Garamond, serif;
+  font-family: "Roboto";
   background-color: white;
   color: black;
 }
@@ -10,14 +18,13 @@ h1 {
 
 .button_black {
   background-color: black;
-  /* Green */
   border: none;
   color: white;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 18px;
   margin: 4px 2px;
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
@@ -65,4 +72,41 @@ h1 {
   height: 30px;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
+  position: relative;
+}
+
+.plan {
+  height: 70px;
+  border-bottom: 1px solid black;
+  position: relative;
+
+}
+
+.plan-icon {
+  width: 35px;
+  height: auto;
+  position: absolute;
+  top: 15%;
+  padding: 5px 30px;
+  margin: 0 0
+}
+
+.delete-button {
+  width: 25px;
+  height: auto;
+  position: absolute;
+  top: 30%;
+  right: 118px;
+  margin: 0 0
+}
+
+.plan p {
+  padding: 5px 100px;
+  margin: 0 0;
+  position: absolute;
+  top: 30%;
+}
+
+.plan p:active {
+  font-size: 105%;
 }

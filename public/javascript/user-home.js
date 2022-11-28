@@ -14,3 +14,10 @@ function signoutAjax() {
 async function signout() {
   await signoutAjax()
 }
+
+
+function delete_plan() {
+
+}
+
+function open_plan() { }

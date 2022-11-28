@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{title}}</title>
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/css/user-home.css">
   <script src="/javascript/jquery-3.6.1.min.js"></script>
   <script src="/javascript/user-home.js"></script>
 
@@ -22,7 +22,7 @@
   </div>
 
   <div class="create-plan-section">
-    <button class="button_black create-button" onclick="f_create_new_plan()">+ Create new meeting plan</button>
+    <button class="button_black create-button" onclick="create_new_plan()">+ Create new meeting plan</button>
   </div>
 
   <div class="plan-list">
@@ -34,7 +34,15 @@
     <div id="planListItems">
 
       {{#each meetingPlans}}
-      <li>{{planName}}</li>
+      <li style="list-style-type:none;">
+        <div class="plan">
+          <img class="plan-icon" src="/img/plan_icon.jpg" />
+          <p onclick="open_plan()">{{planName}}</p>
+          <img class="delete-button" onclick="delete_plan()" src="/img/bin_icon.png" />
+        </div>
+
+
+      </li>
       {{/each}}
 
     </div>
