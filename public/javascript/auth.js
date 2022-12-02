@@ -20,7 +20,8 @@ async function auth() {
 
 $("#auth").on("submit", async function(e) {
     e.preventDefault()
-    await auth()
+    window.location.href = "/view/user/home"
+        // await auth()
 })
 
 function switch_to_login() {
