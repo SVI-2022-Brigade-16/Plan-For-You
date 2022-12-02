@@ -4,13 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{title}}</title>
-<<<<<<< Updated upstream
   <link rel="stylesheet" type="text/css" href="/css/user-home.css">
-=======
-  <link rel="stylesheet" type="text/css" href="/css/base.css">
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
-  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
->>>>>>> Stashed changes
   <script src="/javascript/jquery-3.6.1.min.js"></script>
   <script src="/javascript/user-home.js"></script>
 
@@ -38,19 +32,13 @@
     <div id="planListItems">
 
       {{#each meetingPlans}}
-<<<<<<< Updated upstream
       <li style="list-style-type:none;">
         <div class="plan">
           <img class="plan-icon" src="/img/plan_icon.jpg" />
           <p onclick="open_plan()">{{planName}}</p>
           <img class="delete-button" onclick="delete_plan()" src="/img/bin_icon.png" />
         </div>
-
-
       </li>
-=======
-      <div style="width: 100%; padding-left: 100px; margin: 25px 0px;"><a href="/view/plan/meeting/{{uuid}}">{{planName}}</a></div>
->>>>>>> Stashed changes
       {{/each}}
 
     </div>

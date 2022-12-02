@@ -10,21 +10,34 @@
   font-weight: bold;
 }
 
+.small-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 20px;
+}
 
 .small-text-bold {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 700;
+  font-weight: bold;
   font-size: 17px;
   line-height: 20px;
-  display: flex;
-  align-items: center;
+}
+
+.big-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 38px;
 }
 
 .big-text-bold {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 700;
+  font-weight: bold;
   font-size: 32px;
   line-height: 38px;
 }
