@@ -1,111 +1,102 @@
-@font-face {
-  font-family: "Roboto";
-  src: url("/fonts/Roboto-Regular.ttf") format("truetype");
-  src: url("/fonts/Roboto-Bold.ttf") format("truetype");
-  font-style: normal;
-}
-
-
-body {
-<<<<<<< Updated upstream:public/CSS/user-home.css
-  font-family: "Roboto";
-=======
-  font-family: 'Roboto', serif;
->>>>>>> Stashed changes:public/CSS/style.css
-  background-color: white;
-  color: black;
-}
-
-h1 {
+.user-home h1 {
   text-align: center;
 }
 
-.button_black {
-  background-color: black;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 18px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  cursor: pointer;
+.user-home .header-bar {
+  margin-top: 50px;
+  margin-bottom: 20px;
 }
 
-.create-button {
-  border-radius: 12px;
-  display: block;
+.user-home .users-buttons-bar_users-button {
+  display: table;
   margin: 0 auto;
 }
 
-.buttons-bar {
-  text-align: center;
+.user-home .users-buttons-bar_users-button_text {
+  margin-top: 20px;
+  margin-bottom: 25px;
 }
 
-.button_signOut {
-  background-color: white;
-  color: black;
-  border: none;
-  padding: 7px 10px;
+.user-home .users-buttons-bar_users-button_text_sign-out:active {
+  font-size: 105%;
+}
+
+
+.user-home .create-plan-section_button {
   border-radius: 12px;
+  display: table;
+  margin: 0 auto;
 }
 
-.create-plan-section {
-  margin: 4px 2px;
+.user-home .create-plan-section_button:hover {
+  background-color: gray;
+}
+
+.user-home .plan-list-viewer {
+  margin: 40px 0px;
   width: 100%;
   height: auto;
 }
 
-.plan-list {
-  margin: 40px 2px;
-  width: 100%;
-  height: auto;
-
-}
-
-.plan-list-header {
+.user-home .plan-list-viewer_header {
   width: 100%;
   height: 30px;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
-  position: relative;
 }
 
-.plan {
-  height: 70px;
-  border-bottom: 1px solid black;
-  position: relative;
-
-}
-
-.plan-icon {
-  width: 35px;
-  height: auto;
-  position: absolute;
-  top: 15%;
-  padding: 5px 30px;
+.user-home .plan-list-viewer_header_Name {
+  float: left;
+  padding: 5px 100px;
   margin: 0 0
 }
 
-.delete-button {
+.user-home .plan-list-viewer_header_Action {
+  float: right;
+  padding: 5px 100px;
+  margin: 0 0
+}
+
+.user-home .plan-list-viewer_plan {
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  position: relative;
+
+}
+
+.user-home .plan-list-viewer_plan_plan-icon {
+  width: 30px;
+  height: auto;
+  position: absolute;
+  top: 20%;
+  left: 40px;
+  margin: 0 0
+}
+
+
+.user-home .plan-list-viewer_plan_bin-icon {
   width: 25px;
   height: auto;
   position: absolute;
-  top: 30%;
-  right: 118px;
+  top: 20%;
+  right: 115px;
   margin: 0 0
 }
 
-.plan p {
-  padding: 5px 100px;
-  margin: 0 0;
-  position: absolute;
-  top: 30%;
+.user-home .plan-list-viewer_plan_bin-icon:active {
+  transform: scale(1.4, 1.4);
 }
 
-.plan p:active {
+.user-home .plan-list-viewer_plan_text {
+  position: absolute;
+  top: 35%;
+  left: 100px;
+  margin: 0 0;
+  text-decoration: none;
+}
+
+.user-home .plan-list-viewer_plan_text:active {
   font-size: 105%;
 }

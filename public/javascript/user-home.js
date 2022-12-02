@@ -1,4 +1,4 @@
-function signoutAjax() {
+function sign_out_Ajax() {
   return new Promise(function () {
     $.ajax({
       url: "/auth/signout",
@@ -11,13 +11,14 @@ function signoutAjax() {
   })
 }
 
-async function signout() {
-  await signoutAjax()
+async function sign_out() {
+  await sign_out_Ajax()
 }
+
+function create_new_plan() { }
 
 
 function delete_plan() {
 
 }
 
-function open_plan() { }
