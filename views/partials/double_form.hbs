@@ -1,27 +1,27 @@
-<form class="double_form" id="auth">
-  <div class="choice_button">
-    <div class="login_button_0">
-      <div class="small-text-bold text">Sign in</div>
+<form class="form" id="auth">
+  <div class="form__choice">
+    <div id="login" class="form__choice__button login chosen" onclick="switch_to_login()">
+      <div class="small-text-bold form__choice__login__text">Sign in</div>
     </div>
-    <div class="register_button_0">
-      <div class="small-text-bold text">Register</div>
+    <div id="register" class="form__choice__button register" onclick="switch_to_register()">
+      <div class="small-text-bold form__choice__register_text">Register</div>
     </div>
   </div>
-  <div class="username_section">
-    <div class="label">
-      <div class="small-text-bold text">Username:</div>
+  <div class="form__username">
+    <div class="form__username__label">
+      <div class="small-text-bold">Username:</div>
     </div>
-    <input id="login" type="text" class="input" name="login" required>
+    <input id="login" type="text" class="form__input small-text-bold" name="login" required>
   </div>
-  <div class="password_section">
-    <div class="label">
-      <div class="small-text-bold text">Password:</div>
+  <div class="form__password">
+    <div class="form__password__label">
+      <div class="small-text-bold">Password:</div>
     </div>
-    <input id="password" type="password" class="input" name="password" required>
+    <input id="password" type="password" class="form__input small-text-bold" name="password" required>
   </div>
-  <div class="enter_section">
-    <button type="submit" class="enter_button">
-      <div class="small-text-bold text">Sign in</div>
+  <div class="form__enter">
+    <button type="submit" class="form__enter__button">
+      <div class="small-text-bold form__enter__button__text">Sign in</div>
     </button>
   </div>
 </form>
