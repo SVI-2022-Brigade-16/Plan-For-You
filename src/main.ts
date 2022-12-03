@@ -19,7 +19,7 @@ async function bootstrap() {
 
   app.setViewEngine('hbs')
   app.useStaticAssets(join(__dirname, '..', 'public'))
-  app.setBaseViewsDir(join(__dirname, '..', 'views'))
+  app.setBaseViewsDir(join(__dirname, '..', 'views/pages'))
   hbs.registerPartials(join(__dirname, '..', 'views/partials'))
 
   console.log('App started!')

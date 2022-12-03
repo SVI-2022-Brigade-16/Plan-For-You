@@ -33,11 +33,10 @@
   -webkit-user-select: none;
 }
 
-.schedule .day__timeslots__item:hover {
-  background-color: #EFEFEFEF;
+.rating-none {
+  background-color: #FFFFFF;
 }
 
-
-.blocked {
+.rating-blocked {
   background-color: #E4E4E4;
 }

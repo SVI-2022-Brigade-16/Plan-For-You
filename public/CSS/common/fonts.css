@@ -10,6 +10,14 @@
   font-weight: bold;
 }
 
+.tiny-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .small-text-normal {
   font-family: 'Roboto';
   font-style: normal;

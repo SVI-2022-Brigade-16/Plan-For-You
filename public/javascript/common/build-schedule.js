@@ -19,11 +19,6 @@ function ToClock(minutes) {
   return pad(clockHours, 2) + ":" + pad(clockMinutes, 2)
 }
 
-// Function for timeslot block ids
-function timeslotId(dayNum, timeslotNum) {
-  return dayNum + "-" + timeslotNum
-}
-
 // Creates text to put inside timeslot
 function timeslotText(start, length) {
   const startClock = ToClock(start)
@@ -38,8 +33,8 @@ function getDay(dayNum) {
 
 // Builds one timeslot block
 function buildScheduleTimeslot(dayNum, timeslotNum, currentTime, timeslotLength) {
-  const timeslot = $('<div></div>').addClass('day__timeslots__item').attr('id', timeslotId(dayNum, timeslotNum))
-  timeslot.addClass('small-text-bold').text(timeslotText(currentTime, timeslotLength))
+  const timeslot = $('<div></div>').addClass('day__timeslots__item').attr('id', getTimeslotId(dayNum, timeslotNum))
+  timeslot.addClass('tiny-text-normal').text(timeslotText(currentTime, timeslotLength))
   return timeslot
 }
 
@@ -73,42 +68,4 @@ function buildScheduleTable() {
   for (let dayNum = 0; dayNum < dayCount; dayNum++) {
     schedule.append(buildScheduleDay(dayNum, timeslotLength, startingTime, timeslotCount))
   }
-}
-
-// Show plan conditions in existing schedule table
-async function loadConditions() {
-  data = await $.ajax({
-    url: "/api/plan/meeting/" + planUuid + "/answer/conditions"
-  })
-  data.blockedTimeslots.forEach((timeslot) => {
-    blockedTimeslot = $('#' + timeslotId(timeslot.dayNum, timeslot.timeslotNum))
-    blockedTimeslot.addClass("blocked")
-  })
-  $('.day__timeslots__item').on('click', (e) => {
-    e.target.classList.toggle('blocked')
-  })
-}
-
-// Show plan answer in existing schedule table
-async function loadAnswer(answerId) {
-  data = await $.ajax({
-    url: "answer/" + answerId
-  })
-}
-
-// Show plan result in existing schedule table
-async function loadResult() {
-  data = await $.ajax({
-    url: "calculate"
-  })
-}
-
-
-async function updateConditions() {
-
-}
-
-window.onload = function () {
-  buildScheduleTable()
-  loadConditions()
 }

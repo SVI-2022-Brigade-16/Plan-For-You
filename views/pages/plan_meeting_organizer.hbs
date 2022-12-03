@@ -1,11 +1,13 @@
 <!doctype html>
 
 <head>
-  <link href="/css/base.css" rel="stylesheet">
-  <link href="/css/fonts.css" rel="stylesheet">
-  <link href="/css/schedule.css" rel="stylesheet">
-  <link href="/css/plan-meeting-organizer.css" rel="stylesheet">
-  <script src="/javascript/jquery-3.6.1.min.js"></script>
+  <link href="/css/common/base.css" rel="stylesheet">
+  <link href="/css/common/fonts.css" rel="stylesheet">
+  <link href="/css/common/schedule.css" rel="stylesheet">
+  <link href="/css/pages/plan-meeting-organizer.css" rel="stylesheet">
+  <script src="/javascript/common/base.js"></script>
+  <script src="/javascript/common/jquery-3.6.1.min.js"></script>
+  <script src="/javascript/common/build-schedule.js"></script>
   <script>
     var planUuid = "{{uuid}}"
   </script>
@@ -97,5 +99,13 @@
       </div>
     </section>
   </main>
-  <script src="/javascript/plan-meeting-organizer.js"></script>
+  <script src="/javascript/common/click-hold-select.js"></script>
+  <script src="/javascript/pages/plan-meeting-organizer.js"></script>
+  <script>
+    window.onload = function () {
+      buildScheduleTable()
+      loadConditions()
+      addBlockedEventListeners()
+    }
+  </script>
 </body>

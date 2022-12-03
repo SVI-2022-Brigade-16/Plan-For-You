@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <link rel="stylesheet" type="text/css" href="/css/common/fonts.css">
+  <link rel="stylesheet" type="text/css" href="/css/pages/user-home.css">
+  <script src="/javascript/common/jquery-3.6.1.min.js"></script>
+  <script src="/javascript/pages/user-home.js"></script>
+
+</head>
+
+<body>
+  <div class="header">
+    <h1 style="margin-top: 50px; margin-bottom: 20px;">Plan For You</h1>
+  </div>
+
+  <div class="buttons-bar">
+    <p style="margin-top: 20px; margin-bottom: 25px;">{{nickname}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a onclick="signout()">Sign Out</a></p>
+  </div>
+
+  <div class="create-plan-section">
+    <button class="button_black create-button" onclick="create_new_plan()">+ Create new meeting plan</button>
+  </div>
+
+  <div class="plan-list">
+    <div class="plan-list-header">
+      <p style="float:left; padding: 5px 100px; margin: 0 0">Name</p>
+      <p style="float:right; padding: 5px 100px;  margin: 0 0">Actions</p>
+    </div>
+
+    <div id="planListItems">
+
+      {{#each meetingPlans}}
+      <li style="list-style-type:none;">
+        <div class="plan">
+          <img class="plan-icon" src="/img/plan_icon.jpg" />
+          <p onclick="open_plan()">{{planName}}</p>
+          <img class="delete-button" onclick="delete_plan()" src="/img/bin_icon.png" />
+        </div>
+      </li>
+      {{/each}}
+
+    </div>
+
+
+  </div>
+
+
+</body>
+
+</html>
