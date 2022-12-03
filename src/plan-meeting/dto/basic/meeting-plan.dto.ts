@@ -7,33 +7,33 @@ export class MeetingPlan {
   uuid: string
 
   @ApiProperty()
-  planName: string
+  planName: string = "Новый план"
 
   @ApiProperty({
     default: 1
   })
   @IsIn([1, 2, 4])
-  weekCount: number
+  weekCount: number = 1
 
   @ApiProperty({
     default: 30
   })
   @IsIn([30, 45, 60, 90, 120])
-  timeslotLengthMinutes: number
+  timeslotLengthMinutes: number = 30
 
   @ApiProperty({
     default: 0
   })
   @Min(0)
   @Max(1200)
-  timeslotStartTimeMinutes: number
+  timeslotStartTimeMinutes: number = 0
 
   @ApiProperty({
     default: 2
   })
   @Min(2)
   @Max(5)
-  ratingMax: number
+  ratingMax: number = 2
 
   constructor(
     planName: string,
