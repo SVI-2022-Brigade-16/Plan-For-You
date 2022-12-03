@@ -1,0 +1,77 @@
+<!doctype html>
+
+<head>
+  <link href="/css/common/base.css" rel="stylesheet">
+  <link href="/css/common/fonts.css" rel="stylesheet">
+  <link href="/css/common/schedule.css" rel="stylesheet">
+  <link href="/css/pages/plan-meeting-organizer.css" rel="stylesheet">
+  {{!--
+  <link href="/css/pages/answer-button.css" rel="stylesheet"> --}}
+  <script src="/javascript/common/base.js"></script>
+  <script src="/javascript/common/jquery-3.6.1.min.js"></script>
+  <script src="/javascript/common/build-schedule.js"></script>
+  <script>
+    var planUuid = "{{uuid}}"
+  </script>
+</head>
+
+<body class="plan-meeting-organizer">
+  <header>
+    <section class="title-bar">
+      <div class="title-bar__home-button">
+
+      </div>
+      <div class="title-bar__plan-name">
+        <h1 class="big-text-bold">{{planName}}</h1>
+      </div>
+    </section>
+    <section class="settings-bar">
+      <div class="settings-bar__fields">
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Ratings</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
+  <main>
+    <section class="answer-name">
+      <div class="answer-name__item">
+        <div class="answer-name__item__label">
+          <p class="small-text-bold">Enter your name:</p>
+        </div>
+        <input class="answer-name__item__input small-text-bold" id="name">
+      </div>
+    </section>
+    <section class="schedule-viewer">
+      <div class="schedule-viewer__container">
+        <div class="schedule" id="schedule">
+
+        </div>
+      </div>
+    </section>
+    <section class="submit">
+      <button type="submit" class="submit__button">
+        <div class="small-text-bold submit__button__text">Submit</div>
+      </button>
+    </section>
+  </main>
+  <script src="/javascript/common/click-hold-select.js"></script>
+  <script src="/javascript/pages/plan-meeting-answer.js"></script>
+  <script>
+    let weekCount = {{ weekCount }}
+    let timeslotLength = {{ timeslotLengthMinutes }}
+    let timeslotStartTime = {{ timeslotStartTimeMinutes }}
+
+    window.onload = function () {
+      buildScheduleTable(
+        weekCount,
+        timeslotLength,
+        timeslotStartTime
+      )
+      loadConditions()
+      addTimeslotRatingSelect('answer')
+    }
+  </script>
+</body>
