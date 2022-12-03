@@ -1,5 +1,5 @@
 var HOLD = false
-var CURRENT_CHANGE_CLASS = ''
+var CURRENT_CLICK_CLASS = ''
 var CHANGE_CLASS_MAP = new Map()
 var CURRENT_CLICK_RATING = 'rating-none'
 
