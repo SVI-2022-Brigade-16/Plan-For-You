@@ -17,13 +17,14 @@
   <header>
     <section class="title-bar">
       <div class="title-bar__home-button">
-
+        <a href="/view/user/home"> <img class="title-bar__home-button_home-icon" src="/img/home_icon.png" /> </a>
       </div>
       <div class="title-bar__plan-name">
         <h1 class="big-text-bold">{{planName}}</h1>
       </div>
       <div class="title-bar__user-buttons">
-        <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a onclick="signOut()">Sign Out</a></p>
+        <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a class="title-bar__user-buttons_text_sign-out"
+            onclick="signOut()">Sign Out</a></p>
       </div>
     </section>
     <section class="settings-bar">
@@ -38,7 +39,7 @@
             <option class="small-text-bold" value="4">4</option>
           </select>
         </div>
-        <div class="settings-bar__fields__item">
+        <div class="settings-bar__fields__item timeslot-length">
           <div class="settings-bar__fields__item__label">
             <p class="small-text-bold">Timeslot Length:</p>
           </div>
@@ -71,13 +72,17 @@
       </div>
       <div class="settings-bar__buttons">
         <button class="settings-bar__buttons__item">
-          <p class="small-text-bold button-text">Update settings</p>
+          <img class="settings-bar__buttons__item_icon" src="/img/update_icon.svg" />
+          <p class="small-text-bold button-text  settings-bar__buttons__item_text">Update settings</p>
         </button>
         <button class="settings-bar__buttons__item">
-          <p class="small-text-bold button-text">Publish link</p>
+          <img id="eye_icon" class="settings-bar__buttons__item_icon" src="/img/eyeClosed_icon.svg"
+            onclick="publishLink()" />
+          <p id="state_link" class="small-text-bold button-text settings-bar__buttons__item_text">Publish link</p>
         </button>
         <button class="settings-bar__buttons__item">
-          <p class="small-text-bold button-text">Calculate best timeslots</p>
+          <img class="settings-bar__buttons__item_icon" src="/img/caculator_icon.svg" />
+          <p class="small-text-bold button-text settings-bar__buttons__item_text">Calculate best timeslots</p>
         </button>
       </div>
     </section>

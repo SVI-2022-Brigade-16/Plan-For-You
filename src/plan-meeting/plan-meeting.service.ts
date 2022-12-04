@@ -12,6 +12,7 @@ import { MeetingAnswerRating } from './dto/basic/meeting-answer-rating.dto'
 import { MeetingAnswerConditions } from './dto/basic/meeting-answer-conditions.dto'
 import { PlanMeetingPrisma } from './plan-meeting.prisma'
 import { MeetingPlanWithAnswerRatings } from './dto/basic/meeting-plan-with-rating.dto'
+import { MeetingPlan } from './dto/basic/meeting-plan.dto'
 
 @Injectable()
 export class PlanMeetingService {
@@ -22,6 +23,11 @@ export class PlanMeetingService {
 
   async createMeetingPlan(userId: number, request: CreateMeetingPlanRequest): Promise<CreateMeetingPlanResponse> {
     const receivingAnswers = false
+
+    if (!request.planName) {
+      request = new MeetingPlan()
+    }
+
     const plan = await this.prisma.createMeetingPlan(userId, request, receivingAnswers)
     return { planUuid: plan.uuid }
   }

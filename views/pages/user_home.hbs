@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{title}}</title>
+  <link rel="stylesheet" type="text/css" href="/css/common/base.css">
   <link rel="stylesheet" type="text/css" href="/css/common/fonts.css">
   <link rel="stylesheet" type="text/css" href="/css/pages/user-home.css">
   <script src="/javascript/common/jquery-3.6.1.min.js"></script>
@@ -11,41 +12,51 @@
 
 </head>
 
-<body>
-  <div class="header">
-    <h1 style="margin-top: 50px; margin-bottom: 20px;">Plan For You</h1>
-  </div>
+<body class="user-home">
+  <header>
+    <section class="header-bar">
+      <h1 class="big-text-bold">Plan For You</h1>
+    </section>
 
-  <div class="buttons-bar">
-    <p style="margin-top: 20px; margin-bottom: 25px;">{{nickname}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a onclick="signout()">Sign Out</a></p>
-  </div>
-
-  <div class="create-plan-section">
-    <button class="button_black create-button" onclick="create_new_plan()">+ Create new meeting plan</button>
-  </div>
-
-  <div class="plan-list">
-    <div class="plan-list-header">
-      <p style="float:left; padding: 5px 100px; margin: 0 0">Name</p>
-      <p style="float:right; padding: 5px 100px;  margin: 0 0">Actions</p>
-    </div>
-
-    <div id="planListItems">
-
-      {{#each meetingPlans}}
-      <li style="list-style-type:none;">
-        <div class="plan">
-          <img class="plan-icon" src="/img/plan_icon.jpg" />
-          <p onclick="open_plan()">{{planName}}</p>
-          <img class="delete-button" onclick="delete_plan()" src="/img/bin_icon.png" />
+    <section class="users-buttons-bar">
+      <div class="users-buttons-bar_users-button">
+        <div class="users-buttons-bar_users-button_text">
+          <p class="small-text-bold">{{nickname}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            <a class="users-buttons-bar_users-button_text_sign-out" onclick="sign_out()">Sign Out</a>
+          </p>
         </div>
-      </li>
-      {{/each}}
+      </div>
+    </section>
 
-    </div>
+    <section class="create-plan-section">
+      <button class="create-plan-section_button" onclick="create_new_plan()">
+        <p class="small-text-bold button-text">+ Create new meeting plan</p>
+      </button>
+    </section>
+  </header>
+
+  <main>
+    <section class="plan-list-viewer">
+      <div class="plan-list-viewer_header">
+        <p class="small-text-bold plan-list-viewer_header_Name">Name</p>
+        <p class="small-text-bold plan-list-viewer_header_Action">Actions</p>
+      </div>
+
+      <div id="plan-list-viewer_plans">
+        {{#each meetingPlans}}
+        <div class="plan-list-viewer_plan">
+          <img class="plan-list-viewer_plan_plan-icon" src="/img/plan_icon.jpg" />
+          <a class="small-text-bold plan-list-viewer_plan_text" href="/view/plan/meeting/{{uuid}}">{{planName}}</a>
+          <img id="delete_{{uuid}}" class="plan-list-viewer_plan_bin-icon" src="/img/bin_icon.png"
+            onclick="delete_plan(this.id)" />
+        </div>
+        {{/each}}
+      </div>
 
 
-  </div>
+    </section>
+  </main>
+
 
 
 </body>

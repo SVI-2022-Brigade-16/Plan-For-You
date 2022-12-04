@@ -55,10 +55,10 @@ export class AuthApiController {
     description: 'User successfully signed out.'
   })
   @ApiBearerAuth()
-  @UseGuards(AtGuard)
+  // @UseGuards(AtGuard)
   @Post('signout')
   @HttpCode(HttpStatus.OK)
-  async signout(@GetCurrentUserId() userId: number): Promise<void> {
+  async signout(userId: number = 2): Promise<void> {
     return await this.authService.signout(userId)
   }
 

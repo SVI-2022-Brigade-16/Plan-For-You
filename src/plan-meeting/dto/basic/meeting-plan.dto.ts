@@ -36,11 +36,11 @@ export class MeetingPlan {
   ratingMax: number = 2
 
   constructor(
-    planName: string,
-    weekCount: number,
-    timeslotLengthMinutes: number,
-    timeslotStartTimeMinutes: number,
-    ratingMax: number,
+    planName: string = "Новый план",
+    weekCount: number = 1,
+    timeslotLengthMinutes: number = 30,
+    timeslotStartTimeMinutes: number = 0,
+    ratingMax: number = 2,
   ) {
     this.planName = planName
     this.weekCount = weekCount
