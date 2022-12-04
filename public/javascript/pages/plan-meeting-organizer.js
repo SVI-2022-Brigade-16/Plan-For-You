@@ -1,12 +1,12 @@
 // Show plan conditions in existing schedule table
 async function loadConditions() {
   data = await $.ajax({
-    url: "/api/plan/meeting/" + planUuid + "/answer/conditions"
+    url: "/api/plan/meeting/" + planUuid
   })
-  $('.day__timeslots__item').addClass('rating-none')
+  $('.day__timeslots__item').addClass('rating-unblocked')
   data.blockedTimeslots.forEach((timeslot) => {
     blockedTimeslot = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
-    blockedTimeslot.removeClass('rating-none').addClass('rating-blocked')
+    blockedTimeslot.removeClass('rating-unblocked').addClass('rating-blocked')
   })
 }
 
@@ -29,29 +29,15 @@ async function updateConditions() {
 
 }
 
-async function signOut() {
-  return new Promise(function () {
-    $.ajax({
-      url: "/auth/signout",
-      type: "POST",
-      contentType: "application/json",
-      success: function () {
-        location.href = "/"
-      }
-    })
-  })
-}
-
-
-function publishLink() {
-  var eye_icon = document.getElementById("eye_icon");
-  var state_link = document.getElementById("state_link");
-  if (eye_icon.src === "/img/eyeOpened_icon.svg") {
-    eye_icon.src = "/img/eyeClosed_icon.svg";
-    state_link.innerHTML = "Unpublish link";
+function togglePublishLink() {
+  var eyeIcon = $('#eye_icon')[0]
+  var publishButtonText = $('#publish-button-text')
+  console.log(eyeIcon.src, publishButtonText)
+  if (eyeIcon.src.indexOf("/img/eye_opened_icon.svg") != -1) {
+    eyeIcon.src = "/img/eye_closed_icon.svg"
+    publishButtonText.text("Publish link")
   } else {
-    eye_icon.src = "/img/eyeOpened_icon.svg";
-    state_link.innerHTML = "Publish link";
+    eyeIcon.src = "/img/eye_opened_icon.svg"
+    publishButtonText.text("Unpublish link")
   }
-
 }

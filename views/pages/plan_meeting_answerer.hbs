@@ -1,21 +1,16 @@
 <!doctype html>
 
 <head>
-  <link href="/css/common/base.css" rel="stylesheet">
-  <link href="/css/common/fonts.css" rel="stylesheet">
+  {{> head}}
   <link href="/css/common/schedule.css" rel="stylesheet">
-  <link href="/css/pages/plan-meeting-organizer.css" rel="stylesheet">
-  {{!--
-  <link href="/css/pages/answer-button.css" rel="stylesheet"> --}}
-  <script src="/javascript/common/base.js"></script>
-  <script src="/javascript/common/jquery-3.6.1.min.js"></script>
-  <script src="/javascript/common/build-schedule.js"></script>
+  <link href="/css/pages/plan-meeting-answerer.css" rel="stylesheet">
+  <script src="/javascript/common/schedule.js"></script>
   <script>
     var planUuid = "{{uuid}}"
   </script>
 </head>
 
-<body class="plan-meeting-organizer">
+<body class="plan-meeting-answerer">
   <header>
     <section class="title-bar">
       <div class="title-bar__home-button">
@@ -28,7 +23,7 @@
     <section class="settings-bar">
       <div class="settings-bar__fields">
         <div class="settings-bar__fields__item">
-          <div class="settings-bar__fields__item__label">
+          <div class="settings-bar__fields__row__label">
             <p class="small-text-bold">Ratings</p>
           </div>
         </div>

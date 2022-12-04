@@ -2,12 +2,9 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  {{> head}}
   <title>{{title}}</title>
-  <link rel="stylesheet" type="text/css" href="/css/common/base.css">
-  <link rel="stylesheet" type="text/css" href="/css/common/fonts.css">
   <link rel="stylesheet" type="text/css" href="/css/pages/user-home.css">
-  <script src="/javascript/common/jquery-3.6.1.min.js"></script>
   <script src="/javascript/pages/user-home.js"></script>
 
 </head>
@@ -22,15 +19,15 @@
       <div class="users-buttons-bar_users-button">
         <div class="users-buttons-bar_users-button_text">
           <p class="small-text-bold">{{nickname}}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-            <a class="users-buttons-bar_users-button_text_sign-out" onclick="sign_out()">Sign Out</a>
+            <a class="users-buttons-bar_users-button_text_sign-out" onclick="signOut()">Sign Out</a>
           </p>
         </div>
       </div>
     </section>
 
     <section class="create-plan-section">
-      <button class="create-plan-section_button" onclick="create_new_plan()">
-        <p class="small-text-bold button-text">+ Create new meeting plan</p>
+      <button class="create-plan-section_button" onclick="createNewPlan()">
+        <p class="small-text-bold">+ Create new meeting plan</p>
       </button>
     </section>
   </header>
@@ -47,8 +44,7 @@
         <div class="plan-list-viewer_plan">
           <img class="plan-list-viewer_plan_plan-icon" src="/img/plan_icon.jpg" />
           <a class="small-text-bold plan-list-viewer_plan_text" href="/view/plan/meeting/{{uuid}}">{{planName}}</a>
-          <img id="delete_{{uuid}}" class="plan-list-viewer_plan_bin-icon" src="/img/bin_icon.png"
-            onclick="delete_plan(this.id)" />
+          <img id="delete_{{uuid}}" class="plan-list-viewer_plan_bin-icon" src="/img/bin_icon.png" onclick="deletePlan(this.id)" />
         </div>
         {{/each}}
       </div>

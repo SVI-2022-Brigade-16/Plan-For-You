@@ -45,9 +45,9 @@ export class PlanMeetingApiController {
     description: 'Meeting plan with given UUID successfully received.'
   })
   @ApiBearerAuth()
-  @UseGuards(AtGuard)
+  //@UseGuards(AtGuard)
   @Get(':planUuid')
-  async readMeetingPlan(@GetCurrentUserId() userId: number, @Param('planUuid') planUuid: string): Promise<ReadMeetingPlanResponse> {
+  async readMeetingPlan(/*@GetCurrentUserId()*/ userId: number = 2, @Param('planUuid') planUuid: string): Promise<ReadMeetingPlanResponse> {
     return await this.planMeetingService.readMeetingPlan(userId, planUuid)
   }
 

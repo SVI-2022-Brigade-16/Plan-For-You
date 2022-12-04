@@ -49,3 +49,13 @@
   font-size: 32px;
   line-height: 38px;
 }
+
+@media screen and (max-width: 1024px) {
+  .small-text-bold {
+    font-size: 16px;
+  }
+
+  .big-text-bold {
+    font-size: 24px;
+  }
+}

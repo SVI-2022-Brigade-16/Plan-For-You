@@ -23,7 +23,8 @@ p {
 a {
   font-weight: bold;
   color: black;
-  cursor: pointer
+  cursor: pointer;
+  text-decoration: none;
 }
 
 a:hover {
@@ -43,6 +44,7 @@ button {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 50px;
   padding: 7px 17px;
   background: #000000;
   color: #FFFFFF;
@@ -52,4 +54,9 @@ button {
 button:hover {
   background: #FFFFFF;
   color: #000000;
+}
+
+button > p {
+  padding-left: 10px;
+  padding-right: 10px;
 }

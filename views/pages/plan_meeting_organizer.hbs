@@ -1,15 +1,18 @@
 <!doctype html>
+<html lang="en">
 
 <head>
-  <link href="/css/common/base.css" rel="stylesheet">
-  <link href="/css/common/fonts.css" rel="stylesheet">
+  {{> head}}
+  <title>{{planName}} - Organizer</title>
   <link href="/css/common/schedule.css" rel="stylesheet">
   <link href="/css/pages/plan-meeting-organizer.css" rel="stylesheet">
-  <script src="/javascript/common/base.js"></script>
-  <script src="/javascript/common/jquery-3.6.1.min.js"></script>
-  <script src="/javascript/common/build-schedule.js"></script>
+  <script src="/javascript/common/schedule.js"></script>
   <script>
     var planUuid = "{{uuid}}"
+    var weekCount = "{{weekCount}}"
+    var timeslotLength = "{{timeslotLengthMinutes}}"
+    var startTime = "{{timeslotStartTimeMinutes}}"
+    var ratingMax = "{{ratingMax}}"
   </script>
 </head>
 
@@ -23,67 +26,89 @@
         <h1 class="big-text-bold">{{planName}}</h1>
       </div>
       <div class="title-bar__user-buttons">
-        <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a class="title-bar__user-buttons_text_sign-out"
-            onclick="signOut()">Sign Out</a></p>
+        <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a class="title-bar__user-buttons_text_sign-out" onclick="signOut()">Sign Out</a></p>
       </div>
     </section>
     <section class="settings-bar">
+      <div class="settings-bar__link">
+        <div class="settings-bar__link__label">
+          <p class="small-text-bold">Answer link:</p>
+        </div>
+        <div class="settings-bar__link__text" id="link">
+          <p class="small-text-bold">https://localhost:3000/view/plan/meeting/{{uuid}}/answer</p>
+        </div>
+        <div class="button-with-icon">
+          <div class="icon-container">
+            <img id="eye_icon" class="settings-bar__buttons__item_icon" src="/img/eye_closed_icon.svg" />
+          </div>
+          <div class="button-container">
+            <button class="settings-bar__link__publish-button" onclick="togglePublishLink()">
+              <p class="small-text-bold" id="publish-button-text">Publish link</p>
+            </button>
+          </div>
+
+        </div>
+      </div>
       <div class="settings-bar__fields">
-        <div class="settings-bar__fields__item">
-          <div class="settings-bar__fields__item__label">
+        <div class="settings-bar__fields__row">
+          <div class="settings-bar__fields__row__label">
             <p class="small-text-bold">Week Count:</p>
           </div>
-          <select class="settings-bar__fields__item__input select small-text-bold" id="week-count">
-            <option class="small-text-bold" selected value="1">1</option>
+          <select class="settings-bar__fields__row__input select small-text-bold" id="week-count" title="week-count">
+            <option class="small-text-bold" value="1">1</option>
             <option class="small-text-bold" value="2">2</option>
+            <option class="small-text-bold" value="3">3</option>
             <option class="small-text-bold" value="4">4</option>
           </select>
-        </div>
-        <div class="settings-bar__fields__item timeslot-length">
-          <div class="settings-bar__fields__item__label">
+          <div class="settings-bar__fields__row__label">
             <p class="small-text-bold">Timeslot Length:</p>
           </div>
-          <select class="settings-bar__fields__item__input select small-text-bold" id="timeslot-length">
+          <select class="settings-bar__fields__row__input select small-text-bold" id="timeslot-length" title="timeslot-length">
             <option class="small-text-bold" value="30">30 minutes</option>
-            <option class="small-text-bold" selected value="60">60 minutes</option>
+            <option class="small-text-bold" value="60">60 minutes</option>
             <option class="small-text-bold" value="90">90 minutes</option>
             <option class="small-text-bold" value="120">120 minutes</option>
           </select>
         </div>
-        <div class="settings-bar__fields__item">
-          <div class="settings-bar__fields__item__label">
+        <div class="settings-bar__fields__row">
+          <div class="settings-bar__fields__row__label">
             <p class="small-text-bold">Start Time:</p>
           </div>
-          <div class="settings-bar__fields__item__input">
+          <div class="settings-bar__fields__row__input">
             <p class="small-text-bold" id="start-time">{{timeslotStartTimeMinutes}}</p>
           </div>
-        </div>
-        <div class="settings-bar__fields__item">
-          <div class="settings-bar__fields__item__label">
+          <div class="settings-bar__fields__row__label">
             <p class="small-text-bold">Rating Range:</p>
           </div>
-          <select class="settings-bar__fields__item__input select small-text-bold" id="rating-max">
+          <select class="settings-bar__fields__row__input select small-text-bold" id="rating-max" title="rating-max">
             <option class="small-text-bold" value="2">2</option>
             <option class="small-text-bold" value="3">3</option>
             <option class="small-text-bold" value="4">4</option>
-            <option class="small-text-bold" selected value="5">5</option>
+            <option class="small-text-bold" value="5">5</option>
           </select>
         </div>
       </div>
       <div class="settings-bar__buttons">
-        <button class="settings-bar__buttons__item">
-          <img class="settings-bar__buttons__item_icon" src="/img/update_icon.svg" />
-          <p class="small-text-bold button-text  settings-bar__buttons__item_text">Update settings</p>
-        </button>
-        <button class="settings-bar__buttons__item">
-          <img id="eye_icon" class="settings-bar__buttons__item_icon" src="/img/eyeClosed_icon.svg"
-            onclick="publishLink()" />
-          <p id="state_link" class="small-text-bold button-text settings-bar__buttons__item_text">Publish link</p>
-        </button>
-        <button class="settings-bar__buttons__item">
-          <img class="settings-bar__buttons__item_icon" src="/img/caculator_icon.svg" />
-          <p class="small-text-bold button-text settings-bar__buttons__item_text">Calculate best timeslots</p>
-        </button>
+        <div class="button-with-icon">
+          <div class="icon-container">
+            <img class="settings-bar__buttons__item_icon" src="/img/update_icon.svg" />
+          </div>
+          <div class="button-container">
+            <button class="settings-bar__buttons__item">
+              <p class="small-text-bold">Update settings</p>
+            </button>
+          </div>
+        </div>
+        <div class="button-with-icon">
+          <div class="icon-container">
+            <img class="settings-bar__buttons__item_icon" src="/img/calculator_icon.svg" />
+          </div>
+          <div class="button-container">
+            <button class="settings-bar__buttons__item">
+              <p class="small-text-bold">Calculate best timeslots</p>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   </header>
@@ -99,18 +124,52 @@
       </div>
       <div class="schedule-viewer__container">
         <div class="schedule" id="schedule">
-
         </div>
+      </div>
+      <div class="schedule-viewer__buttons">
+        <button class="schedule-viewer__buttons__unblock" onclick="unblockAllTimeslots()">
+          <p class="small-text-bold">Unblock all timeslots</p>
+        </button>
       </div>
     </section>
   </main>
   <script src="/javascript/common/click-hold-select.js"></script>
   <script src="/javascript/pages/plan-meeting-organizer.js"></script>
   <script>
-    window.onload = function () {
-      initScheduleTable()
+    function unblockAllTimeslots() {
+      timeslots = $('.schedule .day__timeslots__item')
+      timeslots.addClass('rating-unblocked')
+      timeslots.removeClass('rating-blocked')
+    }
+
+    function updateSettings() {
+      weekCount = parseInt($('#week-count').val())
+      timeslotLength = parseInt($('#timeslot-length').val())
+      startTime = parseInt($('#start-time').text())
+      buildScheduleTable(weekCount, timeslotLength, startTime)
+    }
+
+    function loadSettings() {
+      $("#week-count option[value='" + weekCount + "']").attr('selected', 'selected')
+      $("#timeslot-length option[value='" + timeslotLength + "']").attr("selected", "selected")
+      $("#start-time").text(startTime)
+      $("#rating-max option[value='" + ratingMax + "']").attr("selected", "selected")
+    }
+
+    function loadSchedule() {
+      buildScheduleTable(weekCount, timeslotLength, startTime)
       loadConditions()
       addTimeslotRatingSelect('block')
     }
+
+    window.onload = function () {
+      loadSettings()
+      loadSchedule()
+      $('#link').click(function () {
+        $(this).select()
+      })
+    }
   </script>
 </body>
+
+</html>
