@@ -39,7 +39,7 @@ export class PlanMeetingViewController {
     status: 200,
     description: 'Meeting plan answerer page successfully rendered and received.'
   })
-  @Render('plan_meeting_answerer')
+  @Render('plan_meeting_answer')
   @Get(':planUuid/answer')
   async getAnswererPage(
     @Param('planUuid') planUuid: string
