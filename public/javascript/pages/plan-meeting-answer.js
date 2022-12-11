@@ -118,8 +118,8 @@ function getRatedTimeslots(ratingMax) {
       day_timeslot = $(this).attr('id').split('-')
       console.log(day_timeslot)
       ratedTimeslots.push({
-        dayNum: day_timeslot[0],
-        timeslotNum: day_timeslot[1],
+        dayNum: parseInt(day_timeslot[0]),
+        timeslotNum: parseInt(day_timeslot[1]),
         rating: rating
       })
     })
@@ -129,14 +129,14 @@ function getRatedTimeslots(ratingMax) {
 
 }
 
-async function submitAnswer() {
+async function submitAnswer(ratingMax) {
   return await $.ajax({
     url: "/api/plan/meeting/" + planUuid + "/answer",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify({
       "participantName": $("#name").val(),
-      "ratedTimeslots": getRatedTimeslots()
+      "ratedTimeslots": getRatedTimeslots(ratingMax)
     }),
     success: function () {
       alert("Your answer has been submited!")
