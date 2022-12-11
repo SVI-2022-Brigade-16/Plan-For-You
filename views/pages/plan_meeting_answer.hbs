@@ -48,7 +48,7 @@
       </div>
     </section>
     <section class="submit">
-      <button type="submit" class="submit__button">
+      <button type="submit" class="submit__button" onclick="submitAnswer()">
         <div class="small-text-bold submit__button__text">Submit</div>
       </button>
     </section>
@@ -59,6 +59,7 @@
     let weekCount = {{ weekCount }}
     let timeslotLength = {{ timeslotLengthMinutes }}
     let timeslotStartTime = {{ timeslotStartTimeMinutes }}
+    let ratingMax = {{ ratingMax }}
 
     window.onload = function () {
       buildScheduleTable(
@@ -67,8 +68,8 @@
         timeslotStartTime
       )
       loadConditions()
-      buildRatingButtons(4)
-      CURRENT_CLICK_RATING = 'rating-50'
+      buildRatingButtons(ratingMax)
+      CURRENT_CLICK_RATING = 'rating-' + ratingMax + '1'
       addTimeslotRatingSelect('')
 
     }
