@@ -41,7 +41,9 @@ export class PlanMeetingViewController {
   })
   @Render('plan_meeting_answer')
   @Get(':planUuid/answer')
+
   async getAnswererPage(
+    userId: number = 2,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingAnswerConditionsResponse> {
     return await this.planMeetingService.readMeetingAnswerConditions(planUuid)

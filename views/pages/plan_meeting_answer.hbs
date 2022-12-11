@@ -10,25 +10,25 @@
   </script>
 </head>
 
-<body class="plan-meeting-answerer">
+<body class="plan-meeting-answer">
   <header>
-    <section class="title-bar">
-      <div class="title-bar__home-button">
+    <section class="header-bar">
+      <h1 class="big-text-bold">
+        <a class="header-bar_website-title">Plan For You</a>
+        <a class="header-bar_separator">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</a>
+        <a class="header-bar_plan-name">{{planName}}</a>
+      </h1>
+    </section>
+
+    <section class="gradings-header">
+      <div class="gradings-header__fields" id="gradings-button">
+        <div class="gradings-header__fields__grading__label">
+          <p class="small-text-bold">Ratings</p>
+        </div>
 
       </div>
-      <div class="title-bar__plan-name">
-        <h1 class="big-text-bold">{{planName}}</h1>
-      </div>
     </section>
-    <section class="settings-bar">
-      <div class="settings-bar__fields">
-        <div class="settings-bar__fields__item">
-          <div class="settings-bar__fields__row__label">
-            <p class="small-text-bold">Ratings</p>
-          </div>
-        </div>
-      </div>
-    </section>
+
   </header>
   <main>
     <section class="answer-name">
@@ -39,6 +39,7 @@
         <input class="answer-name__item__input small-text-bold" id="name">
       </div>
     </section>
+
     <section class="schedule-viewer">
       <div class="schedule-viewer__container">
         <div class="schedule" id="schedule">
@@ -66,7 +67,10 @@
         timeslotStartTime
       )
       loadConditions()
-      addTimeslotRatingSelect('answer')
+      buildRatingButtons(4)
+      CURRENT_CLICK_RATING = 'rating-50'
+      addTimeslotRatingSelect('')
+
     }
   </script>
 </body>

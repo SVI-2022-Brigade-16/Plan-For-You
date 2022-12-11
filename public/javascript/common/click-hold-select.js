@@ -26,6 +26,7 @@ function addHoldClickRating(timeslots, type) {
       $(this).addClass(CURRENT_CLICK_RATING)
       $(this).removeClass(current_rating[0])
     }
+
   })
 
   $('body').on('mouseup', function () {

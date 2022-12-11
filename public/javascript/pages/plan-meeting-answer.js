@@ -3,16 +3,16 @@ async function loadConditions(blockedTimeslots) {
   data = await $.ajax({
     url: "/api/plan/meeting/" + planUuid + "/answer/conditions"
   })
-  $('.day__timeslots__item').addClass('rating-unblocked')
+  $('.day__timeslots__item').addClass('rating-54')
   data.blockedTimeslots.forEach((timeslot) => {
     blockedTimeslot = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
-    blockedTimeslot.removeClass('rating-unblocked').addClass('rating-blocked')
+    blockedTimeslot.removeClass('rating-54').addClass('rating-blocked').unbind()
   })
 }
 
 // Build whole rating buttons
 function buildRatingButtons(ratingRange) {
-  const buttons = $('.settings-bar.settings-bar__fields')
+  const buttons = $('#gradings-button')
   for (let rating = 0; rating < ratingRange; ++rating) {
     buttons.append(buildRatingButton(rating, ratingRange))
   }
@@ -20,12 +20,12 @@ function buildRatingButtons(ratingRange) {
 
 // Build one rating button
 function buildRatingButton(rating, ratingRange) {
-  let className = 'rating-' + rating + ratingRange
-  const button = $('<div></div>').addClass('settings-bar__fields__item').addClass(className)
-  const buttonName = $('<div></div>').addClass('small-text-normal').text(getTitle(rating, ratingRange))
+  let className = 'rating-' + ratingRange + rating
+  const button = $('<div></div>').addClass('grading-header__fields__item').addClass(className)
+  const buttonName = $('<div></div>').addClass('small-text-bold').text(getTitle(rating, ratingRange))
 
   button.on('click', function () {
-    CURRENT_CLICK_CLASS = className
+    CURRENT_CLICK_RATING = className
   })
 
   button.append(buttonName)
@@ -83,7 +83,7 @@ function getTitle(rating, ratingRange) {
       }
       break
 
-    case 4:
+    case 5:
       switch (rating) {
         case 0:
           return "Unavailable"
@@ -108,4 +108,18 @@ function getTitle(rating, ratingRange) {
     default:
       break
   }
+}
+
+
+async function submitAnswer() {
+  return await $.ajax({
+    url: "/api/plan/meeting/" + planUuid + "/answer",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify({
+      "participantName": $("#name").val(),
+
+    }),
+
+  })
 }
