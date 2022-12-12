@@ -104,7 +104,6 @@ export class PlanMeetingService implements IPlanMeetingService {
       totalTimeslots.push(timeslot)
     }
     let sTotalTimeslots = totalTimeslots.sort(RatedTimeslot.compareRating).reverse()
-
     return new ReadMeetingPlanResult.Response(plan, sTotalTimeslots)
   }
 

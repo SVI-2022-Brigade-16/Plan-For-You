@@ -20,7 +20,7 @@ function ratingClass(rating) {
 
 // Show plan conditions in existing schedule table
 async function loadBlockedTimeslots() {
-  data = await $.ajax({
+  let data = await $.ajax({
     url: "/api/plan/meeting/" + planUuid + "/answer/conditions"
   })
   data.blockedTimeslots.forEach((timeslot) => {
@@ -31,7 +31,7 @@ async function loadBlockedTimeslots() {
 
 // Show plan answer in existing schedule table
 async function loadAnswer(answerId) {
-  data = await $.ajax({
+  let data = await $.ajax({
     url: "/api/plan/meeting/" + planUuid + "/answer/" + answerId,
     type: "GET",
     success: function (data) {
@@ -48,9 +48,21 @@ async function loadAnswer(answerId) {
 }
 
 // Show plan result in existing schedule table
-async function loadScheduleResult() {
-  data = await $.ajax({
-    url: "result"
+async function loadResult() {
+  let data = await $.ajax({
+    url: "/api/plan/meeting/" + planUuid + "/result",
+    type: "GET"
+  })
+  const answerCount = data.answerCount
+  data.sortedTotalRatedTimeslots.forEach((timeslot) => {
+    found = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
+    found.addClass(ratingClass(Math.ceil(timeslot.rating / answerCount)))
+
+    var lowerThanMaxRatingsText = "Participants who gave lower ratings:\n"
+    timeslot.lowerThanMaxRatings.forEach(function (answerRating) {
+      lowerThanMaxRatingsText += answerRating.participantName + ': ' + answerRating.rating + '\n'
+    })
+    found.attr('title', lowerThanMaxRatingsText)
   })
 }
 
@@ -99,11 +111,50 @@ function unblockAllTimeslots() {
   timeslots.removeClass('rating-blocked')
 }
 
-function updateSettings() {
-  weekCount = parseInt($('#week-count').val())
-  timeslotLength = parseInt($('#timeslot-length').val())
-  startTime = parseInt($('#start-time').text())
-  buildScheduleTable(weekCount, timeslotLength, startTime)
+function getBlockedTimeslots() {
+  var blockedTimeslots = []
+  $('.day__timeslots__item.rating-blocked').each(function () {
+    day_timeslot = $(this).attr('id').split('-')
+    console.log(day_timeslot)
+    blockedTimeslots.push({
+      dayNum: parseInt(day_timeslot[0]),
+      timeslotNum: parseInt(day_timeslot[1])
+    })
+  })
+  return blockedTimeslots
+}
+
+async function updateSettings() {
+  const planName = $('#plan-name').val()
+  const weekCount = parseInt($('#week-count').val())
+  const timeslotLength = parseInt($('#timeslot-length').val())
+  const startTime = parseInt($('#start-time').text())
+  const ratingMax = parseInt($('#rating-max').val())
+
+  await $.ajax({
+    url: "/api/plan/meeting/" + planUuid,
+    type: "PUT",
+    contentType: "application/json",
+    data: JSON.stringify({
+      "blockedTimeslots": getBlockedTimeslots(),
+      "planName": planName,
+      "weekCount": weekCount,
+      "timeslotLengthMinutes": timeslotLength,
+      "timeslotStartTimeMinutes": startTime,
+      "ratingMax": ratingMax,
+    }),
+  })
+
+  console.log({
+    "blockedTimeslots": getBlockedTimeslots(),
+    "planName": planName,
+    "weekCount": weekCount,
+    "timeslotLengthMinutes": timeslotLength,
+    "timeslotStartTimeMinutes": startTime,
+    "ratingMax": ratingMax,
+  })
+
+  window.location.reload()
 }
 
 function loadSettings() {
@@ -126,6 +177,7 @@ function addTabSwitch() {
   })
   addAnswerSwitch()
   addConditionsSwitch()
+  addResultSwitch()
 }
 
 function removeRatingClasses() {
@@ -133,6 +185,28 @@ function removeRatingClasses() {
     let ratingC = ratingClass(rating)
     $('.day__timeslots__item.' + ratingC).removeClass(ratingC)
   }
+}
+
+function addResultSwitch() {
+  $('#read-result').click(function (e) {
+    removeRatingClasses()
+    $('#result-tab').removeClass('display-none').click()
+    $('.day__timeslots__item.rating-unblocked').removeClass('rating-unblocked')
+    $('.day__timeslots__item').unbind()
+    console.log(e.currentTarget.id)
+    const answerId = e.currentTarget.id.split('-')[1]
+    loadResult(answerId)
+    $('.schedule-viewer__buttons__unblock').prop('disabled', true)
+  })
+  $('#result-tab').click(function (e) {
+    removeRatingClasses()
+    $('.day__timeslots__item.rating-unblocked').removeClass('rating-unblocked')
+    $('.day__timeslots__item').unbind()
+    console.log(e.currentTarget.id)
+    const answerId = e.currentTarget.id.split('-')[1]
+    loadResult(answerId)
+    $('.schedule-viewer__buttons__unblock').prop('disabled', true)
+  })
 }
 
 function addAnswerSwitch() {
@@ -153,8 +227,13 @@ function addConditionsSwitch() {
     removeRatingClasses()
     $('.day__timeslots__item:not(.rating-blocked)').addClass('rating-unblocked')
     enableTimeslotRatingSelect('block')
-    $('.schedule-viewer__buttons__unblock').show()
     $('.schedule-viewer__buttons__unblock').prop('disabled', false)
+  })
+}
+
+function addUpdateListener() {
+  $('#update-settings').click(function () {
+    updateSettings()
   })
 }
 
@@ -164,4 +243,5 @@ window.onload = function () {
   loadSchedule()
   addTabSwitch()
   updatePublishingButton()
+  addUpdateListener()
 }

@@ -25,7 +25,7 @@
         <a href="/view/user/home"> <img class="title-bar__home-button__home-icon" src="/img/home_icon.png" /> </a>
       </div>
       <div class="title-bar__plan-name">
-        <h1 class="big-text-bold">{{planName}}</h1>
+        <input class="big-text-bold" id="plan-name" value="{{planName}}">
       </div>
       <div class="title-bar__user-buttons">
         <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a class="title-bar__user-buttons_text_sign-out" onclick="signOut()">Sign Out</a></p>
@@ -37,7 +37,7 @@
           <div class="settings-bar__fields__item__label">
             <p class="small-text-bold">Week Count:</p>
           </div>
-          <select class="settings-bar__fields__item__input select small-text-bold" id="week-count" title="week-count">
+          <select class="settings-bar__fields__item__input select small-text-bold" id="week-count" title="week-count" disabled>
             <option class="small-text-bold" value="1">1</option>
             <option class="small-text-bold" value="2">2</option>
             <option class="small-text-bold" value="3">3</option>
@@ -99,7 +99,7 @@
             <img class="settings-bar__buttons__item_icon" src="/img/update_icon.svg" />
           </div>
           <div class="button-container">
-            <button class="settings-bar__buttons__item">
+            <button class="settings-bar__buttons__item" id="update-settings">
               <p class="small-text-bold">Update settings</p>
             </button>
           </div>
@@ -109,7 +109,7 @@
             <img class="settings-bar__buttons__item_icon" src="/img/calculator_icon.svg" />
           </div>
           <div class="button-container">
-            <button class="settings-bar__buttons__item">
+            <button class="settings-bar__buttons__item" id="read-result">
               <p class="small-text-bold">Calculate best timeslots</p>
             </button>
           </div>
@@ -128,6 +128,9 @@
           <p class="small-text-bold">{{participantName}}</p>
         </div>
         {{/each}}
+        <div class="schedule-viewer__tabs__item result display-none" id="result-tab">
+          <p class="small-text-bold">Result</p>
+        </div>
       </div>
       <div class="schedule-viewer__container">
         <div class="schedule" id="schedule">

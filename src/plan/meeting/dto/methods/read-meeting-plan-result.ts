@@ -8,6 +8,9 @@ export namespace ReadMeetingPlanResult {
   export class Response extends MeetingPlan {
 
     @ApiProperty()
+    answerCount: number
+
+    @ApiProperty()
     sortedTotalRatedTimeslots: TotalRatedTimeslot[]
 
     constructor(
@@ -21,6 +24,7 @@ export namespace ReadMeetingPlanResult {
         plan.timeslotStartTimeMinutes,
         plan.ratingMax
       )
+      this.answerCount = plan.answers.length
       this.sortedTotalRatedTimeslots = sortedTotalRatedTimeslots
     }
 

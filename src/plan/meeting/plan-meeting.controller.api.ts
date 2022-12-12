@@ -71,7 +71,7 @@ export class PlanMeetingApiController {
   })
   @ApiCookieAuth()
   @UseGuards(AtGuard)
-  @Put(':planUuid/update')
+  @Put(':planUuid')
   async updatePlan(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string,

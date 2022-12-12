@@ -129,7 +129,6 @@ function getRatedTimeslots(ratingMax) {
   }
   console.log(ratedTimeslots)
   return ratedTimeslots
-
 }
 
 async function submitAnswer(ratingMax) {
