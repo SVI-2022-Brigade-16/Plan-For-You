@@ -17,11 +17,6 @@
   margin-bottom: 25px;
 }
 
-.user-home .users-buttons-bar_users-button_text_sign-out:active {
-  font-size: 105%;
-}
-
-
 .user-home .create-plan-section_button {
   border-radius: 12px;
   display: table;

@@ -1,6 +1,8 @@
-const fullDayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
-const shortDayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const shortDayNamesWindowWidth = 960
+const FULL_DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
+const SHORT_DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const SHORT_DAT_NAMES_WINDOW_WIDTH = 960
+
+var TIMESLOT_HEIGHT = '60px'
 
 // Pad number with leading zeros
 function pad(num, size) {
@@ -30,10 +32,10 @@ function getTimeslotText(start, length) {
 
 // Gets day of the week from day number
 function getDay(dayNum) {
-  if ($(window).width() > shortDayNamesWindowWidth) {
-    return fullDayNames[dayNum % 7]
+  if ($(window).width() > SHORT_DAT_NAMES_WINDOW_WIDTH) {
+    return FULL_DAY_NAMES[dayNum % 7]
   } else {
-    return shortDayNames[dayNum % 7]
+    return SHORT_DAY_NAMES[dayNum % 7]
   }
 }
 
@@ -41,7 +43,7 @@ function getDay(dayNum) {
 function buildScheduleTimeslot(dayNum, timeslotNum, currentTime, timeslotLength) {
   const timeslot = $('<div></div>').addClass('day__timeslots__item').attr('id', getTimeslotId(dayNum, timeslotNum))
   const timeslotText = $('<p></p>').addClass('day__timeslots__item__text').text(getTimeslotText(currentTime, timeslotLength))
-  timeslot.append(timeslotText)
+  timeslot.append(timeslotText).css('height', TIMESLOT_HEIGHT).addClass('rating-unblocked')
   return timeslot
 }
 
@@ -80,13 +82,13 @@ window.onresize = function () {
 
 function adjustDayNames() {
   dayNameElements = $('.schedule .day__name')
-  if ($(window).width() > shortDayNamesWindowWidth) {
+  if ($(window).width() > SHORT_DAT_NAMES_WINDOW_WIDTH) {
     for (let i = 0; i < weekCount * 7; i++) {
-      dayNameElements[i].innerText = fullDayNames[i % 7]
+      dayNameElements[i].innerText = FULL_DAY_NAMES[i % 7]
     }
   } else {
     for (let i = 0; i < weekCount * 7; i++) {
-      dayNameElements[i].innerText = shortDayNames[i % 7]
+      dayNameElements[i].innerText = SHORT_DAY_NAMES[i % 7]
     }
   }
 }

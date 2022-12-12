@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-  {{> head}}
-  <title>Plan For You - User Home</title>
+  {{> common_head}}
+  <title>{{nickname}} - Home</title>
   <link rel="stylesheet" type="text/css" href="/css/pages/user-home.css">
   <script src="/javascript/pages/user-home.js"></script>
 
@@ -44,8 +44,7 @@
         <div class="plan-list-viewer_plan">
           <img class="plan-list-viewer_plan_plan-icon" src="/img/plan_icon.jpg" />
           <a class="small-text-bold plan-list-viewer_plan_text" href="/view/plan/meeting/{{uuid}}">{{planName}}</a>
-          <img id="delete_{{uuid}}" class="plan-list-viewer_plan_bin-icon" src="/img/bin_icon.png"
-            onclick="deletePlan(this.id)" />
+          <img id="delete_{{uuid}}" class="plan-list-viewer_plan_bin-icon" src="/img/bin_icon.png" onclick="deletePlan(this.id)" />
         </div>
         {{/each}}
       </div>

@@ -1,0 +1,37 @@
+<form class="auth-form" id="auth-form">
+  <div class="auth-form__choice">
+    <div id="sign-in-choice" class="auth-form__choice__button sign-in chosen" onclick="switchToSignIn()">
+      <div class="small-text-bold auth-form__choice__login__text">Sign in</div>
+    </div>
+    <div id="register-choice" class="auth-form__choice__button register" onclick="switchToRegister()">
+      <div class="small-text-bold auth-form__choice__register_text">Register</div>
+    </div>
+  </div>
+  <div class="auth-form__input-section" id="nickname-section">
+    <div class="auth-form__label">
+      <div class="small-text-bold">Nickname:</div>
+    </div>
+    <input id="nickname" type="text" class="auth-form__input small-text-bold" name="nickname">
+  </div>
+  <div class="auth-form__input-section">
+    <div class="auth-form__label">
+      <div class="small-text-bold">Login:</div>
+    </div>
+    <input id="login" type="text" class="auth-form__input small-text-bold" name="login" required>
+  </div>
+  <p id="login-error" class="error-message"></p>
+  <div class="auth-form__input-section">
+    <div class="auth-form__label">
+      <div class="small-text-bold">Password:</div>
+    </div>
+    <input id="password" type="password" class="auth-form__input small-text-bold" name="password" required>
+  </div>
+  <p id="password-error" class="error-message"></p>
+  <div class="auth-form__enter">
+    <button type="submit" class="auth-form__enter__button">
+      <div class="small-text-bold auth-form__enter__button__text">Sign in</div>
+    </button>
+  </div>
+</form>
+
+<script src="/javascript/common/auth-form.js"></script>

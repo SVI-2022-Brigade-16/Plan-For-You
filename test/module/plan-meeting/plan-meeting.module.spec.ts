@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaModule } from '../../../src/base-prisma/prisma.module'
-import { PlanMeetingController } from '../../../src/plan-meeting/plan-meeting.controller'
-import { PlanMeetingPrisma } from '../../../src/plan-meeting/plan-meeting.prisma'
-import { PlanMeetingService } from '../../../src/plan-meeting/plan-meeting.service'
+import { PlanMeetingController } from '../../../src/plan/plan-meeting.controller'
+import { PlanMeetingPrisma } from '../../../src/plan/plan-meeting.prisma'
+import { PlanMeetingService } from '../../../src/plan/plan-meeting.service'
 
 describe('PlanMeetingModule', () => {
 

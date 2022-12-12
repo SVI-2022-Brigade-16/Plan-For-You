@@ -41,12 +41,8 @@
   transition: background-color 100ms linear;
 }
 
-.rating-unblocked {
-  background-color: #FFFFFF;
-}
-
-.rating-blocked {
-  background-color: #E4E4E4;
+.schedule .day__timeslots__item:hover {
+  border: 2px solid #000000;
 }
 
 @media screen and (max-width: 640px) {

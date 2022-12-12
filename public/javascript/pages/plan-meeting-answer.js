@@ -1,18 +1,6 @@
-// Show plan conditions in existing schedule table
-async function loadConditions(blockedTimeslots) {
-  data = await $.ajax({
-    url: "/api/plan/meeting/" + planUuid + "/answer/conditions"
-  })
-  $('.day__timeslots__item').addClass('rating-54')
-  data.blockedTimeslots.forEach((timeslot) => {
-    blockedTimeslot = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
-    blockedTimeslot.removeClass('rating-54').addClass('rating-blocked').unbind()
-  })
-}
-
 // Build whole rating buttons
 function buildRatingButtons(ratingRange) {
-  const buttons = $('#gradings-button')
+  const buttons = $('#rating-buttons')
   for (let rating = 0; rating < ratingRange; ++rating) {
     buttons.append(buildRatingButton(rating, ratingRange))
   }
@@ -21,7 +9,7 @@ function buildRatingButtons(ratingRange) {
 // Build one rating button
 function buildRatingButton(rating, ratingRange) {
   let className = 'rating-' + ratingRange + rating
-  const button = $('<div></div>').addClass('grading-header__fields__item').addClass(className)
+  const button = $('<div></div>').addClass('ratings-header__fields__item').addClass(className)
   const buttonName = $('<div></div>').addClass('small-text-bold').text(getTitle(rating, ratingRange))
 
   button.on('click', function () {
@@ -110,6 +98,17 @@ function getTitle(rating, ratingRange) {
   }
 }
 
+// Show plan conditions in existing schedule table
+async function loadInitialTimeslots() {
+  data = await $.ajax({
+    url: "/api/plan/meeting/" + planUuid + "/answer/form"
+  })
+  $('.day__timeslots__item').addclass('rating-5-5')
+  data.blockedTimeslots.forEach((timeslot) => {
+    found = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
+    found.removeClass('rating-5-5').addClass('rating-blocked').unbind()
+  })
+}
 
 async function submitAnswer() {
   return await $.ajax({
@@ -118,8 +117,6 @@ async function submitAnswer() {
     contentType: "application/json",
     data: JSON.stringify({
       "participantName": $("#name").val(),
-
     }),
-
   })
 }

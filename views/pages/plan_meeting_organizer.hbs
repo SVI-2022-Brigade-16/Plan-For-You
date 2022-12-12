@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-  {{> head}}
+  {{> common_head}}
   <title>{{planName}} - Organizer</title>
   <link href="/css/common/schedule.css" rel="stylesheet">
+  <link href="/css/common/rating.css" rel="stylesheet">
   <link href="/css/pages/plan-meeting-organizer.css" rel="stylesheet">
   <script src="/javascript/common/schedule.js"></script>
   <script>
@@ -20,7 +21,7 @@
   <header>
     <section class="title-bar">
       <div class="title-bar__home-button">
-        <a href="/view/user/home"> <img class="title-bar__home-button_home-icon" src="/img/home_icon.png" /> </a>
+        <a href="/view/user/home"> <img class="title-bar__home-button__home-icon" src="/img/home_icon.png" /> </a>
       </div>
       <div class="title-bar__plan-name">
         <h1 class="big-text-bold">{{planName}}</h1>
@@ -30,6 +31,48 @@
       </div>
     </section>
     <section class="settings-bar">
+      <div class="settings-bar__fields">
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Week Count:</p>
+          </div>
+          <select class="settings-bar__fields__item__input select small-text-bold" id="week-count" title="week-count">
+            <option class="small-text-bold" value="1">1</option>
+            <option class="small-text-bold" value="2">2</option>
+            <option class="small-text-bold" value="3">3</option>
+            <option class="small-text-bold" value="4">4</option>
+          </select>
+        </div>
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Timeslot Length:</p>
+          </div>
+          <select class="settings-bar__fields__item__input select small-text-bold" id="timeslot-length" title="timeslot-length">
+            <option class="small-text-bold" value="60">60 minutes</option>
+            <option class="small-text-bold" value="90">90 minutes</option>
+            <option class="small-text-bold" value="120">120 minutes</option>
+          </select>
+        </div>
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Start Time:</p>
+          </div>
+          <div class="settings-bar__fields__item__input">
+            <p class="small-text-bold" id="start-time">480</p>
+          </div>
+        </div>
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Rating Range:</p>
+          </div>
+          <select class="settings-bar__fields__item__input select small-text-bold" id="rating-max" title="rating-max">
+            <option class="small-text-bold" value="2">2</option>
+            <option class="small-text-bold" value="3">3</option>
+            <option class="small-text-bold" value="4">4</option>
+            <option class="small-text-bold" value="5">5</option>
+          </select>
+        </div>
+      </div>
       <div class="settings-bar__link">
         <div class="settings-bar__link__label">
           <p class="small-text-bold">Answer link:</p>
@@ -47,45 +90,6 @@
             </button>
           </div>
 
-        </div>
-      </div>
-      <div class="settings-bar__fields">
-        <div class="settings-bar__fields__row">
-          <div class="settings-bar__fields__row__label">
-            <p class="small-text-bold">Week Count:</p>
-          </div>
-          <select class="settings-bar__fields__row__input select small-text-bold" id="week-count" title="week-count">
-            <option class="small-text-bold" value="1">1</option>
-            <option class="small-text-bold" value="2">2</option>
-            <option class="small-text-bold" value="3">3</option>
-            <option class="small-text-bold" value="4">4</option>
-          </select>
-          <div class="settings-bar__fields__row__label">
-            <p class="small-text-bold">Timeslot Length:</p>
-          </div>
-          <select class="settings-bar__fields__row__input select small-text-bold" id="timeslot-length" title="timeslot-length">
-            <option class="small-text-bold" value="30">30 minutes</option>
-            <option class="small-text-bold" value="60">60 minutes</option>
-            <option class="small-text-bold" value="90">90 minutes</option>
-            <option class="small-text-bold" value="120">120 minutes</option>
-          </select>
-        </div>
-        <div class="settings-bar__fields__row">
-          <div class="settings-bar__fields__row__label">
-            <p class="small-text-bold">Start Time:</p>
-          </div>
-          <div class="settings-bar__fields__row__input">
-            <p class="small-text-bold" id="start-time">{{timeslotStartTimeMinutes}}</p>
-          </div>
-          <div class="settings-bar__fields__row__label">
-            <p class="small-text-bold">Rating Range:</p>
-          </div>
-          <select class="settings-bar__fields__row__input select small-text-bold" id="rating-max" title="rating-max">
-            <option class="small-text-bold" value="2">2</option>
-            <option class="small-text-bold" value="3">3</option>
-            <option class="small-text-bold" value="4">4</option>
-            <option class="small-text-bold" value="5">5</option>
-          </select>
         </div>
       </div>
       <div class="settings-bar__buttons">
@@ -115,12 +119,14 @@
   <main>
     <section class="schedule-viewer">
       <div class="schedule-viewer__tabs">
-        <div class="schedule-viewer__tabs__item selected">
+        <div class="schedule-viewer__tabs__item blocked-timeslots selected">
           <p class="small-text-bold">Blocked Timeslots</p>
         </div>
-        <div class="schedule-viewer__tabs__item">
-          <p class="small-text-bold">Result</p>
+        {{#each answers}}
+        <div id="answer-{{id}}" class="schedule-viewer__tabs__item answer">
+          <p class="small-text-bold">{{participantName}}</p>
         </div>
+        {{/each}}
       </div>
       <div class="schedule-viewer__container">
         <div class="schedule" id="schedule">
@@ -135,41 +141,6 @@
   </main>
   <script src="/javascript/common/click-hold-select.js"></script>
   <script src="/javascript/pages/plan-meeting-organizer.js"></script>
-  <script>
-    function unblockAllTimeslots() {
-      timeslots = $('.schedule .day__timeslots__item')
-      timeslots.addClass('rating-unblocked')
-      timeslots.removeClass('rating-blocked')
-    }
-
-    function updateSettings() {
-      weekCount = parseInt($('#week-count').val())
-      timeslotLength = parseInt($('#timeslot-length').val())
-      startTime = parseInt($('#start-time').text())
-      buildScheduleTable(weekCount, timeslotLength, startTime)
-    }
-
-    function loadSettings() {
-      $("#week-count option[value='" + weekCount + "']").attr('selected', 'selected')
-      $("#timeslot-length option[value='" + timeslotLength + "']").attr("selected", "selected")
-      $("#start-time").text(startTime)
-      $("#rating-max option[value='" + ratingMax + "']").attr("selected", "selected")
-    }
-
-    function loadSchedule() {
-      buildScheduleTable(weekCount, timeslotLength, startTime)
-      loadConditions()
-      addTimeslotRatingSelect('block')
-    }
-
-    window.onload = function () {
-      loadSettings()
-      loadSchedule()
-      $('#link').click(function () {
-        $(this).select()
-      })
-    }
-  </script>
 </body>
 
 </html>

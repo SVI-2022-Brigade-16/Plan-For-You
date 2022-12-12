@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaModule } from '../../../src/base-prisma/prisma.module'
-import { UserHomeController } from '../../../src/user-home/user-home.controller'
-import { UserHomeModule } from '../../../src/user-home/user-home.module'
-import { UserHomeService } from '../../../src/user-home/user-home.service'
+import { UserHomeController } from '../../../src/user/user-home.controller'
+import { UserHomeModule } from '../../../src/user/user.module'
+import { UserHomeService } from '../../../src/user/user.service'
 
 describe('UserHomeModule', () => {
   let controller: UserHomeController
