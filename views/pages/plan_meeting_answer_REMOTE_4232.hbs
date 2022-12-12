@@ -1,10 +1,9 @@
 <!doctype html>
 
 <head>
-  {{> common_head}}
+  {{> head}}
   <link href="/css/common/schedule.css" rel="stylesheet">
-  <link href="/css/common/rating.css" rel="stylesheet">
-  <link href="/css/pages/plan-meeting-answer.css" rel="stylesheet">
+  <link href="/css/pages/plan-meeting-answerer.css" rel="stylesheet">
   <script src="/javascript/common/schedule.js"></script>
   <script>
     var planUuid = "{{uuid}}"
@@ -21,9 +20,9 @@
       </h1>
     </section>
 
-    <section class="ratings-header">
-      <div class="ratings-header__fields" id="rating-buttons">
-        <div class="ratings-header__fields__rating__label">
+    <section class="gradings-header">
+      <div class="gradings-header__fields" id="gradings-button">
+        <div class="gradings-header__fields__grading__label">
           <p class="small-text-bold">Ratings</p>
         </div>
 
@@ -68,10 +67,11 @@
         timeslotLength,
         timeslotStartTime
       )
-      loadInitialTimeslots()
+      loadConditions()
       buildRatingButtons(ratingMax)
-      CURRENT_CLICK_RATING = 'rating-' + ratingMax + '-1'
+      CURRENT_CLICK_RATING = 'rating-' + ratingMax + '1'
       addTimeslotRatingSelect('')
+
     }
   </script>
 </body>

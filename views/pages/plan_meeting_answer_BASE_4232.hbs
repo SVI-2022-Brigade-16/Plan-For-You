@@ -1,10 +1,9 @@
 <!doctype html>
 
 <head>
-  {{> common_head}}
+  {{> head}}
   <link href="/css/common/schedule.css" rel="stylesheet">
-  <link href="/css/common/rating.css" rel="stylesheet">
-  <link href="/css/pages/plan-meeting-answer.css" rel="stylesheet">
+  <link href="/css/pages/plan-meeting-answerer.css" rel="stylesheet">
   <script src="/javascript/common/schedule.js"></script>
   <script>
     var planUuid = "{{uuid}}"
@@ -21,9 +20,9 @@
       </h1>
     </section>
 
-    <section class="ratings-header">
-      <div class="ratings-header__fields" id="rating-buttons">
-        <div class="ratings-header__fields__rating__label">
+    <section class="gradings-header">
+      <div class="gradings-header__fields" id="gradings-button">
+        <div class="gradings-header__fields__grading__label">
           <p class="small-text-bold">Ratings</p>
         </div>
 
@@ -49,7 +48,7 @@
       </div>
     </section>
     <section class="submit">
-      <button type="submit" class="submit__button" onclick="submitAnswer({{ ratingMax }})">
+      <button type="submit" class="submit__button">
         <div class="small-text-bold submit__button__text">Submit</div>
       </button>
     </section>
@@ -60,7 +59,6 @@
     let weekCount = {{ weekCount }}
     let timeslotLength = {{ timeslotLengthMinutes }}
     let timeslotStartTime = {{ timeslotStartTimeMinutes }}
-    let ratingMax = {{ ratingMax }}
 
     window.onload = function () {
       buildScheduleTable(
@@ -68,10 +66,11 @@
         timeslotLength,
         timeslotStartTime
       )
-      loadInitialTimeslots()
-      buildRatingButtons(ratingMax)
-      CURRENT_CLICK_RATING = 'rating-' + ratingMax + '-1'
+      loadConditions()
+      buildRatingButtons(4)
+      CURRENT_CLICK_RATING = 'rating-50'
       addTimeslotRatingSelect('')
+
     }
   </script>
 </body>

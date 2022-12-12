@@ -49,7 +49,7 @@
       </div>
     </section>
     <section class="submit">
-      <button type="submit" class="submit__button" onclick="submitAnswer({{ ratingMax }})">
+      <button type="submit" class="submit__button">
         <div class="small-text-bold submit__button__text">Submit</div>
       </button>
     </section>
@@ -60,7 +60,6 @@
     let weekCount = {{ weekCount }}
     let timeslotLength = {{ timeslotLengthMinutes }}
     let timeslotStartTime = {{ timeslotStartTimeMinutes }}
-    let ratingMax = {{ ratingMax }}
 
     window.onload = function () {
       buildScheduleTable(
