@@ -1,6 +1,6 @@
 const FULL_DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', 'Saturday', 'Sunday']
 const SHORT_DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const SHORT_DAT_NAMES_WINDOW_WIDTH = 960
+const SHORT_DAY_NAMES_WINDOW_WIDTH = 960
 
 var TIMESLOT_HEIGHT = '60px'
 
@@ -32,7 +32,7 @@ function getTimeslotText(start, length) {
 
 // Gets day of the week from day number
 function getDay(dayNum) {
-  if ($(window).width() > SHORT_DAT_NAMES_WINDOW_WIDTH) {
+  if ($(window).width() > SHORT_DAY_NAMES_WINDOW_WIDTH) {
     return FULL_DAY_NAMES[dayNum % 7]
   } else {
     return SHORT_DAY_NAMES[dayNum % 7]
@@ -82,7 +82,7 @@ window.onresize = function () {
 
 function adjustDayNames() {
   dayNameElements = $('.schedule .day__name')
-  if ($(window).width() > SHORT_DAT_NAMES_WINDOW_WIDTH) {
+  if ($(window).width() > SHORT_DAY_NAMES_WINDOW_WIDTH) {
     for (let i = 0; i < weekCount * 7; i++) {
       dayNameElements[i].innerText = FULL_DAY_NAMES[i % 7]
     }

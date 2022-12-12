@@ -1,10 +1,12 @@
 <!doctype html>
+<html lang="en">
 
 <head>
   {{> common_head}}
   <link href="/css/common/schedule.css" rel="stylesheet">
   <link href="/css/common/rating.css" rel="stylesheet">
   <link href="/css/pages/plan-meeting-answer.css" rel="stylesheet">
+  <title>{{planName}} - Ответ - Plan For You</title>
   <script src="/javascript/common/schedule.js"></script>
   <script>
     var planUuid = "{{uuid}}"
@@ -15,16 +17,16 @@
   <header>
     <section class="header-bar">
       <h1 class="big-text-bold">
-        <a class="header-bar_website-title">Plan For You</a>
-        <a class="header-bar_separator">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</a>
-        <a class="header-bar_plan-name">{{planName}}</a>
+        <span class="header-bar__website-title">Plan For You</span>
+        <span class="header-bar__separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <span class="header-bar__plan-name">{{planName}}</span>
       </h1>
     </section>
 
     <section class="ratings-header">
       <div class="ratings-header__fields" id="rating-buttons">
         <div class="ratings-header__fields__rating__label">
-          <p class="small-text-bold">Ratings</p>
+          <p class="medium-text-bold">Ratings</p>
         </div>
 
       </div>
@@ -35,17 +37,17 @@
     <section class="answer-name">
       <div class="answer-name__item">
         <div class="answer-name__item__label">
-          <p class="small-text-bold">Enter your name:</p>
+          <p class="medium-text-bold">Enter your name:</p>
         </div>
-        <input class="answer-name__item__input small-text-bold" id="name">
+        <input class="answer-name__item__input small-text-bold" title="participant-name" id="name">
       </div>
     </section>
-
     <section class="schedule-viewer">
+      <section class="schedule-viewer__title">
+        <p class="medium-text-bold">Rate how available you are:</p>
+      </section>
       <div class="schedule-viewer__container">
-        <div class="schedule" id="schedule">
-
-        </div>
+        <div class="schedule" id="schedule"></div>
       </div>
     </section>
     <section class="submit">
@@ -61,17 +63,7 @@
     let timeslotLength = {{ timeslotLengthMinutes }}
     let timeslotStartTime = {{ timeslotStartTimeMinutes }}
     let ratingMax = {{ ratingMax }}
-
-    window.onload = function () {
-      buildScheduleTable(
-        weekCount,
-        timeslotLength,
-        timeslotStartTime
-      )
-      loadInitialTimeslots()
-      buildRatingButtons(ratingMax)
-      CURRENT_CLICK_RATING = 'rating-' + ratingMax + '-1'
-      addTimeslotRatingSelect('')
-    }
   </script>
 </body>
+
+</html>

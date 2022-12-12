@@ -18,7 +18,7 @@ import { MeetingAnswerWithRatings } from './dto/objects/meeting-answer-with-rati
 @Controller('api/plan/meeting')
 export class PlanMeetingApiController {
 
-  constructor(private planMeetingService: PlanMeetingService) { }
+  constructor(private service: PlanMeetingService) { }
 
   @ApiOperation({
     summary: 'Create meeting plan'
@@ -34,11 +34,11 @@ export class PlanMeetingApiController {
   @ApiCookieAuth()
   @UseGuards(AtGuard)
   @Post()
-  async createMeetingPlan(
+  async createPlan(
     @GetCurrentUserId() userId: number,
     @Body() request: CreateMeetingPlan.Request
   ): Promise<CreateMeetingPlan.Response> {
-    return await this.planMeetingService.createPlan(userId, request)
+    return await this.service.createPlan(userId, request)
   }
 
   @ApiOperation({
@@ -51,11 +51,11 @@ export class PlanMeetingApiController {
   @ApiCookieAuth()
   @UseGuards(AtGuard)
   @Get(':planUuid')
-  async readMeetingPlan(
+  async readPlan(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingPlan.Response> {
-    return await this.planMeetingService.readPlan(userId, planUuid)
+    return await this.service.readPlan(userId, planUuid)
   }
 
   @ApiOperation({
@@ -72,12 +72,12 @@ export class PlanMeetingApiController {
   @ApiCookieAuth()
   @UseGuards(AtGuard)
   @Put(':planUuid/update')
-  async updateMeetingPlan(
+  async updatePlan(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string,
     @Body() request: UpdateMeetingPlan.Request
   ): Promise<void> {
-    await this.planMeetingService.updatePlan(userId, planUuid, request)
+    await this.service.updatePlan(userId, planUuid, request)
   }
 
   @ApiOperation({
@@ -90,29 +90,29 @@ export class PlanMeetingApiController {
   @ApiCookieAuth()
   @UseGuards(AtGuard)
   @Delete(':planUuid')
-  async deleteMeetingPlan(
+  async deletePlan(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string
   ): Promise<void> {
-    await this.planMeetingService.deletePlan(userId, planUuid)
+    await this.service.deletePlan(userId, planUuid)
   }
 
   @ApiOperation({
-    summary: 'Publish meeting plan to receive answers'
+    summary: 'Update meeting plan publishing'
   })
   @ApiResponse({
     status: 200,
-    description: 'Meeting plan successfully published.'
+    description: 'Meeting plan publishing successfully updated.'
   })
   @ApiCookieAuth()
   @UseGuards(AtGuard)
   @Post(':planUuid/publish/:state')
-  async publishMeetingPlan(
+  async updatePublishing(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string,
-    @Param('state') state: boolean
+    @Param('state') state: number
   ): Promise<void> {
-    await this.planMeetingService.updatePublishing(userId, planUuid, state)
+    await this.service.updatePublishing(userId, planUuid, state)
   }
 
   @ApiOperation({
@@ -128,7 +128,7 @@ export class PlanMeetingApiController {
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingAnswerForm.Response> {
-    return await this.planMeetingService.readAnswerConditions(userId, planUuid)
+    return await this.service.readAnswerConditions(userId, planUuid)
   }
 
   @ApiOperation({
@@ -139,10 +139,10 @@ export class PlanMeetingApiController {
     description: 'Meeting plan form successfully received.'
   })
   @Get(':planUuid/answer/form')
-  async readMeetingAnswerForm(
+  async readAnswerForm(
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingAnswerForm.Response> {
-    return await this.planMeetingService.readAnswerForm(planUuid)
+    return await this.service.readAnswerForm(planUuid)
   }
 
   @ApiOperation({
@@ -158,7 +158,7 @@ export class PlanMeetingApiController {
     @Param('planUuid') planUuid: string,
     @Param('answerId') answerId: number
   ): Promise<MeetingAnswerWithRatings> {
-    return await this.planMeetingService.readAnswer(planUuid, answerId)
+    return await this.service.readAnswer(planUuid, answerId)
   }
 
   @ApiOperation({
@@ -173,11 +173,11 @@ export class PlanMeetingApiController {
     description: 'Meeting plan answer successfully sent.'
   })
   @Post(':planUuid/answer')
-  async createMeetingAnswer(
+  async createAnswer(
     @Param('planUuid') planUuid: string,
     @Body() request: CreateMeetingAnswer.Request
   ): Promise<void> {
-    await this.planMeetingService.createAnswer(planUuid, request)
+    await this.service.createAnswer(planUuid, request)
   }
 
   @ApiOperation({
@@ -190,11 +190,11 @@ export class PlanMeetingApiController {
   @ApiCookieAuth()
   @UseGuards(AtGuard)
   @Get(':planUuid/result')
-  async readMeetingPlanResult(
+  async readResult(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingPlanResult.Response> {
-    return await this.planMeetingService.readResult(userId, planUuid)
+    return await this.service.readResult(userId, planUuid)
   }
 
 }

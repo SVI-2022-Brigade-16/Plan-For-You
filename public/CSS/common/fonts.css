@@ -23,7 +23,6 @@
   font-style: normal;
   font-weight: normal;
   font-size: 17px;
-  line-height: 20px;
 }
 
 .small-text-bold {
@@ -31,15 +30,26 @@
   font-style: normal;
   font-weight: bold;
   font-size: 17px;
-  line-height: 20px;
+}
+
+.medium-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+}
+
+.medium-text-bold {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
 }
 
 .big-text-normal {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 700;
   font-size: 32px;
-  line-height: 38px;
 }
 
 .big-text-bold {
@@ -47,7 +57,6 @@
   font-style: normal;
   font-weight: bold;
   font-size: 32px;
-  line-height: 38px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -57,5 +66,15 @@
 
   .big-text-bold {
     font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .small-text-bold {
+    font-size: 12px;
+  }
+
+  .big-text-bold {
+    font-size: 18px;
   }
 }

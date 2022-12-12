@@ -151,14 +151,14 @@ export class PlanMeetingPrisma {
     }
   }
 
-  async publishMeetingPlan(planUuid: string, state: boolean) {
+  async updatePublishing(planUuid: string, state: number) {
     try {
       await this.prisma.meetingPlan.update({
         where: {
           uuid: planUuid,
         },
         data: {
-          receivingAnswers: state,
+          receivingAnswers: state > 0,
         },
       })
     } catch {

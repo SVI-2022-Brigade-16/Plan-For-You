@@ -1,3 +1,23 @@
+const PUBLISHED_ICON_PATH = "/img/eye_opened_icon.svg"
+const UNPUBLISHED_ICON_PATH = "/img/eye_closed_icon.svg"
+
+
+function ratingClassPrefix() {
+  return 'rating-' + ratingMax + '-'
+}
+
+var RATING_CLASS_PREFIX = ratingClassPrefix()
+
+function ratingMaxClass() {
+  return RATING_CLASS_PREFIX + ratingMax
+}
+
+var RATING_MAX_CLASS = ratingMaxClass()
+
+function ratingClass(rating) {
+  return RATING_CLASS_PREFIX + rating
+}
+
 // Show plan conditions in existing schedule table
 async function loadBlockedTimeslots() {
   data = await $.ajax({
@@ -20,9 +40,9 @@ async function loadAnswer(answerId) {
   })
   data.ratedTimeslots.forEach((timeslot) => {
     found = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
-    found.addClass('rating-' + ratingMax + '-' + timeslot.rating)
+    found.addClass(ratingClass(timeslot.rating))
     if (timeslot.rating != ratingMax) {
-      found.removeClass('rating-' + ratingMax + '-' + ratingMax)
+      found.removeClass(RATING_MAX_CLASS)
     }
   })
 }
@@ -46,30 +66,31 @@ async function updateConditions() {
   })
 }
 
-async function changePublishStateAjax(state) {
+async function changePublishStateAjax() {
   await $.ajax({
-    url: "/api/plan/meeting/" + planUuid + "/publish/" + state,
+    url: "/api/plan/meeting/" + planUuid + "/publish/" + (0 + receivingAnswers),
     type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify({
-      "receivingAnswers": state,
-    }),
+    contentType: "application/json"
   })
 }
 
-function togglePublishLink() {
-  var eyeIcon = $('#eye_icon')[0]
+function updatePublishingButton() {
+  var eyeIcon = $('#eye_icon')
   var publishButtonText = $('#publish-button-text')
-  console.log(eyeIcon.src, publishButtonText)
-  if (eyeIcon.src.indexOf("/img/eye_opened_icon.svg") != -1) {
-    eyeIcon.src = "/img/eye_closed_icon.svg"
-    publishButtonText.text("Publish link")
-    changePublishStateAjax(1)
-  } else {
-    eyeIcon.src = "/img/eye_opened_icon.svg"
+
+  if (receivingAnswers) {
+    eyeIcon.attr('src', PUBLISHED_ICON_PATH)
     publishButtonText.text("Unpublish link")
-    changePublishStateAjax(0)
+  } else {
+    eyeIcon.attr('src', UNPUBLISHED_ICON_PATH)
+    publishButtonText.text("Publish link")
   }
+}
+
+function togglePublishLink() {
+  receivingAnswers = !receivingAnswers
+  updatePublishingButton()
+  changePublishStateAjax()
 }
 
 function unblockAllTimeslots() {
@@ -107,31 +128,40 @@ function addTabSwitch() {
   addConditionsSwitch()
 }
 
+function removeRatingClasses() {
+  for (let rating = 1; rating <= ratingMax; rating++) {
+    let ratingC = ratingClass(rating)
+    $('.day__timeslots__item.' + ratingC).removeClass(ratingC)
+  }
+}
+
 function addAnswerSwitch() {
   $('.schedule-viewer__tabs__item.answer').click(function (e) {
-    for (let rating = 1; rating < ratingMax; rating++) {
-      $('.day__timeslots__item.rating-' + ratingMax + '-' + rating).addClass('rating-' + ratingMax + '-' + ratingMax).removeClass('rating-' + ratingMax + '-' + rating)
-    }
+    removeRatingClasses()
     $('.day__timeslots__item.rating-unblocked').removeClass('rating-unblocked')
     $('.day__timeslots__item').unbind()
+    $('.day__timeslots__item:not(.rating-blocked)').addClass(RATING_MAX_CLASS)
     console.log(e.currentTarget.id)
     const answerId = e.currentTarget.id.split('-')[1]
     loadAnswer(answerId)
+    $('.schedule-viewer__buttons__unblock').prop('disabled', true)
   })
 }
 
 function addConditionsSwitch() {
   $('.schedule-viewer__tabs__item.blocked-timeslots').click(function () {
-    for (let rating = 1; rating <= ratingMax; rating++) {
-      $('.day__timeslots__item.rating-' + ratingMax + '-' + rating).add('rating-unblocked').removeClass('rating-' + ratingMax + '-' + rating)
-    }
+    removeRatingClasses()
+    $('.day__timeslots__item:not(.rating-blocked)').addClass('rating-unblocked')
     enableTimeslotRatingSelect('block')
+    $('.schedule-viewer__buttons__unblock').show()
+    $('.schedule-viewer__buttons__unblock').prop('disabled', false)
   })
 }
 
 window.onload = function () {
   loadSettings()
-  TIMESLOT_HEIGHT = timeslotLength / 2 + 'px'
+  TIMESLOT_HEIGHT = (timeslotLength / 3 > 30 ? timeslotLength / 3 : 30) + 'px'
   loadSchedule()
   addTabSwitch()
+  updatePublishingButton()
 }

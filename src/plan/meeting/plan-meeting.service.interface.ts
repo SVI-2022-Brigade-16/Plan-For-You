@@ -21,7 +21,7 @@ export interface IPlanMeetingService {
   deletePlan(userId: number, planUuid: string)
     : Promise<void>
 
-  updatePublishing(userId: number, planUuid: string, state: boolean)
+  updatePublishing(userId: number, planUuid: string, state: number)
     : Promise<void>
 
   readAnswerConditions(userId: number, planUuid: string)

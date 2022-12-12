@@ -1,19 +1,23 @@
 // Build whole rating buttons
-function buildRatingButtons(ratingRange) {
+function buildRatingButtons() {
+  CURRENT_CLICK_RATING = 'rating-' + ratingMax + '-1'
   const buttons = $('#rating-buttons')
-  for (let rating = 0; rating < ratingRange; ++rating) {
-    buttons.append(buildRatingButton(rating, ratingRange))
+  for (let rating = 1; rating <= ratingMax; ++rating) {
+    buttons.append(buildRatingButton(rating, ratingMax))
   }
+  $('.ratings-header__fields__item.' + CURRENT_CLICK_RATING).addClass('selected')
 }
 
 // Build one rating button
-function buildRatingButton(rating, ratingRange) {
-  let className = 'rating-' + ratingRange + rating
+function buildRatingButton(rating, ratingMax) {
+  let className = 'rating-' + ratingMax + '-' + rating
   const button = $('<div></div>').addClass('ratings-header__fields__item').addClass(className)
-  const buttonName = $('<div></div>').addClass('small-text-bold').text(getTitle(rating, ratingRange))
+  const buttonName = $('<div></div>').addClass('small-text-bold').text(getTitle(rating, ratingMax))
 
-  button.on('click', function () {
+  button.on('click', function (e) {
     CURRENT_CLICK_RATING = className
+    $('.ratings-header__fields__item').removeClass('selected')
+    $(e.currentTarget).addClass('selected')
   })
 
   button.append(buttonName)
@@ -21,8 +25,8 @@ function buildRatingButton(rating, ratingRange) {
 }
 
 // Get title to rating button
-function getTitle(rating, ratingRange) {
-  switch (ratingRange) {
+function getTitle(rating, ratingMax) {
+  switch (ratingMax) {
     case 2:
       switch (rating) {
         case 1:
@@ -103,7 +107,7 @@ async function loadInitialTimeslots() {
   data = await $.ajax({
     url: "/api/plan/meeting/" + planUuid + "/answer/form"
   })
-  $('.day__timeslots__item').addclass('rating-5-5')
+  $('.day__timeslots__item').removeClass('rating-unblocked').addClass('rating-5-5')
   data.blockedTimeslots.forEach((timeslot) => {
     found = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
     found.removeClass('rating-5-5').addClass('rating-blocked').unbind()
@@ -111,10 +115,9 @@ async function loadInitialTimeslots() {
 }
 
 function getRatedTimeslots(ratingMax) {
-
   var ratedTimeslots = []
   for (let rating = 1; rating <= ratingMax; rating++) {
-    $('.day__timeslots__item.rating-' + ratingMax + rating).each(function () {
+    $('.day__timeslots__item.rating-' + ratingMax + '-' + rating).each(function () {
       day_timeslot = $(this).attr('id').split('-')
       console.log(day_timeslot)
       ratedTimeslots.push({
@@ -143,5 +146,16 @@ async function submitAnswer(ratingMax) {
     }
 
   })
+}
+
+window.onload = function () {
+  buildScheduleTable(
+    weekCount,
+    timeslotLength,
+    timeslotStartTime
+  )
+  loadInitialTimeslots()
+  buildRatingButtons()
+  enableTimeslotRatingSelect('')
 }
 

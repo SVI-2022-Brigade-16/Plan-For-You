@@ -56,6 +56,14 @@ button:hover {
   color: #000000;
 }
 
+button:disabled {
+  border-color: grey;
+  background: #FFFFFF;
+  color: grey;
+  appearance: none;
+  transition-duration: 100ms;
+}
+
 button > p {
   padding-left: 10px;
   padding-right: 10px;

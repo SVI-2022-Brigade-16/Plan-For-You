@@ -60,15 +60,15 @@ export class PlanMeetingService implements IPlanMeetingService {
   }
 
   // Make meeting plan start or stop receiving answers
-  async updatePublishing(userId: number, planUuid: string, state: boolean): Promise<void> {
+  async updatePublishing(userId: number, planUuid: string, state: number): Promise<void> {
     await this.checkPlanBelongsToUser(userId, planUuid)
-    await this.prisma.publishMeetingPlan(planUuid, state)
+    await this.prisma.updatePublishing(planUuid, state)
   }
 
   // Read meeting plan answer conditions
   async readAnswerConditions(userId: number, planUuid: string): Promise<ReadMeetingAnswerForm.Response> {
     await this.checkPlanBelongsToUser(userId, planUuid)
-    let conditions = await this.getConditionsThrowIfNotReceiving(planUuid)
+    let conditions = await this.getConditions(planUuid)
     return conditions
   }
 
@@ -169,11 +169,15 @@ export class PlanMeetingService implements IPlanMeetingService {
   }
 
   async getConditionsThrowIfNotReceiving(planUuid: string): Promise<MeetingAnswerForm> {
-    let conditions = await this.prisma.readMeetingAnswerForm(planUuid)
+    let conditions = await this.getConditions(planUuid)
     if (!conditions.receivingAnswers) {
       this.throwNotReceivingAnswers(planUuid)
     }
     return conditions
+  }
+
+  async getConditions(planUuid: string): Promise<MeetingAnswerForm> {
+    return await this.prisma.readMeetingAnswerForm(planUuid)
   }
 
   throwPlanNotFoundForUser(userId: number, planUuid: string): never {
