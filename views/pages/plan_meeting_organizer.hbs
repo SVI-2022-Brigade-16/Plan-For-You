@@ -28,7 +28,8 @@
         <input class="big-text-bold" id="plan-name" value="{{planName}}">
       </div>
       <div class="title-bar__user-buttons">
-        <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a class="title-bar__user-buttons_text_sign-out" onclick="signOut()">Sign Out</a></p>
+        <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a class="title-bar__user-buttons_text_sign-out"
+            onclick="signOut()">Sign Out</a></p>
       </div>
     </section>
     <section class="settings-bar">
@@ -37,7 +38,8 @@
           <div class="settings-bar__fields__item__label">
             <p class="small-text-bold">Week Count:</p>
           </div>
-          <select class="settings-bar__fields__item__input select small-text-bold" id="week-count" title="week-count" disabled>
+          <select class="settings-bar__fields__item__input select small-text-bold" id="week-count" title="week-count"
+            disabled>
             <option class="small-text-bold" value="1">1</option>
             <option class="small-text-bold" value="2">2</option>
             <option class="small-text-bold" value="3">3</option>
@@ -48,7 +50,8 @@
           <div class="settings-bar__fields__item__label">
             <p class="small-text-bold">Timeslot Length:</p>
           </div>
-          <select class="settings-bar__fields__item__input select small-text-bold" id="timeslot-length" title="timeslot-length">
+          <select class="settings-bar__fields__item__input select small-text-bold" id="timeslot-length"
+            title="timeslot-length">
             <option class="small-text-bold" value="60">60 minutes</option>
             <option class="small-text-bold" value="90">90 minutes</option>
             <option class="small-text-bold" value="120">120 minutes</option>
@@ -79,40 +82,29 @@
           <p class="small-text-bold">Answer link:</p>
         </div>
         <div class="settings-bar__link__text" id="link">
-          <p class="small-text-bold"><a href="http://localhost:3000/view/plan/meeting/{{uuid}}/answer/form">http://localhost:3000/view/plan/meeting/{{uuid}}/answer/form</a></p>
+          <p class="small-text-bold"><a
+              href="http://localhost:3000/view/plan/meeting/{{uuid}}/answer/form">http://localhost:3000/view/plan/meeting/{{uuid}}/answer/form</a>
+          </p>
         </div>
         <div class="button-with-icon">
-          <div class="icon-container">
-            <img id="eye_icon" class="settings-bar__buttons__item_icon" src="/img/eye_closed_icon.svg" />
-          </div>
-          <div class="button-container">
-            <button class="settings-bar__link__publish-button" onclick="togglePublishLink()">
-              <p class="small-text-bold" id="publish-button-text">Publish link</p>
-            </button>
-          </div>
-
+          <button class="settings-bar__link__publish-button" onclick="togglePublishLink()">
+            <img id="eye_icon" class="settings-bar__buttons__item_icon " src="/img/eye_closed_icon.svg" />
+            <p class="small-text-bold " id="publish-button-text">Publish link</p>
+          </button>
         </div>
       </div>
       <div class="settings-bar__buttons">
         <div class="button-with-icon">
-          <div class="icon-container">
+          <button class="settings-bar__buttons__item" id="update-settings">
             <img class="settings-bar__buttons__item_icon" src="/img/update_icon.svg" />
-          </div>
-          <div class="button-container">
-            <button class="settings-bar__buttons__item" id="update-settings">
-              <p class="small-text-bold">Update settings</p>
-            </button>
-          </div>
+            <p class="small-text-bold">Update settings</p>
+          </button>
         </div>
         <div class="button-with-icon">
-          <div class="icon-container">
+          <button class="settings-bar__buttons__item" id="read-result">
             <img class="settings-bar__buttons__item_icon" src="/img/calculator_icon.svg" />
-          </div>
-          <div class="button-container">
-            <button class="settings-bar__buttons__item" id="read-result">
-              <p class="small-text-bold">Calculate best timeslots</p>
-            </button>
-          </div>
+            <p class="small-text-bold">Calculate best timeslots</p>
+          </button>
         </div>
       </div>
     </section>

@@ -101,12 +101,12 @@
   box-sizing: border-box;
 }
 
-.plan-meeting-organizer .settings-bar__link__text > p {
+.plan-meeting-organizer .settings-bar__link__text>p {
   width: 100%;
 }
 
 .plan-meeting-organizer .settings-bar__link__publish-button {
-  padding-left: 5px;
+  padding: 0px;
 }
 
 .plan-meeting-organizer .settings-bar__fields {
@@ -173,11 +173,11 @@
 
 
 .plan-meeting-organizer .settings-bar__buttons__item {
-  padding-left: 0;
+  padding: 0;
 }
 
 .plan-meeting-organizer .settings-bar__buttons__item_icon {
-  width: 45px;
+  width: 46px;
   background-color: white;
   padding-right: 10px;
   padding-left: 10px;
@@ -339,17 +339,27 @@
   height: 50px;
 }
 
-.button-with-icon > .icon-container {
+.button-with-icon>.icon-container {
   border: 2px solid black;
   border-right: none;
   box-sizing: border-box;
 }
 
-.button-with-icon > .button-container {
+.button-with-icon>.button-container {
   height: 100%;
 }
 
-.button-with-icon > .button-container > button {
+.button-with-icon>.button-container>button {
   height: 100%;
   padding-left: 2px;
+}
+
+@keyframes zoomIn {
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
