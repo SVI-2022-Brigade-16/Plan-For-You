@@ -23,7 +23,7 @@
       </h1>
     </section>
 
-    <section class="ratings-header">
+    <section class="ratings-header" id="rating-section">
       <div class="ratings-header__fields" id="rating-buttons">
         <div class="ratings-header__fields__rating__label">
           <p class="medium-text-bold">Ratings</p>
@@ -34,27 +34,45 @@
 
   </header>
   <main>
-    <section class="answer-name">
-      <div class="answer-name__item">
-        <div class="answer-name__item__label">
-          <p class="medium-text-bold">Enter your name:</p>
+    <div class="page-schedule">
+      <section class="answer-name">
+        <div class="answer-name__item">
+          <div class="answer-name__item__label">
+            <p class="medium-text-bold">Enter your name:</p>
+          </div>
+          <input class="answer-name__item__input small-text-bold" title="participant-name" id="name">
         </div>
-        <input class="answer-name__item__input small-text-bold" title="participant-name" id="name">
-      </div>
-    </section>
-    <section class="schedule-viewer">
-      <section class="schedule-viewer__title">
-        <p class="medium-text-bold">Rate how available you are:</p>
       </section>
-      <div class="schedule-viewer__container">
-        <div class="schedule" id="schedule"></div>
-      </div>
+      <section class="schedule-viewer">
+        <section class="schedule-viewer__title">
+          <p class="medium-text-bold">Rate how available you are:</p>
+        </section>
+        <div class="schedule-viewer__container">
+          <div class="schedule" id="schedule"></div>
+        </div>
+      </section>
+      <section class="submit">
+        <button type="submit" class="submit__button" onclick="submitAnswer({{ ratingMax }})">
+          <div class="small-text-bold submit__button__text">Submit</div>
+        </button>
+      </section>
+    </div>
+
+    <div class="page-submited">
+      <section class="submited-content">
+        <img class="submited-content_catFootprint-icon" src="/img/catFootprint_icon.svg">
+        <p class="big-text-bold">Your answer has been submited!</p>
+      </section>
+      <section class="refill">
+        <button class="refill__button" onclick="location.reload()">
+          <div class="small-text-bold ">Fill in another answer</div>
+        </button>
+      </section>
+
+    </div>
+
     </section>
-    <section class="submit">
-      <button type="submit" class="submit__button" onclick="submitAnswer({{ ratingMax }})">
-        <div class="small-text-bold submit__button__text">Submit</div>
-      </button>
-    </section>
+
   </main>
   <script src="/javascript/common/click-hold-select.js"></script>
   <script src="/javascript/pages/plan-meeting-answer.js"></script>

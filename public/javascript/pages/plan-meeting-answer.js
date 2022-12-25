@@ -141,7 +141,10 @@ async function submitAnswer(ratingMax) {
       "ratedTimeslots": getRatedTimeslots(ratingMax)
     }),
     success: function () {
-      alert("Your answer has been submited!")
+      $(".page-schedule").hide(),
+        $(".ratings-header").hide(),
+        $(".page-submited").show()
+
     }
 
   })

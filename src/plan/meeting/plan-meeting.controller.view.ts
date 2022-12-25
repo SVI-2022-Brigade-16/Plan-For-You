@@ -19,13 +19,12 @@ export class PlanMeetingViewController {
     status: 200,
     description: 'Meeting plan organizer page successfully rendered and received.'
   })
-  //@ApiCookieAuth()
-  //@UseGuards(AtGuard)
+  @ApiCookieAuth()
+  @UseGuards(AtGuard)
   @Render('plan_meeting_organizer')
   @Get(':planUuid')
   async getPlanPage(
-    //@GetCurrentUserId() userId: number,
-    userId = 2,
+    @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingPlan.Response> {
     return await this.service.readPlan(userId, planUuid)

@@ -222,3 +222,34 @@
     width: auto;
   }
 }
+
+.plan-meeting-answer .page-submited {
+  display: none;
+  width: 100%;
+}
+
+.plan-meeting-answer .submited-content {
+  text-align: center;
+  padding-top: 200px;
+  padding-bottom: 100px;
+}
+
+.plan-meeting-answer .submited-content_catFootprint-icon {
+  width: 100px;
+  height: auto;
+  padding-bottom: 50px;
+}
+
+.plan-meeting-answer .refill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+}
+
+.plan-meeting-answer .refill__button {
+  width: 25%;
+  height: 100%;
+  border-radius: 12px;
+}
