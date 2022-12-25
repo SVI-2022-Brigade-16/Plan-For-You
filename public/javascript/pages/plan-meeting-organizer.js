@@ -1,6 +1,8 @@
 const PUBLISHED_ICON_PATH = "/img/eye_opened_icon.svg"
 const UNPUBLISHED_ICON_PATH = "/img/eye_closed_icon.svg"
 
+const MODAL = $modal();
+const RATED_TIMESLOTS = new Map();
 
 function ratingClassPrefix() {
   return 'rating-' + ratingMax + '-'
@@ -49,21 +51,35 @@ async function loadAnswer(answerId) {
 
 // Show plan result in existing schedule table
 async function loadResult() {
-  let data = await $.ajax({
-    url: "/api/plan/meeting/" + planUuid + "/result",
-    type: "GET"
-  })
-  const answerCount = data.answerCount
-  data.sortedTotalRatedTimeslots.forEach((timeslot) => {
-    found = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
-    found.addClass(ratingClass(Math.ceil(timeslot.rating / answerCount)))
-
-    var lowerThanMaxRatingsText = "Participants who gave lower ratings:\n"
-    timeslot.lowerThanMaxRatings.forEach(function (answerRating) {
-      lowerThanMaxRatingsText += answerRating.participantName + ': ' + answerRating.rating + '\n'
+    let data = await $.ajax({
+        url: "/api/plan/meeting/" + planUuid + "/result",
+        type: "GET"
     })
-    found.attr('title', lowerThanMaxRatingsText)
-  })
+    const answerCount = data.answerCount
+    data.sortedTotalRatedTimeslots.forEach((timeslot) => {
+        found = $('#' + getTimeslotId(timeslot.dayNum, timeslot.timeslotNum))
+        found.addClass(ratingClass(Math.floor(timeslot.rating / answerCount)))
+
+        if (timeslot.lowerThanMaxRatings.length != 0) {
+            found.addClass("rated-timeslot-modal")
+            RATED_TIMESLOTS.set(getTimeslotId(timeslot.dayNum, timeslot.timeslotNum), timeslot)
+            found.on("mouseover", function(e) {
+                timeslot = RATED_TIMESLOTS.get(e.target.id)
+                if (timeslot) {
+                    MODAL.setTitle("<div class='small-text-bold'>Low ratings from:</div>")
+                    lower_text = "<div>"
+                        // Добавляем ответы для всплывающего окна
+                    timeslot.lowerThanMaxRatings.forEach(answer => {
+                        lower_text += "<p class=small-text-normal>" + answer.participantName + ': ' + answer.rating + "</p>"
+                    });
+                    lower_text += "</div>"
+                    MODAL.setContent(lower_text)
+                    MODAL.show(e)
+                }
+            })
+            found.on("mouseleave", function(e) { MODAL.hide(e) })
+        }
+    })
 }
 
 
