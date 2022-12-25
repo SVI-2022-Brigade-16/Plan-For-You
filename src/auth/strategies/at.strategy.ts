@@ -14,7 +14,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
 
   constructor(private AuthService: AuthService) {
-    var cookieExtractor = function (req) {
+    var cookieExtractor = function (req: any) {
       var token = null
       if (req && req.cookies) {
         token = req.cookies['planForYouAccessToken']

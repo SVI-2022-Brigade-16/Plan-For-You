@@ -7,7 +7,7 @@ import { env } from 'process'
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor() {
-    var cookieExtractor = function (req) {
+    var cookieExtractor = function (req: any) {
       var token = null
       if (req && req.cookies) {
         token = req.cookies['planForYouRefreshToken']

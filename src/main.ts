@@ -12,8 +12,8 @@ import { UnauthorizedFilter } from './common/filters/unauthorized-filter'
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
   const config = new DocumentBuilder()
-    .setTitle('The best Plan-For-You')
-    .setDescription('The API of Plan-For-You.')
+    .setTitle('The Plan-For-You API')
+    .setDescription('The API configuration of the Plan-For-You project.')
     .setVersion('0.5')
     .addCookieAuth('planForYouAccessToken')
     .build()

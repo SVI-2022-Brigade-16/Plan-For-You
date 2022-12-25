@@ -1,6 +1,6 @@
 {
   "name": "plan-for-you",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "",
   "author": "SVI-2022-Brigade-16",
   "private": true,
@@ -46,8 +46,10 @@
     "@nestjs/testing": "^9.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.13",
+    "@types/hbs": "^4.0.1",
     "@types/jest": "27.0.2",
     "@types/node": "^14.0.0",
+    "@types/passport-jwt": "^3.0.8",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
