@@ -151,7 +151,7 @@ window.onload = function () {
   buildScheduleTable(
     weekCount,
     timeslotLength,
-    timeslotStartTime
+    startTime
   )
   loadInitialTimeslots()
   buildRatingButtons()

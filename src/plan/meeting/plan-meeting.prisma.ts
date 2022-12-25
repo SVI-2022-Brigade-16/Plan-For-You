@@ -39,7 +39,7 @@ export class PlanMeetingPrisma {
         planName: req.planName,
         weekCount: req.weekCount,
         timeslotLengthMinutes: req.timeslotLengthMinutes,
-        timeslotStartTimeMinutes: req.timeslotStartTimeMinutes,
+        startTimeMinutes: req.startTimeMinutes,
         ratingMax: req.ratingMax,
         receivingAnswers: receivingAnswers,
       }
@@ -126,7 +126,7 @@ export class PlanMeetingPrisma {
           planName: req.planName,
           weekCount: req.weekCount,
           timeslotLengthMinutes: req.timeslotLengthMinutes,
-          timeslotStartTimeMinutes: req.timeslotStartTimeMinutes,
+          startTimeMinutes: req.startTimeMinutes,
           ratingMax: req.ratingMax,
           blockedTimeslots: {
             deleteMany: {},

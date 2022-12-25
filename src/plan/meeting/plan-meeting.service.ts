@@ -113,7 +113,7 @@ export class PlanMeetingService implements IPlanMeetingService {
 
     let totalTimeslotMap = new Map<string, TotalRatedTimeslot>()
 
-    const timeslotsInDayCount = (1440 - plan.timeslotStartTimeMinutes) / plan.timeslotLengthMinutes
+    const timeslotsInDayCount = (1440 - plan.startTimeMinutes) / plan.timeslotLengthMinutes
     const dayCount = plan.weekCount * 7
     const totalRatingMax = plan.answers.length * plan.ratingMax
 

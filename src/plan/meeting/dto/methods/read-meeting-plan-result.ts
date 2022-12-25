@@ -21,7 +21,7 @@ export namespace ReadMeetingPlanResult {
         plan.planName,
         plan.weekCount,
         plan.timeslotLengthMinutes,
-        plan.timeslotStartTimeMinutes,
+        plan.startTimeMinutes,
         plan.ratingMax
       )
       this.answerCount = plan.answers.length

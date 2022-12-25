@@ -140,7 +140,7 @@ async function updateSettings() {
       "planName": planName,
       "weekCount": weekCount,
       "timeslotLengthMinutes": timeslotLength,
-      "timeslotStartTimeMinutes": startTime,
+      "startTimeMinutes": startTime,
       "ratingMax": ratingMax,
     }),
   })
@@ -150,7 +150,7 @@ async function updateSettings() {
     "planName": planName,
     "weekCount": weekCount,
     "timeslotLengthMinutes": timeslotLength,
-    "timeslotStartTimeMinutes": startTime,
+    "startTimeMinutes": startTime,
     "ratingMax": ratingMax,
   })
 

@@ -26,7 +26,7 @@ export class MeetingPlan {
   })
   @Min(0)
   @Max(1200)
-  timeslotStartTimeMinutes: number
+  startTimeMinutes: number
 
   @ApiProperty({
     default: 2
@@ -39,13 +39,13 @@ export class MeetingPlan {
     planName: string = "Новый план",
     weekCount: number = 1,
     timeslotLengthMinutes: number = 60,
-    timeslotStartTimeMinutes: number = 0,
+    startTimeMinutes: number = 0,
     ratingMax: number = 2,
   ) {
     this.planName = planName
     this.weekCount = weekCount
     this.timeslotLengthMinutes = timeslotLengthMinutes
-    this.timeslotStartTimeMinutes = timeslotStartTimeMinutes
+    this.startTimeMinutes = startTimeMinutes
     this.ratingMax = ratingMax
   }
 
