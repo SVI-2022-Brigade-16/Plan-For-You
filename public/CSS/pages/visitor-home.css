@@ -1,0 +1,181 @@
+.visitor-home .title-auth-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.visitor-home .title-auth-section__title {
+  position: absolute;
+  width: 40%;
+  height: 350px;
+  left: 10%;
+  top: 100px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-size: 64px;
+  line-height: 84px;
+  color: #000000;
+  flex-grow: 2;
+}
+
+.visitor-home .title-auth-section__title .bold {
+  font-weight: bold;
+}
+
+.visitor-home .title-auth-section__title .normal {
+  font-weight: normal;
+}
+
+.visitor-home .title-auth-section__auth-form {
+  flex-grow: 1;
+}
+
+/* Sign in & Register Form */
+
+.visitor-home .auth-form {
+  box-sizing: border-box;
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  position: absolute;
+  width: 330px;
+  left: 55%;
+  top: 75px;
+  outline: 1px solid #000000;
+  border-radius: 30px;
+}
+
+.visitor-home .auth-form-register-offset {
+  top: 30px;
+}
+
+/* Choice Buttons */
+
+.visitor-home .auth-form__choice {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  width: 330px;
+  height: 74px;
+}
+
+.visitor-home .auth-form__choice__button {
+  box-sizing: border-box;
+  width: 165px;
+  height: 74px;
+  border-width: 0px;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: #000000;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.visitor-home .auth-form__choice__button.register {
+  border-left-width: 1px;
+}
+
+.visitor-home .auth-form__choice__button.chosen {
+  border-bottom-width: 5px;
+}
+
+
+/* Auth Form Input Section */
+
+.visitor-home .auth-form__input-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding: 24px 35px 4px;
+  gap: 8px;
+  width: 332px;
+  height: 100px;
+}
+
+/* Auth Form Label */
+
+.visitor-home .auth-form__label {
+  width: 98px;
+  height: 23px;
+}
+
+/* Auth Form Input */
+
+.visitor-home .auth-form__input {
+  box-sizing: border-box;
+  width: 262px;
+  height: 45px;
+  border: 1px solid #000000;
+  padding: 5px 15px;
+}
+
+/* Enter Section */
+
+.auth-form__enter {
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 332px;
+  height: 126px;
+}
+
+
+/* Enter Button */
+
+.auth-form__enter__button {
+  box-sizing: border-box;
+  width: 258px;
+  height: 69px;
+  background: #000000;
+  border: 1px solid #000000;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.auth-form__enter__button:hover {
+  background: white;
+  color: black;
+}
+
+.auth-form__enter__button__text {
+  position: relative;
+  justify-content: center;
+}
+
+
+
+#nickname-section {
+  display: none;
+}
+
+.error-message {
+  padding-top: 10px;
+}
+
+/* Login Error */
+
+#login-error {
+  width: 100%;
+  text-align: center;
+  color: #FF0000;
+}
+
+/* Password Error */
+
+#password-error {
+  width: 100%;
+  text-align: center;
+  color: #FF0000;
+}

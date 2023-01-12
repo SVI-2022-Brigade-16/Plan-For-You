@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  {{> common_head}}
+  <link href="/css/common/schedule.css" rel="stylesheet">
+  <link href="/css/common/rating.css" rel="stylesheet">
+  <link href="/css/pages/plan-meeting-answer.css" rel="stylesheet">
+  <title>{{planName}} - Ответ - Plan For You</title>
+  <script src="/javascript/common/schedule.js"></script>
+  <script>
+    var planUuid = "{{uuid}}"
+  </script>
+</head>
+
+<body class="plan-meeting-answer">
+  <header>
+    <section class="header-bar">
+      <h1 class="website-title big-text-normal">Plan For You</h1>
+      <span class="separator"></span>
+      <h1 class="plan-name big-text-bold">{{planName}}</h1>
+    </section>
+  </header>
+  <main>
+    <div class="page-schedule">
+      <section class="answer-name">
+        <div class="answer-name__item">
+          <div class="answer-name__item__label">
+            <p class="medium-text-bold">Enter your name:</p>
+          </div>
+          <input class="answer-name__item__input small-text-bold" title="participant-name" id="name">
+        </div>
+      </section>
+      <section class="schedule-viewer">
+        <section class="schedule-viewer__title">
+          <p class="medium-text-bold">Rate how available you will be:</p>
+        </section>
+        <div class="schedule-viewer">
+          <div class="schedule" id="schedule"></div>
+        </div>
+      </section>
+      <section class="button-section">
+        <button type="submit" class="submit__button" onclick="submitAnswer({{ ratingMax }})">
+          <div class="small-text-bold submit__button__text">Submit</div>
+        </button>
+      </section>
+    </div>
+
+    <div class="page-submited">
+      <section class="submited-content">
+        <img class="submited-content_catFootprint-icon" alt="Answer sent!" src="/img/catFootprint_icon.svg">
+        <p class="big-text-bold">Your answer has been submited!</p>
+      </section>
+      <section class="button-section">
+        <button class="refill__button" onclick="location.reload()">
+          <div class="small-text-bold ">Submit another answer</div>
+        </button>
+      </section>
+
+    </div>
+
+  </main>
+  <footer>
+    <section id="ratings">
+      <div class="label">
+        <p class="medium-text-bold">Ratings</p>
+      </div>
+      <div class="fields" id="rating-buttons">
+
+      </div>
+    </section>
+    <section id="ratings-filler-space"></section>
+  </footer>
+  <script src="/javascript/common/click-hold-select.js"></script>
+  <script src="/javascript/pages/plan-meeting-answer.js"></script>
+  <script>
+    let weekCount = {{ weekCount }}
+    let timeslotLength = {{ timeslotLengthMinutes }}
+    let startTime = {{ startTimeMinutes }}
+    let ratingMax = {{ ratingMax }}
+  </script>
+</body>
+
+</html>

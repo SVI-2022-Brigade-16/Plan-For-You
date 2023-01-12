@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AppModule } from '../../../src/base-app/app.module'
-import { AppService } from '../../../src/base-app/app.service'
+import { AppModule } from '../../../src/app.module'
+import { AppService } from '../../../src/base/app/app.service'
 
 describe('AppModule', () => {
   let service: AppService

@@ -1,20 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { PrismaModule } from '../../../src/base-prisma/prisma.module'
-import { UserHomeController } from '../../../src/user-home/user-home.controller.api'
-import { UserHomeModule } from '../../../src/user-home/user-home.module'
-import { UserHomeService } from '../../../src/user-home/user-home.service'
+import { PrismaModule } from '../../../src/prisma/prisma.module'
+import { UserApiController } from '../../../src/user/user.controller.api'
+import { UserModule } from '../../../src/user/user.module'
+import { UserService } from '../../../src/user/user.service'
 
 describe('UserHomeModule', () => {
-  let controller: UserHomeController
-  let service: UserHomeService
+  let controller: UserApiController
+  let service: UserService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [UserHomeModule, PrismaModule],
+      imports: [UserModule, PrismaModule],
     }).compile()
 
-    controller = module.get<UserHomeController>(UserHomeController)
-    service = module.get<UserHomeService>(UserHomeService)
+    controller = module.get<UserApiController>(UserApiController)
+    service = module.get<UserService>(UserService)
   })
 
   it('should be defined', () => {

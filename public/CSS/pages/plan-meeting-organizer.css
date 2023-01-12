@@ -1,0 +1,391 @@
+.plan-meeting-organizer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  margin: 0px;
+
+  position: relative;
+  width: 100%;
+
+  background: #FFFFFF;
+}
+
+.plan-meeting-organizer .header {
+  width: 100%;
+}
+
+.plan-meeting-organizer .title-bar {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  width: 100%;
+  height: 90px;
+  border-bottom: 1px solid #000000;
+}
+
+.plan-meeting-organizer .title-bar__home-button__home-icon {
+  display: flex;
+  flex-direction: row;
+  width: 105px;
+  height: auto;
+  margin: 0 0;
+}
+
+.plan-meeting-organizer .title-bar__home-button__home-icon:hover {
+  transform: scale(1.3, 1.3);
+  transition-duration: 100ms;
+}
+
+.plan-meeting-organizer .title-bar__plan-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 2;
+  flex-basis: 0;
+  color: #000000;
+}
+
+.plan-meeting-organizer .title-bar__plan-name > input {
+  width: 100%;
+}
+
+.plan-meeting-organizer .title-bar__user-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.plan-meeting-organizer .settings-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid #000000;
+}
+
+
+
+.plan-meeting-organizer .settings-bar__link {
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.plan-meeting-organizer .settings-bar__link__label {
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.plan-meeting-organizer .settings-bar__link__text {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 40%;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1.5px solid #000000;
+  padding: 10px;
+  word-wrap: break-word;
+  box-sizing: border-box;
+}
+
+.plan-meeting-organizer .settings-bar__link__text > p {
+  width: 100%;
+}
+
+.plan-meeting-organizer .settings-bar__link__publish-button {
+  padding: 0px;
+}
+
+.plan-meeting-organizer .settings-bar__fields {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  box-sizing: border-box;
+  flex-grow: 2;
+  flex-basis: 0;
+  flex-wrap: wrap;
+}
+
+.plan-meeting-organizer .settings-bar__fields__item {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.plan-meeting-organizer .settings-bar__fields__item.week-count-item {
+  display: none;
+}
+
+.plan-meeting-organizer .settings-bar__fields__item__label {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: right;
+}
+
+.plan-meeting-organizer .settings-bar__fields__item__input {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1.5px solid #000000;
+  text-align: center;
+  flex: 1;
+}
+
+.plan-meeting-organizer .settings-bar__fields__item__input.select {
+  appearance: none;
+}
+
+.plan-meeting-organizer .settings-bar__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+  flex-grow: 1;
+  flex-basis: 0;
+  padding-top: 15px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+
+.plan-meeting-organizer .settings-bar__buttons__item {
+  padding: 0;
+}
+
+.plan-meeting-organizer .settings-bar__buttons__item_icon {
+  width: 46px;
+  background-color: white;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.plan-meeting-organizer .settings-bar__buttons__item_text {
+  text-align: center;
+}
+
+
+
+.plan-meeting-organizer .schedule-viewer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0px;
+  width: 100%;
+  height: 100vh;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs {
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  height: 70px;
+  padding: 0px;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background: #E4E4E4;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs::-webkit-scrollbar {
+  height: 20px;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs::-webkit-scrollbar-track {
+  background: #FFFFFF;
+}
+
+
+.plan-meeting-organizer .schedule-viewer__tabs::-webkit-scrollbar-track-piece {
+  background: #FFFFFF;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs__item {
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 20px;
+  height: 100%;
+  background: #E4E4E4;
+  border-right: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+  cursor: pointer;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs__item.display-none {
+  display: none;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs__item p {
+  text-align: center;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs__item:hover {
+  background: #F4F4F4;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs__item.selected {
+  background: #FFFFFF;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+.plan-meeting-organizer .schedule-viewer__tabs__item.selected:hover {
+  background: #FFFFFF;
+}
+
+.plan-meeting-organizer .schedule-viewer__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 15px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 15px;
+  gap: 10px;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.plan-meeting-organizer .schedule-viewer__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  padding-top: 20px;
+  padding-bottom: 35px;
+  flex-grow: 0;
+}
+
+.plan-meeting-organizer .schedule-viewer__buttons__unblock {
+  width: 50%;
+  height: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+  .plan-meeting-organizer .settings-bar__fields__item__input {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .plan-meeting-organizer .settings-bar__fields__item {
+    width: 100%;
+  }
+
+  .plan-meeting-organizer .schedule-viewer__container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .plan-meeting-organizer .settings-bar__link {
+    flex-direction: column;
+  }
+
+  .plan-meeting-organizer .settings-bar__fields {
+    width: 70%;
+  }
+
+  .plan-meeting-organizer .settings-bar__link__text {
+    width: 60%;
+  }
+
+  .plan-meeting-organizer .title-bar__user-buttons {
+    flex-grow: 2;
+  }
+
+}
+
+@media screen and (max-width: 640px) {
+  .plan-meeting-organizer .settings-bar__buttons {
+    flex-direction: column;
+  }
+
+  .plan-meeting-organizer .settings-bar__buttons__item {
+    width: auto;
+  }
+
+  .plan-meeting-organizer .settings-bar__fields {
+    width: 100%;
+  }
+}
+
+.button-with-icon {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+}
+
+.button-with-icon > .icon-container {
+  border: 2px solid black;
+  border-right: none;
+  box-sizing: border-box;
+}
+
+.button-with-icon > .button-container {
+  height: 100%;
+}
+
+.button-with-icon > .button-container > button {
+  height: 100%;
+  padding-left: 2px;
+}
+
+@keyframes zoomIn {
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

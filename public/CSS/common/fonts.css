@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+
+.tiny-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.small-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+}
+
+.small-text-bold {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.medium-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+}
+
+.medium-text-bold {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.big-text-normal {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 32px;
+}
+
+.big-text-bold {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+@media screen and (max-width: 1024px) {
+
+  .small-text-normal {
+    font-size: 16px;
+  }
+
+  .small-text-bold {
+    font-size: 16px;
+  }
+
+  .medium-text-bold {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+
+  .small-text-normal {
+    font-size: 15px;
+  }
+
+  .small-text-bold {
+    font-size: 15px;
+  }
+
+  .medium-text-bold {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .small-text-normal {
+    font-size: 12px;
+  }
+}

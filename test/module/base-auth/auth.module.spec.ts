@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaModule } from '../../../src/base-prisma/prisma.module'
-import { AuthController } from '../../../src/base-auth/auth.controller'
+import { AuthController } from '../../../src/base-auth/auth.controller.api'
 import { AuthModule } from '../../../src/base-auth/auth.module'
 import { AuthService } from '../../../src/base-auth/auth.service'
 

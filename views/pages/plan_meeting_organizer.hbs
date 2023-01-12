@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  {{> common_head}}
+  <title>{{planName}} - Organizer</title>
+  <link href="/css/common/schedule.css" rel="stylesheet">
+  <link href="/css/common/rating.css" rel="stylesheet">
+  <link href="/css/pages/plan-meeting-organizer.css" rel="stylesheet">
+  <script src="/javascript/common/schedule.js"></script>
+  <script>
+    var planUuid = "{{uuid}}"
+    var weekCount = "{{weekCount}}"
+    var timeslotLength = "{{timeslotLengthMinutes}}"
+    var startTime = "{{startTimeMinutes}}"
+    var ratingMax = "{{ratingMax}}"
+    var receivingAnswers = {{ receivingAnswers }}
+  </script>
+</head>
+
+<body class="plan-meeting-organizer">
+  <header>
+    <section class="title-bar">
+      <div class="title-bar__home-button">
+        <a href="/view/user/home"> <img class="title-bar__home-button__home-icon" alt="Home" src="/img/home_icon.png" /> </a>
+      </div>
+      <div class="title-bar__plan-name">
+        <input class="big-text-bold" id="plan-name" value="{{planName}}">
+      </div>
+      <div class="title-bar__user-buttons">
+        <p class="small-text-bold">{{user.nickname}}&nbsp;|&nbsp;<a class="title-bar__user-buttons_text_sign-out" onclick="signOut()">Sign Out</a></p>
+      </div>
+    </section>
+    <section class="settings-bar">
+      <div class="settings-bar__fields">
+        <div class="settings-bar__fields__item week-count-item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Week Count:</p>
+          </div>
+          <select class="settings-bar__fields__item__input select small-text-bold" id="week-count" title="week-count" disabled>
+            <option class="small-text-bold" value="1">1</option>
+            <option class="small-text-bold" value="2">2</option>
+            <option class="small-text-bold" value="3">3</option>
+            <option class="small-text-bold" value="4">4</option>
+          </select>
+        </div>
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Timeslot Length:</p>
+          </div>
+          <select class="settings-bar__fields__item__input select small-text-bold" id="timeslot-length" title="timeslot-length">
+            <option class="small-text-bold" value="60">60 minutes</option>
+            <option class="small-text-bold" value="90">90 minutes</option>
+            <option class="small-text-bold" value="120">120 minutes</option>
+          </select>
+        </div>
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Start Time:</p>
+          </div>
+          <input class="settings-bar__fields__item__input small-text-bold" id="start-time" value="480">
+        </div>
+        <div class="settings-bar__fields__item">
+          <div class="settings-bar__fields__item__label">
+            <p class="small-text-bold">Rating Range:</p>
+          </div>
+          <select class="settings-bar__fields__item__input select small-text-bold" id="rating-max" title="rating-max">
+            <option class="small-text-bold" value="2">2</option>
+            <option class="small-text-bold" value="3">3</option>
+            <option class="small-text-bold" value="4">4</option>
+            <option class="small-text-bold" value="5">5</option>
+          </select>
+        </div>
+      </div>
+      <div class="settings-bar__link">
+        <div class="settings-bar__link__label">
+          <p class="small-text-bold">Answer link:</p>
+        </div>
+        <div class="settings-bar__link__text" id="link">
+          <p class="small-text-bold"><a href="http://localhost:3000/view/plan/meeting/{{uuid}}/answer/form">http://localhost:3000/view/plan/meeting/{{uuid}}/answer/form</a>
+          </p>
+        </div>
+        <div class="button-with-icon">
+          <button class="settings-bar__link__publish-button" onclick="togglePublishLink()">
+            <img id="eye_icon" class="settings-bar__buttons__item_icon" alt="Publish" src="/img/eye_closed_icon.svg" />
+            <p class="small-text-bold " id="publish-button-text">Publish link</p>
+          </button>
+        </div>
+      </div>
+      <div class="settings-bar__buttons">
+        <div class="button-with-icon">
+          <button class="settings-bar__buttons__item" id="update-settings">
+            <img class="settings-bar__buttons__item_icon"  alt="Update" src="/img/update_icon.svg" />
+            <p class="small-text-bold">Update settings</p>
+          </button>
+        </div>
+        <div class="button-with-icon">
+          <button class="settings-bar__buttons__item" id="read-result">
+            <img class="settings-bar__buttons__item_icon" alt="Calculate" src="/img/calculator_icon.svg" />
+            <p class="small-text-bold">Calculate best timeslots</p>
+          </button>
+        </div>
+      </div>
+    </section>
+  </header>
+  <main>
+    <section class="schedule-viewer">
+      <div class="schedule-viewer__tabs">
+        <div class="schedule-viewer__tabs__item conditions selected">
+          <p class="small-text-bold">Conditions</p>
+        </div>
+        {{#each answers}}
+        <div id="answer-tab-{{id}}" class="schedule-viewer__tabs__item answer">
+          <p class="small-text-bold">{{participantName}}</p>
+        </div>
+        {{/each}}
+        <div id="result-tab" class="schedule-viewer__tabs__item result display-none">
+          <p class="small-text-bold">Result</p>
+        </div>
+      </div>
+      <div class="schedule-viewer__container">
+        <div class="schedule" id="schedule">
+        </div>
+      </div>
+      <div class="schedule-viewer__buttons">
+        <button class="schedule-viewer__buttons__unblock" onclick="unblockAllTimeslots()">
+          <p class="small-text-bold">Unblock all timeslots</p>
+        </button>
+      </div>
+    </section>
+  </main>
+  <script src="/javascript/common/click-hold-select.js"></script>
+  <script src="/javascript/common/reload-page.js"></script>
+  <script src="/javascript/pages/plan-meeting-organizer/const.js"></script>
+  <script src="/javascript/pages/plan-meeting-organizer/fun-schedule.js"></script>
+  <script src="/javascript/pages/plan-meeting-organizer/fun-settings.js"></script>
+  <script src="/javascript/pages/plan-meeting-organizer/window-events.js"></script>
+</body>
+
+</html>

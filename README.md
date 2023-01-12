@@ -15,6 +15,16 @@ npm i -g @nestjs/cli
 
 ## Запуск
 
+Установить все зависимости:
+```
+npm install
+```
+
+Обновить клиент Prisma:
+```
+npx prisma generate
+```
+
 Через npm:
 ```
 npm run start
