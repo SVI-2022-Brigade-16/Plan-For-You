@@ -20,7 +20,7 @@
         "tsconfig-paths/register"
       ],
       "sourceMaps": true,
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }

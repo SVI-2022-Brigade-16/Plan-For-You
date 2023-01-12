@@ -1,4 +1,4 @@
-import { MeetingPlan } from '@prisma/client'
+import { MeetingPlan, Prisma } from '@prisma/client'
 import { Injectable, NotFoundException } from '@nestjs/common'
 
 import { PrismaService } from '../../prisma/prisma.service'
@@ -16,10 +16,16 @@ import { UpdateMeetingPlan } from './dto/methods/update-meeting-plan'
 @Injectable()
 export class PlanMeetingPrisma {
 
-  constructor(public prisma: PrismaService) { }
+  constructor(public prisma: PrismaService) {
+
+  }
 
   throwPlanNotFound(planUuid: string): never {
     throw new NotFoundException('Exception: Meeting plan ' + planUuid + ' not found')
+  }
+
+  throwAnswerNotFound(planUuid: string, answerId: number) {
+    throw new NotFoundException('Exception: Answer ' + answerId + ' for meeting plan ' + planUuid + ' not found')
   }
 
   async planBelongsToUser(userId: number, planUuid: string): Promise<boolean> {
@@ -181,7 +187,7 @@ export class PlanMeetingPrisma {
     }
   }
 
-  async createMeetingAnswer(planUuid: string, request: CreateMeetingAnswer.Request) {
+  async createAnswer(planUuid: string, request: CreateMeetingAnswer.Request) {
     let requestInstance = new CreateMeetingAnswer.Request(request.participantName, request.ratedTimeslots)
     await requestInstance.validate(planUuid, this)
 
@@ -197,6 +203,19 @@ export class PlanMeetingPrisma {
         }
       }
     })
+  }
+
+  async deleteAnswer(planUuid: string, answerId: number): Promise<void> {
+    try {
+      await this.prisma.meetingPlanAnswer.deleteMany({
+        where: {
+          meetingPlanUuid: planUuid,
+          id: answerId
+        }
+      })
+    } catch {
+      throw this.throwAnswerNotFound(planUuid, answerId)
+    }
   }
 
   async readAnswer(planUuid: string, answerId: number): Promise<MeetingAnswerWithRatings> {
@@ -231,6 +250,7 @@ export class PlanMeetingPrisma {
       throw this.throwPlanNotFound(planUuid)
     }
   }
+
 
   async readMeetingAnswerForm(planUuid: string): Promise<MeetingAnswerForm> {
     try {

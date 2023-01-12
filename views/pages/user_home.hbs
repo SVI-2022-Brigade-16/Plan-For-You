@@ -42,19 +42,14 @@
       <div id="plan-list-viewer_plans">
         {{#each meetingPlans}}
         <div class="plan-list-viewer_plan">
-          <img class="plan-list-viewer_plan_plan-icon" src="/img/plan_icon.jpg" />
+          <img class="plan-list-viewer_plan_plan-icon" alt="Meeting" src="/img/plan_icon.jpg" />
           <a class="small-text-bold plan-list-viewer_plan_text" href="/view/plan/meeting/{{uuid}}">{{planName}}</a>
-          <img id="delete_{{uuid}}" class="plan-list-viewer_plan_bin-icon" src="/img/bin_icon.png" onclick="deletePlan(this.id)" />
+          <img id="delete_{{uuid}}" class="plan-list-viewer_plan_bin-icon" alt="Delete" src="/img/bin_icon.png" onclick="deletePlan(this.id)" />
         </div>
         {{/each}}
       </div>
-
-
     </section>
   </main>
-
-
-
 </body>
 
 </html>

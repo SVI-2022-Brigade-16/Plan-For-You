@@ -32,9 +32,11 @@
 
 .schedule .day__timeslots__item {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  padding: 4px;
   border: 1px solid #000000;
   text-align: center;
   cursor: pointer;
@@ -46,6 +48,13 @@
 
 .schedule .day__timeslots__item:hover {
   border: 2px solid #000000;
+  padding: 2px;
+}
+
+@media screen and (max-width: 960px) {
+  .schedule .day__timeslots__item {
+    gap: 7px;
+  }
 }
 
 @media screen and (max-width: 640px) {

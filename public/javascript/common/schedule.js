@@ -2,7 +2,7 @@ const FULL_DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thurday', 'Friday', '
 const SHORT_DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const SHORT_DAY_NAMES_WINDOW_WIDTH = 960
 
-var TIMESLOT_HEIGHT = '60px'
+var TIMESLOT_HEIGHT = 60
 
 // Pad number with leading zeros
 function pad(num, size) {
@@ -42,8 +42,8 @@ function getDay(dayNum) {
 // Builds one timeslot block
 function buildScheduleTimeslot(dayNum, timeslotNum, currentTime, timeslotLength) {
   const timeslot = $('<div></div>').addClass('day__timeslots__item').attr('id', getTimeslotId(dayNum, timeslotNum))
-  const timeslotText = $('<p></p>').addClass('day__timeslots__item__text').text(getTimeslotText(currentTime, timeslotLength))
-  timeslot.append(timeslotText).css('height', TIMESLOT_HEIGHT).addClass('rating-unblocked')
+  const timeslotText = $('<p></p>').addClass('small-text-normal').text(getTimeslotText(currentTime, timeslotLength))
+  timeslot.append(timeslotText).height(TIMESLOT_HEIGHT)
   return timeslot
 }
 
@@ -65,10 +65,10 @@ function buildScheduleDay(dayNum, timeslotLength, startingTime, timeslotCount) {
 }
 
 // Builds the whole table with all days containing timeslots
-function buildScheduleTable(weekCount, timeslotLength, startTime) {
+function buildSchedule(weekCount, timeslotLength, startTime) {
   const schedule = $('#schedule')
   const dayCount = weekCount * 7
-  const timeslotCount = (1440 - startTime) / timeslotLength
+  const timeslotCount = Math.floor((1440 - startTime) / timeslotLength)
   schedule.empty()
 
   for (let dayNum = 0; dayNum < dayCount; dayNum++) {
@@ -76,9 +76,9 @@ function buildScheduleTable(weekCount, timeslotLength, startTime) {
   }
 }
 
-window.onresize = function () {
+window.addEventListener('resize', function () {
   adjustDayNames()
-}
+})
 
 function adjustDayNames() {
   dayNameElements = $('.schedule .day__name')

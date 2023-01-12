@@ -4,7 +4,7 @@ import { Response } from 'express'
 @Catch(UnauthorizedException)
 export class UnauthorizedFilter implements ExceptionFilter {
 
-  catch(_exception: UnauthorizedException, host: ArgumentsHost) {
+  catch(exception: UnauthorizedException, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const request = ctx.getRequest<Request>()
     const response = ctx.getResponse<Response>()
@@ -16,7 +16,7 @@ export class UnauthorizedFilter implements ExceptionFilter {
         .status(401)
         .json({
           statusCode: 401,
-          message: 'Unauthorized API call: you need authorization cookies'
+          message: exception.message
         })
         .send()
     }

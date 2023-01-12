@@ -1,10 +1,10 @@
-import { ExceptionFilter, Catch, ArgumentsHost, NotFoundException, UnauthorizedException, HttpException } from '@nestjs/common'
+import { ExceptionFilter, Catch, ArgumentsHost, NotFoundException, UnauthorizedException, HttpException, BadRequestException } from '@nestjs/common'
 import { Response } from 'express'
 
-@Catch(NotFoundException)
-export class NotFoundFilter implements ExceptionFilter {
+@Catch(BadRequestException)
+export class BadRequestFilter implements ExceptionFilter {
 
-  catch(exception: NotFoundException, host: ArgumentsHost) {
+  catch(exception: BadRequestException, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const request = ctx.getRequest<Request>()
     const response = ctx.getResponse<Response>()
@@ -13,9 +13,9 @@ export class NotFoundFilter implements ExceptionFilter {
       response.redirect('/')
     } else {
       response
-        .status(404)
+        .status(400)
         .json({
-          statusCode: 404,
+          statusCode: 400,
           message: exception.message
         })
         .send()

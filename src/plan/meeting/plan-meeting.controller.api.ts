@@ -115,16 +115,17 @@ export class PlanMeetingApiController {
     await this.service.updatePublishing(userId, planUuid, state)
   }
 
+
   @ApiOperation({
-    summary: 'Read meeting plan answer conditions'
+    summary: 'Read meeting plan conditions'
   })
   @ApiResponse({
     status: 200,
-    description: 'Meeting plan form successfully received.'
+    description: 'Meeting plan conditions successfully received.'
   })
   @UseGuards(AtGuard)
   @Get(':planUuid/answer/conditions')
-  async readMeetingAnswerConditions(
+  async readAnswerConditions(
     @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingAnswerForm.Response> {
@@ -132,52 +133,19 @@ export class PlanMeetingApiController {
   }
 
   @ApiOperation({
-    summary: 'Read meeting plan form for participant answer'
+    summary: 'Read meeting plan answer form conditions'
   })
   @ApiResponse({
     status: 200,
-    description: 'Meeting plan form successfully received.'
+    description: 'Meeting plan form conditions successfully received.'
   })
+  @UseGuards(AtGuard)
   @Get(':planUuid/answer/form')
   async readAnswerForm(
+    @GetCurrentUserId() userId: number,
     @Param('planUuid') planUuid: string
   ): Promise<ReadMeetingAnswerForm.Response> {
-    return await this.service.readAnswerForm(planUuid)
-  }
-
-  @ApiOperation({
-    summary: 'Read meeting plan participant answer'
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Meeting plan answer successfully received.'
-  })
-  @ApiCookieAuth()
-  @Get(':planUuid/answer/:answerId')
-  async readMeetingAnswer(
-    @Param('planUuid') planUuid: string,
-    @Param('answerId') answerId: number
-  ): Promise<MeetingAnswerWithRatings> {
-    return await this.service.readAnswer(planUuid, answerId)
-  }
-
-  @ApiOperation({
-    summary: 'Send meeting plan participant answer'
-  })
-  @ApiBody({
-    type: CreateMeetingAnswer.Request,
-    description: 'Answer information with rated timeslots',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Meeting plan answer successfully sent.'
-  })
-  @Post(':planUuid/answer')
-  async createAnswer(
-    @Param('planUuid') planUuid: string,
-    @Body() request: CreateMeetingAnswer.Request
-  ): Promise<void> {
-    await this.service.createAnswer(planUuid, request)
+    return await this.service.readAnswerConditions(userId, planUuid)
   }
 
   @ApiOperation({

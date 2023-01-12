@@ -78,16 +78,22 @@ export class PlanMeetingService implements IPlanMeetingService {
     return form
   }
 
+  // Create and attach new answer to a meeting plan
+  async createAnswer(planUuid: string, request: CreateMeetingAnswer.Request): Promise<void> {
+    await this.getConditionsThrowIfNotReceiving(planUuid)
+    await this.prisma.createAnswer(planUuid, request)
+  }
+
   // Read meeting plan answer
   async readAnswer(planUuid: string, answerId: number): Promise<ReadMeetingAnswer.Response> {
     let result = await this.prisma.readAnswer(planUuid, answerId)
     return result
   }
 
-  // Create and attach new answer to a meeting plan
-  async createAnswer(planUuid: string, request: CreateMeetingAnswer.Request): Promise<void> {
-    await this.getConditionsThrowIfNotReceiving(planUuid)
-    await this.prisma.createMeetingAnswer(planUuid, request)
+  // Delete meeting plan answer
+  async deleteAnswer(userId: number, planUuid: string, answerId: number): Promise<void> {
+    await this.checkPlanBelongsToUser(userId, planUuid)
+    await this.prisma.deleteAnswer(planUuid, answerId)
   }
 
   // Calculate and read all the total timeslot ratings based on all the participant answers

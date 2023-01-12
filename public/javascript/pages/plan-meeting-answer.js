@@ -5,18 +5,18 @@ function buildRatingButtons() {
   for (let rating = 1; rating <= ratingMax; ++rating) {
     buttons.append(buildRatingButton(rating, ratingMax))
   }
-  $('.ratings-header__fields__item.' + CURRENT_CLICK_RATING).addClass('selected')
+  $('#ratings > .fields > .item.' + CURRENT_CLICK_RATING).addClass('selected')
 }
 
 // Build one rating button
 function buildRatingButton(rating, ratingMax) {
   let className = 'rating-' + ratingMax + '-' + rating
-  const button = $('<div></div>').addClass('ratings-header__fields__item').addClass(className)
+  const button = $('<div></div>').addClass('item').addClass(className)
   const buttonName = $('<div></div>').addClass('small-text-bold').text(getTitle(rating, ratingMax))
 
   button.on('click', function (e) {
     CURRENT_CLICK_RATING = className
-    $('.ratings-header__fields__item').removeClass('selected')
+    $('#ratings > .fields > .item').removeClass('selected')
     $(e.currentTarget).addClass('selected')
   })
 
@@ -119,7 +119,6 @@ function getRatedTimeslots(ratingMax) {
   for (let rating = 1; rating <= ratingMax; rating++) {
     $('.day__timeslots__item.rating-' + ratingMax + '-' + rating).each(function () {
       day_timeslot = $(this).attr('id').split('-')
-      console.log(day_timeslot)
       ratedTimeslots.push({
         dayNum: parseInt(day_timeslot[0]),
         timeslotNum: parseInt(day_timeslot[1]),
@@ -127,7 +126,6 @@ function getRatedTimeslots(ratingMax) {
       })
     })
   }
-  console.log(ratedTimeslots)
   return ratedTimeslots
 }
 
@@ -150,8 +148,12 @@ async function submitAnswer(ratingMax) {
   })
 }
 
-window.onload = function () {
-  buildScheduleTable(
+function resizeFillerSpace() {
+  $("#ratings-filler-space").height($("#ratings").outerHeight())
+}
+
+window.addEventListener('load', function () {
+  buildSchedule(
     weekCount,
     timeslotLength,
     startTime
@@ -159,5 +161,10 @@ window.onload = function () {
   loadInitialTimeslots()
   buildRatingButtons()
   enableTimeslotRatingSelect('')
-}
+  resizeFillerSpace()
+})
+
+window.addEventListener('resize', function () {
+  resizeFillerSpace()
+})
 

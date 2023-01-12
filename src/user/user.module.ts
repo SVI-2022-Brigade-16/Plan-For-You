@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { UserViewController } from './user.controller.view'
-import { UserBaseModule } from './user.base.module'
+import { UserBaseModule } from './user.module.base'
 
 @Module({
   imports: [UserBaseModule],

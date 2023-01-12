@@ -7,6 +7,7 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 import { NotFoundFilter } from './common/filters/not-found-filter'
 import { UnauthorizedFilter } from './common/filters/unauthorized-filter'
+import { BadRequestFilter } from './common/filters/bad-request-filter'
 
 
 async function bootstrap() {
@@ -21,12 +22,13 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document)
 
   app.use(cookieParser())
-  app.useGlobalFilters(new NotFoundFilter())
+  app.useGlobalFilters(new BadRequestFilter())
   app.useGlobalFilters(new UnauthorizedFilter())
+  app.useGlobalFilters(new NotFoundFilter())
   app.setViewEngine('hbs')
   app.useStaticAssets(join(__dirname, '..', 'public'))
   app.setBaseViewsDir(join(__dirname, '..', 'views/pages'))
-  hbs.registerPartials(join(__dirname, '..', 'views/common'))
+  hbs.registerPartials(join(__dirname, '..', 'views/partials'))
 
   console.log('App started!')
   await app.listen(3000)

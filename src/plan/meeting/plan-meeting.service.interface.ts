@@ -30,10 +30,13 @@ export interface IPlanMeetingService {
   readAnswerForm(planUuid: string)
     : Promise<ReadMeetingAnswerForm.Response>
 
+  createAnswer(planUuid: string, request: CreateMeetingAnswer.Request)
+    : Promise<void>
+
   readAnswer(planUuid: string, answerId: number)
     : Promise<ReadMeetingAnswer.Response>
 
-  createAnswer(planUuid: string, request: CreateMeetingAnswer.Request)
+  deleteAnswer(userId: number, planUuid: string, answerId: number)
     : Promise<void>
 
   readResult(userId: number, planUuid: string)

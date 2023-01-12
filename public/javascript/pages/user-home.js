@@ -1,5 +1,3 @@
-
-
 function createNewPlan() {
   return new Promise(function () {
     $.ajax({

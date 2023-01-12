@@ -49,6 +49,7 @@
 .big-text-normal {
   font-family: 'Roboto';
   font-style: normal;
+  font-weight: normal;
   font-size: 32px;
 }
 
@@ -60,21 +61,37 @@
 }
 
 @media screen and (max-width: 1024px) {
+
+  .small-text-normal {
+    font-size: 16px;
+  }
+
   .small-text-bold {
     font-size: 16px;
   }
 
-  .big-text-bold {
-    font-size: 24px;
+  .medium-text-bold {
+    font-size: 20px;
   }
 }
 
 @media screen and (max-width: 640px) {
-  .small-text-bold {
-    font-size: 12px;
+
+  .small-text-normal {
+    font-size: 15px;
   }
 
-  .big-text-bold {
+  .small-text-bold {
+    font-size: 15px;
+  }
+
+  .medium-text-bold {
     font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .small-text-normal {
+    font-size: 12px;
   }
 }
