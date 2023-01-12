@@ -56,16 +56,41 @@ async function loadResult() {
       total_rating.css('font-weight', 'bold')
     }
 
-    if (timeslot.lowerThanMaxRatings.length == 0) {
-      found_timeslot.attr('title', "All participants like this timeslot!")
-      return
-    }
 
-    var lowerThanMaxRatingsText = "Participants who gave lower ratings:\n"
-    timeslot.lowerThanMaxRatings.forEach(function (answerRating) {
-      lowerThanMaxRatingsText += answerRating.participantName + ': ' + answerRating.rating + '\n'
+    found_timeslot.addClass("rated-timeslot-modal")
+    RATED_TIMESLOTS.set(getTimeslotId(timeslot.dayNum, timeslot.timeslotNum), timeslot)
+    found_timeslot.on("mouseover", function (e) {
+      timeslot = RATED_TIMESLOTS.get(e.target.id)
+      if (timeslot) {
+        if (timeslot.lowerThanMaxRatings.length == 0) {
+          MODAL.setTitle("<div class='small-text-bold'>Perfect timeslot!</div>")
+          lower_text = "<div><p>All participants gave maximum rating.</p></div>"
+          MODAL.setContent(lower_text)
+        } else {
+          MODAL.setTitle("<div class='small-text-bold'>Low ratings from:</div>")
+          lower_text = "<div>"
+          // Добавляем ответы для всплывающего окна
+          timeslot.lowerThanMaxRatings.forEach(answer => {
+            lower_text += "<p class=small-text-normal>" + answer.participantName + ': ' + answer.rating + "</p>"
+          })
+          lower_text += "</div>"
+          MODAL.setContent(lower_text)
+        }
+        MODAL.show(e)
+      }
     })
-    found_timeslot.attr('title', lowerThanMaxRatingsText)
+    found_timeslot.on("mouseleave", function (e) { MODAL.hide(e) })
+
+    // if (timeslot.lowerThanMaxRatings.length == 0) {
+    //   found_timeslot.attr('title', "All participants like this timeslot!")
+    //   return
+    // }
+
+    // var lowerThanMaxRatingsText = "Participants who gave lower ratings:\n"
+    // timeslot.lowerThanMaxRatings.forEach(function (answerRating) {
+    //   lowerThanMaxRatingsText += answerRating.participantName + ': ' + answerRating.rating + '\n'
+    // })
+    // found_timeslot.attr('title', lowerThanMaxRatingsText)
   })
 }
 
